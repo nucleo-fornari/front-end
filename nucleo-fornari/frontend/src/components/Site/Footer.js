@@ -1,0 +1,25 @@
+import logoBranco from "../../assets/imgs/logoBranco.png"
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
+
+function Footer(){
+    return(
+        <footer className="p-16 bg-blue-dark text-white-main">
+            <section className="flex justify-around">
+            <img src={logoBranco} />
+        
+            <div className="w-60 flex flex-col gap-5 text-lg">
+            <p><EmailRoundedIcon/> nucleofornari@gmail.com</p> 
+            <p><FmdGoodRoundedIcon/> Rua Haddock Lobo, 595, Cerqueira César, São Paulo - SP, CEP: 01414-001</p> 
+            </div>
+            </section>
+            
+            <div className="flex justify-center pt-10">
+                <p>© 2024 Núcleo Fornari - Todos os direitos reservados.</p>
+            </div>
+
+        </footer>
+    )
+}
+
+export default Footer;
