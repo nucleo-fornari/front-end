@@ -32,15 +32,14 @@ module.exports = {
     extend: {
       width:{
         '100': '100px',
-        '500':'500px'
+        '500':'500px',
+        'wbanner': '3191px'
 
       },
       height:{
         '67': '67px',
-        '400':'400px'
-      },
-      backgroundImage: {
-        'radial-custom': 'linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(130, 170, 229, 1) 35%, rgba(130, 170, 229, 1) 68%, rgba(255, 255, 255, 1) 100%)',
+        '400':'400px',
+        'hbanner': '2127px'
       },
     },
   },

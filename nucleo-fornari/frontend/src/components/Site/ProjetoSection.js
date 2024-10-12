@@ -5,18 +5,18 @@ import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 
 function ProjetoSection() {
     return (
-        <section className="bg-purple-pastel p-28 rounded-3xl flex m-28 items-center justify-evenly">
-            <ProjetoColumn image={<Diversity2RoundedIcon/>}
+        <section className="bg-blue-main p-20 rounded-3xl flex m-28 items-center justify-evenly">
+            <ProjetoColumn image={<Diversity2RoundedIcon fontSize="inherit" />}
             title="Comunicação"
             text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
             />
             
-            <ProjetoColumn image={<InsightsRoundedIcon/>}
+            <ProjetoColumn image={<InsightsRoundedIcon fontSize="inherit"/>}
             title="Priorização"
             text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
             />
 
-            <ProjetoColumn image={<SecurityRoundedIcon/>}
+            <ProjetoColumn image={<SecurityRoundedIcon fontSize="inherit"/>}
             title="Segurança"
             text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
             />

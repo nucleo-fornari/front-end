@@ -1,7 +1,7 @@
 function ProjetoColumn(props) {
     return (
-        <section className="flex flex-col justify-evenly items-center text-purple-dark">
-            <figure className="w-12">
+        <section className="flex flex-col justify-evenly items-center text-blue-dark">
+            <figure className="text-6xl">
                 {props.image}
             </figure>
             <h3 className="py-3 font-semibold text-3xl">
