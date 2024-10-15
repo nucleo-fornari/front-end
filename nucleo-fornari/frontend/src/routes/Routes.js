@@ -1,22 +1,22 @@
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './loginPage';
 import ProfessorPage from '../views/professor/professorView';
 import SecretariaPage from '../views/secretary/secretaryView';
 import ResponsaveisPage from '../views/parents/parentsView';
 import PrivateRoute from './privateRoute'; // Rota protegida
 
-function Routes() {
+function AppRoutes() {
   return (
     <Router>
-      <Switch>
-        <Route path="/login" component={LoginPage} />
-        <PrivateRoute path="/professor/" component={ProfessorPage} />
-        <PrivateRoute path="/secretaria" component={SecretariaPage} />
-        <PrivateRoute path="/responsaveis" component={ResponsaveisPage} />
-        <Redirect from="/" to="/login" />
-      </Switch>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/professor" element={<PrivateRoute><ProfessorPage /></PrivateRoute>} />
+        <Route path="/secretaria" element={<PrivateRoute><SecretariaPage /></PrivateRoute>} />
+        <Route path="/responsaveis" element={<PrivateRoute><ResponsaveisPage /></PrivateRoute>} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
     </Router>
   );
 }
 
-export default Routes;
+export default AppRoutes;
