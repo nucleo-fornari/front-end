@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SideMenuItem from './SideMenuItem';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import StickyNote2RoundedIcon from '@mui/icons-material/StickyNote2Rounded';
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
 // import { FaRegNewspaper, FaCalendarAlt, FaUsers } from 'react-icons/fa';
 
 const SideMenu = () => {
@@ -18,7 +22,7 @@ const SideMenu = () => {
     return (
         <div className={`h-screen bg-white-main  ${isExpanded ? 'w-64' : 'w-20'} transition-width duration-300 left-0 top-0 flex flex-col items-center`}>
 
-            <div className="my-4 flex flex-col items-center">
+            <div className="my-4 flex flex-col items-center mb-20">
                 <div className='flex flex-row'>
 
                     <img
@@ -49,32 +53,30 @@ const SideMenu = () => {
             </nav> */}
 
             {/* Lista de botões de navegação */}
-            <nav className="mt-10 flex-grow flex flex-col justify-center items-center">
+            <Link to="/responsavel">
+                <SideMenuItem
+                    titulo="Publicações"
+                    icone={<NewspaperRoundedIcon />}
+                />
+            </Link>
 
-                <Link to="/responsavel">
-                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                        {/* <FaRegNewspaper className="text-2xl" /> */}
-                        {isExpanded && <span className="ml-4 text-lg">Publicações</span>}
-                    </button></Link>
+            <Link to="/responsavel/reunioes">
+                <SideMenuItem
+                    titulo="Reuniões"
+                    icone={<PeopleRoundedIcon />}
+                />
+            </Link>
 
-                <Link to="/responsavel/reunioes">
-                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                        {/* <FaUsers className="text-2xl" /> */}
-                        {isExpanded && <span className="ml-4 text-lg">Reuniões</span>}
-                    </button>
-                </Link>
-
-                <Link to="/responsavel/agenda">
-                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                        {/* <FaCalendarAlt className="text-2xl" /> */}
-                        {isExpanded && <span className="ml-4 text-lg">Agenda</span>}
-                    </button>
-                </Link>
-
-
-            </nav>
+            <Link to="/responsavel/agenda">
+                <SideMenuItem
+                    titulo="Agenda"
+                    icone={<StickyNote2RoundedIcon />}
+                />
+            </Link>
         </div>
+
     );
+
 };
 
 export default SideMenu;
