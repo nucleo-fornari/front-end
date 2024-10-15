@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { FaRegNewspaper, FaCalendarAlt, FaUsers } from 'react-icons/fa';
 
 const SideMenu = () => {
@@ -13,7 +13,7 @@ const SideMenu = () => {
         { icon: '', text: 'Publicações', route: '/publicacoes' },
         // { icon: <FaUsers className="text-2xl" />, text: 'Reuniões', route: '/reunioes' },
         // { icon: <FaCalendarAlt className="text-2xl" />, text: 'Agenda', route: '/agenda' }
-      ];
+    ];
 
     return (
         <div className={`h-screen bg-white-main  ${isExpanded ? 'w-64' : 'w-20'} transition-width duration-300 left-0 top-0 flex flex-col items-center`}>
@@ -50,24 +50,28 @@ const SideMenu = () => {
 
             {/* Lista de botões de navegação */}
             <nav className="mt-10 flex-grow flex flex-col justify-center items-center">
-                {/* <Link to="/publicacoes" className="w-full"> */}
-                <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                    {/* <FaRegNewspaper className="text-2xl" /> */}
-                    {isExpanded && <span className="ml-4 text-lg">Publicações</span>}
-                </button>
-                {/* </Link> */}
-                {/* <Link to="/reunioes" className="w-full"> */}
-                <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                    {/* <FaUsers className="text-2xl" /> */}
-                    {isExpanded && <span className="ml-4 text-lg">Reuniões</span>}
-                </button>
-                {/* </Link> */}
-                {/* <Link to="/agenda" className="w-full"> */}
-                <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
-                    {/* <FaCalendarAlt className="text-2xl" /> */}
-                    {isExpanded && <span className="ml-4 text-lg">Agenda</span>}
-                </button>
-                {/* </Link> */}
+
+                <Link to="/responsavel">
+                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
+                        {/* <FaRegNewspaper className="text-2xl" /> */}
+                        {isExpanded && <span className="ml-4 text-lg">Publicações</span>}
+                    </button></Link>
+
+                <Link to="/responsavel/reunioes">
+                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
+                        {/* <FaUsers className="text-2xl" /> */}
+                        {isExpanded && <span className="ml-4 text-lg">Reuniões</span>}
+                    </button>
+                </Link>
+
+                <Link to="/responsavel/agenda">
+                    <button className="flex items-center w-full px-4 py-3 my-2 hover:bg-purple-pastel text-white">
+                        {/* <FaCalendarAlt className="text-2xl" /> */}
+                        {isExpanded && <span className="ml-4 text-lg">Agenda</span>}
+                    </button>
+                </Link>
+
+
             </nav>
         </div>
     );

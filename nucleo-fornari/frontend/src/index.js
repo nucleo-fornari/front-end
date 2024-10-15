@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 // import ProfessorPage from './views/professor/professorView';
 import './index.css'
@@ -14,34 +14,38 @@ import Avisos from './components/Dashboards/Avisos';
 import Agenda from './components/Dashboards/Agenda';
 import LoginPage from './routes/loginPage';
 import Titulo from './components/Dashboards/Titulo';
+import {createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import Reuniao from './components/Dashboards/Reuniao';
+
+
+const router = createBrowserRouter([
+  {
+    path: "/", 
+    element: <Navigate to="/responsavel" />
+  },
+  {
+    path: "/responsavel",
+    element: <ParentsPage/>,
+    children: [
+      {
+        path: "/responsavel",
+        element: <Avisos/>
+      },
+      {
+        path: "/responsavel/reunioes",
+        element: <Reuniao/>
+      },
+      {
+        path: "/responsavel/agenda",
+        element: <Agenda/>
+      },
+    ]
+  },
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode> 
-    
-    <main className='flex'>
-
-
-    <aside >
-
-    <SideMenu/>
-
-    </aside>
-
-    <section className='flex flex-col w-full'>
-
-    <Header/>
-    <Titulo/>
-    <Avisos titulo="Reunião de pais dia 23/11 "
-    conteudo="Trazer papel e caneta"
-    autor="neymar junior"
-    dataCriacao="2010"/>
-
-    </section>
-    
-    </main>
-   
-  
-  
+  <React.StrictMode>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
