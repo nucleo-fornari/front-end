@@ -23,7 +23,8 @@ module.exports = {
       },
       white: {
         main: '#edebeb',
-        gray: '#f2f0f0'
+        gray: '#f2f0f0',
+        ice: '#fff'
       },
       black: {
         main: '#141414'

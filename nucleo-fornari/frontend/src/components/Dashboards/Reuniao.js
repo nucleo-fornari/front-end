@@ -1,11 +1,8 @@
 import React from "react";
-import SideMenu from "../../components/SideMenu/sideMenuView";
-import "../../views/parents/parentsView.css"
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,8 +11,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
-import Badge from "@mui/material/Badge";
-import MailIcon from "@mui/icons-material/Mail";
 import Modal from "@mui/material/Modal";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -70,18 +65,18 @@ function Reuniao(props){
       ];
 
     return(
-        <div className="main-content">
+        <div className="flex flex-col p-12">
         
           <div className="tabela">
             <h1><b>Reuniões Solicitadas</b></h1><br />
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="customized table">
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Tipo</TableCell>
-                    <TableCell align="right">Data</TableCell>
-                    <TableCell align="right">Situação</TableCell>
-                    <TableCell align="right">Resposta</TableCell>
+                  <TableRow className="bg-blue-main">
+                    <TableCell sx={{color: "white", fontSize: 20}}>Tipo</TableCell>
+                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Data</TableCell>
+                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Situação</TableCell>
+                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Resposta</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -93,9 +88,9 @@ function Reuniao(props){
                       <TableCell component="th" scope="row">
                         {row.tipo}
                       </TableCell>
-                      <TableCell align="right">{row.data}</TableCell>
-                      <TableCell align="right">{row.sitacao}</TableCell>
-                      <TableCell align="right">{row.resposta}</TableCell>
+                      <TableCell align="center">{row.data}</TableCell>
+                      <TableCell align="center">{row.sitacao}</TableCell>
+                      <TableCell align="center">{row.resposta}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -104,8 +99,8 @@ function Reuniao(props){
           </div>
   
   
-          <div className="solicitar">
-            <Button onClick={handleOpen}>Solicitar Reunião</Button>
+          <div className="w-full flex justify-center p-5">
+            <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
             <Modal
               open={open}
               onClose={handleClose}
@@ -113,10 +108,9 @@ function Reuniao(props){
               aria-describedby="parent-modal-description"
             >
               <Box sx={{ ...style, width: 700 }}>
-                <div className="reuniao">
-                  <div className="form">
-                    <div className="input">
-                      <label>Motivo da Solicitação</label>
+                  <div className="flex flex-col w-full justify-center items-center bg-white-ice p-5 rounded-3xl shadow-2xl">
+                    <div className="flex flex-col justify-center items-center">
+                      <label className="text-3xl mt-5">Motivo da Solicitação</label>
                       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                         <InputLabel id="demo-select-small-label">
                           Motivo
@@ -139,8 +133,8 @@ function Reuniao(props){
                         </Select>
                       </FormControl>
                     </div>
-                    <div className="input">
-                      <label>Turno</label>
+                    <div className="flex flex-col justify-center items-center">
+                      <label className="text-3xl mt-5">Turno</label>
   
                       <FormControl>
                         <RadioGroup
@@ -164,14 +158,14 @@ function Reuniao(props){
                       </FormControl>
                     </div>
   
-                    <div className="input">
+                    <div className="flex flex-col justify-center items-center">
                       <Box
                         component="form"
                         sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
                         noValidate
                         autoComplete="off"
                       >
-                        <div>
+                        <div className="mt-5">
                           <TextField
                             id="outlined-multiline-static"
                             label="Descreva"
@@ -182,7 +176,7 @@ function Reuniao(props){
                       </Box>
                     </div>
   
-                    <div className="input">
+                    <div className="flex flex-col justify-center items-center mt-5">
                       <Stack direction="row" spacing={2}>
                         <Button variant="contained" endIcon={<SendIcon />}>
                           Solicitar
@@ -190,7 +184,6 @@ function Reuniao(props){
                       </Stack>
                     </div>
                   </div>
-                </div>
               </Box>
             </Modal>
           </div>
