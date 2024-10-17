@@ -13,11 +13,11 @@ const SideMenu = () => {
         setIsExpanded(!isExpanded); // Alterna entre expandido e contraído
     };
 
-    const menuItems = [
-        { icon: '', text: 'Publicações', route: '/publicacoes' },
-        // { icon: <FaUsers className="text-2xl" />, text: 'Reuniões', route: '/reunioes' },
-        // { icon: <FaCalendarAlt className="text-2xl" />, text: 'Agenda', route: '/agenda' }
-    ];
+    // const menuItems = [
+    //     { icon: '', text: 'Publicações', route: '/publicacoes' },
+    //     // { icon: <FaUsers className="text-2xl" />, text: 'Reuniões', route: '/reunioes' },
+    //     // { icon: <FaCalendarAlt className="text-2xl" />, text: 'Agenda', route: '/agenda' }
+    // ];
 
     return (
         <div className={`h-screen bg-white-main  ${isExpanded ? 'w-64' : 'w-20'} transition-width duration-300 left-0 top-0 flex flex-col items-center`}>
