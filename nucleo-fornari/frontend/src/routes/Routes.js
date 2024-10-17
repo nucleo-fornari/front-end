@@ -31,7 +31,7 @@ import {createBrowserRouter, Navigate } from 'react-router-dom';
 export const router = createBrowserRouter([
   {
     path: "/", 
-    element: <Navigate to="/responsavel" />
+    element: <Navigate to="/professor" />
   },
   {
     path: "/responsavel",
