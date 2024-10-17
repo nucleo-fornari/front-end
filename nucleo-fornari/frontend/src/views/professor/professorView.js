@@ -6,6 +6,8 @@ import { Outlet } from "react-router-dom";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import AlignItemsList from "../../components/Dashboards/professor/ListaLateral";
 import Titulo from "../../components/Dashboards/Titulo";
+import Agenda from "../../components/Dashboards/Agenda";
+
 
 function ProfessorPage() {
   return (
@@ -20,7 +22,7 @@ function ProfessorPage() {
           <Outlet />
 
           <section className="flex">
-            
+            <Agenda />
             <div className="w-64 text-blue-main">
               <Button
                 startIcon={<SupportAgentRoundedIcon />}

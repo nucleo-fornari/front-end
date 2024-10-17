@@ -128,7 +128,6 @@ function Calendario() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '100vh',
                 bgcolor: '#f5f5f5', // Fundo claro
                 padding: '20px',
             }}

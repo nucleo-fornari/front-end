@@ -7,35 +7,35 @@ import Header from "../../components/Dashboards/Header.js";
 
 
 function ParentsPage() {
-  return(
-    <React.StrictMode> 
-    
-    <main className='flex'>
+  return (
+    <React.StrictMode>
+
+      <main className='flex'>
 
 
-    <aside >
+        <aside >
 
-    <SideMenu />
-    
+          <SideMenu />
 
-    </aside>
 
-    <section className='flex flex-col w-full'>
+        </aside>
 
-    <Header/>
-    <Outlet/>
-    
+        <section className='flex flex-col w-full'>
 
-    </section>
-    
-    </main>
-   
-  
-  
-  </React.StrictMode>
+          <Header />
+          <Outlet />
+
+
+        </section>
+
+      </main>
+
+
+
+    </React.StrictMode>
   );
 
-  
+
 }
 
 export default ParentsPage;
