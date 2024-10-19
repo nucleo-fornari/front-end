@@ -1,14 +1,14 @@
 function SideMenuItem(props) {
 
     return (
-        <nav className=" flex-grow flex justify-around items-center">
+        <nav className=" flex-grow flex items-center gap-1 text-white-gray hover:bg-blue-pastel rounded transition-colors h-full w-full p-1">
 
-            <figure className="text-blue-dark">
+            <figure>
                 {props.icone}
             </figure>
-            <button className="flex items-center w-full p-3 my-2 hover:bg-purple-pastel text-white">
+            <button className="flex items-center w-full p-3 my-2 text-white">
                 {/* <FaRegNewspaper className="text-2xl" /> */}
-                <span className="ml-4 text-lg">{props.titulo}</span>
+                <div className="text-lg text-white-gray">{props.titulo}</div>
             </button>
 
         </nav>

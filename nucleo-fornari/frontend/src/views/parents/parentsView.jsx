@@ -1,9 +1,9 @@
 import React from "react";
-import SideMenu from "../../components/SideMenu/SideMenuParents.js";
 import "./parentsView.css";
-
 import { BrowserRouter as Router, Route, Switch, Redirect, Outlet, Link } from 'react-router-dom';
 import Header from "../../components/Dashboards/Header.js";
+import SideMenu from "../../components/SideMenu/SideMenuParents.js";
+
 
 
 function ParentsPage() {
@@ -15,7 +15,7 @@ function ParentsPage() {
 
         <aside >
 
-          <SideMenu />
+          <SideMenu/>
 
 
         </aside>
@@ -24,8 +24,6 @@ function ParentsPage() {
 
           <Header />
           <Outlet />
-
-
         </section>
 
       </main>

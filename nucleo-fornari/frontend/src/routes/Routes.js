@@ -26,6 +26,7 @@ import ParentsPage from '../views/parents/parentsView';
 import Reuniao from '../components/Dashboards/Reuniao';
 import ProfessorPage from '../views/professor/professorView';
 import {createBrowserRouter, Navigate } from 'react-router-dom';
+import { Inicio } from '../components/Dashboards/professor/Inicio';
 
 
 export const router = createBrowserRouter([
@@ -56,8 +57,18 @@ export const router = createBrowserRouter([
     element:<ProfessorPage/>,
     children: [
       {
-        path: "/professor/publicacoes"
+        path:"/professor",
+        element: <Inicio/>
+      },
+      {
+      path:"/professor/calendario",
+        element: <Inicio/>
+      },
+      {
+        path: "/professor/publicacoes",
+        element:<Avisos/>
       }
+      
     ]
   }
 ])
