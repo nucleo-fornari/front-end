@@ -1,4 +1,6 @@
 import React from 'react';
+import "./chamadosSecretaria.css";
+import { FaCheck } from 'react-icons/fa';
 
 // const HelpRequestTable = ({ data }) => {
 //   return (
@@ -52,7 +54,7 @@ import React from 'react';
 
 const ChamadosSecretaria = () => {
     return (
-      <div className="bg-[#edebeb] p-4 rounded-lg overflow-x-auto w-700">
+      <div class="containner-chamados">
         <table className="w-full table-auto bg-[#edebeb]">
           <thead>
             <tr className="text-left">
@@ -68,10 +70,8 @@ const ChamadosSecretaria = () => {
             
               <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
                   </div>
                 </td>
   
@@ -89,32 +89,10 @@ const ChamadosSecretaria = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </div>
                 </td>
-              </tr>
-          </tbody>
-          <tbody>
-            
-              <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
-                  </div>
-                </td>
-  
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">G1A</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">ERIKA</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white-main p-2 rounded-md">necessidade do Professor</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </div>
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
                 </td>
               </tr>
           </tbody>
@@ -122,10 +100,8 @@ const ChamadosSecretaria = () => {
             
               <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
                   </div>
                 </td>
   
@@ -143,16 +119,19 @@ const ChamadosSecretaria = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </div>
                 </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
               </tr>
           </tbody>
           <tbody>
             
               <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
                   </div>
                 </td>
   
@@ -170,16 +149,19 @@ const ChamadosSecretaria = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </div>
                 </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
               </tr>
           </tbody>
           <tbody>
             
               <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
                   </div>
                 </td>
   
@@ -197,16 +179,19 @@ const ChamadosSecretaria = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </div>
                 </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
               </tr>
           </tbody>
           <tbody>
             
               <tr className="bg-[#edebeb]">
                 <td className="p-3">
-                  <div className="flex justify-center items-center">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full bg-red-500'`}
-                    ></span>
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
                   </div>
                 </td>
   
@@ -223,6 +208,341 @@ const ChamadosSecretaria = () => {
                   <div className="bg-white p-2 rounded-md">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
+                </td>
+              </tr>
+          </tbody>
+          <tbody>
+            
+              <tr className="bg-[#edebeb]">
+                <td className="p-3">
+                  <div className="flex justify-center items-center mr-12">
+                    <div class="red-dot"></div>
+                  </div>
+                </td>
+  
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">G1A</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">ERIKA</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
+                </td>
+                <td className="p-3">
+                  <div className="bg-white p-2 rounded-md">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </td>
+                <td className="p-3">
+                  <div class="btn-concluir-chamado">
+                    <FaCheck size={15} color="white" />
+                  </div>                
                 </td>
               </tr>
           </tbody>

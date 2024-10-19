@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./sideMenuView.css";
+import Logo from "../../assets/icons/logo-branco.png"
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const SideMenu = ({menuItens}) => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -11,26 +14,25 @@ const SideMenu = ({menuItens}) => {
 
     return (
         <div class={`side-menu ${isExpanded ? 'expanded' : 'collapsed'}`}
-        // {`h-screen bg-white-main  ${isExpanded ? 'w-64' : 'w-20'} transition-width duration-300 left-0 top-0 flex flex-col items-center`}
         >
 
             <div class="containner-usuario">
-                <div class='containner-logo'>
+                <div class={`containner-logo ${isExpanded ? 'expanded' : 'collapsed'}`}>
 
                     <img
-                        src=""
-                        alt="User/Project"
-                        className={`rounded-full ${isExpanded ? 'w-24 h-24' : 'w-10 h-10'} transition-all duration-300`}
+                        src={Logo}
+                        alt="Project"
+                        class={`img-logo ${isExpanded ? 'expanded' : 'collapsed'}`}
                     />
                     <button
                         onClick={toggleMenu}
                         class="btn-espande"
                     >
-                        {isExpanded ? '|<' : '>|'}
+                        {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }}/> : <MenuIcon sx={{ color: 'white' }}/>}
                     </button>
                 </div>
 
-                {isExpanded && <h2 className="text-white mt-2">Nome do Usuário</h2>}
+                {isExpanded && <h2 className="text-white mt-10">Olá, Nome do Usuário</h2>}
             </div>
 
             <hr />
