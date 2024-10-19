@@ -28,11 +28,11 @@ import {createBrowserRouter, Navigate } from 'react-router-dom';
 import { Inicio } from '../components/Dashboards/professor/Inicio';
 
 //SECRETARIA
-import SecretaryPage from './views/secretary/SecretaryView';
-import ChamadosSecretaria from './components/chamadosSecretaria/ChamadosSecretaria.jsx';
-import PublicacaoSecretaria from './components/publicacaoSecretaria/PublicacaoSecretaria.jsx';
-import CalendarioSecretaria from './components/calendarioSecretaria/CalendarioSecretaria.jsx';
-import Gerencia from './components/gerencia/Gerencia.jsx';
+import SecretaryPage from '../views/secretary/SecretaryView';
+import ChamadosSecretaria from '../components/chamadosSecretaria/ChamadosSecretaria';
+import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoSecretaria';
+import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
+import Gerencia from '../components/gerencia/Gerencia';
 
 export const router = createBrowserRouter([
   {

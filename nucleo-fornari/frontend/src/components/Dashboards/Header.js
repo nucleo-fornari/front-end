@@ -8,7 +8,6 @@ function Header() {
     return (
 
         <header className="flex h-10 bg-blue-main justify-center items-center px-8 py-5">
-            <img src={Logo} alt="nucleo fornari" className="h-67 w-100"/>
             <div className="notifications">
                 <Badge badgeContent={5} color="error" className="text-white-main ">
                 <NotificationsIcon className="text-4xl text-white-gray"></NotificationsIcon>

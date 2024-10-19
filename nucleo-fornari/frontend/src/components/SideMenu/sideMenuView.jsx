@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import "./sideMenuView.css";
 import Logo from "../../assets/icons/logo-branco.png"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -11,6 +11,8 @@ const SideMenu = ({menuItens}) => {
     const toggleMenu = () => {
         setIsExpanded(!isExpanded);
     };
+
+    const location = useLocation();
 
     return (
         <div class={`side-menu ${isExpanded ? 'expanded' : 'collapsed'}`}
@@ -42,7 +44,7 @@ const SideMenu = ({menuItens}) => {
                     <Link
                     key={index}
                     to={item.route}
-                    className="w-full"
+                    className={`w-full ${location.pathname === item.route ? 'bg-blue-pastel' : ''} hover:bg-blue-pastel`}
                     >
                         <button key={index} class="btn-route">
                             {item.icon}
