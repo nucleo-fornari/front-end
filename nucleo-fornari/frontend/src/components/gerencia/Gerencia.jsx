@@ -12,7 +12,7 @@ const Publication = () => {
             >
                 <div class='gerencia-alunos-funcionarios'>
                     <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
-                    <span class=''>
+                    <span class='gerencia-text'>
                         ALUNOS
                     </span>
                 </div>
@@ -23,7 +23,7 @@ const Publication = () => {
             >
                 <div class='gerencia-alunos-funcionarios'>
                     <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
-                    <span class=''>
+                    <span class='gerencia-text'>
                         FUNCIONARIOS
                     </span>
                 </div>
