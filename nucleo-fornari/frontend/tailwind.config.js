@@ -22,9 +22,9 @@ module.exports = {
        claro: '#e6d4f9'
       },
       white: {
-        main: '#fffff',
-        gray: '#f2f0f0',
-        ice: '#fff'
+         main: '#edebeb',
+         gray: '#f2f0f0',
+         ice: '#fff'
       },
       black: {
         main: '#141414'
