@@ -33,6 +33,8 @@ import ChamadosSecretaria from '../components/chamadosSecretaria/ChamadosSecreta
 import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoSecretaria';
 import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
 import Gerencia from '../components/gerencia/Gerencia';
+import GerenciaAluno from '../components/gerencia/gerenciaAluno/GerenciaAluno';
+import GerenciaFuncionario from '../components/gerencia/gerenciaFuncionario/GerenciaFuncionario';
 
 export const router = createBrowserRouter([
   {
@@ -95,6 +97,14 @@ export const router = createBrowserRouter([
       {
         path: "/secretaria/gerencia",
         element: <Gerencia/>
+      },
+      {
+        path: "/secretaria/gerencia/aluno",
+        element: <GerenciaAluno/>
+      },
+      {
+        path: "/secretaria/gerencia/funcionario",
+        element: <GerenciaFuncionario/>
       },
     ]
   },
