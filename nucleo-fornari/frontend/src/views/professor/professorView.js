@@ -1,42 +1,48 @@
 import React from "react";
-import SideMenu from "../../components/SideMenu/SideMenuProfessor";
 import Header from "../../components/Dashboards/Header";
-import Button from "@mui/material/Button";
 import { Outlet } from "react-router-dom";
-import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
-import AlignItemsList from "../../components/Dashboards/professor/ListaLateral";
-import Titulo from "../../components/Dashboards/Titulo";
+import SideMenu from "../../components/SideMenu/sideMenuView.jsx";
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
+import InboxIcon from '@mui/icons-material/Inbox';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 
 function ProfessorPage() {
+
+  const sideMenuItens = [
+    {
+      icon: <CalendarMonthIcon color='inherit' />,
+      name: 'Calendário',
+      route: '/professor/calendario'
+    },
+    {
+      icon: <NewspaperRoundedIcon color='inherit' />,
+      name: 'Publicações',
+      route: '/professor/publicacoes'
+    },
+    {
+      icon: <InboxIcon />,
+      name: 'Chamados',
+      route: '/professor/chamados'
+    },
+    {
+      icon: <DescriptionIcon />,
+      name: 'Relatórios',
+      route: '/professor/relatorio'
+    },
+  ]
+
   return (
     <React.StrictMode>
       <main className="flex">
         <aside>
-          <SideMenu />
+        <SideMenu menuItens={sideMenuItens} />
         </aside>
 
-        <section className="flex flex-col w-full">
+        <section className="flex flex-col w-full bg-white-main">
           <Header />
           <Outlet />
-
-          <section className="flex">
-            
-            <div className="w-64 text-blue-main">
-              <Button
-                startIcon={<SupportAgentRoundedIcon />}
-                fontSize="inherit"
-                color=""
-              >
-                {" "}
-                Abrir chamado
-              </Button>
-            </div>
-            <div>
-              <Titulo titulo="Sala:{nomeSala}" />
-              <AlignItemsList />
-            </div>
-            
-          </section>
         </section>
       </main>
     </React.StrictMode>
