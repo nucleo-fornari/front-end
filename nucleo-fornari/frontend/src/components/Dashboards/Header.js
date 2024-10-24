@@ -1,5 +1,6 @@
 import Logo from "../../views/parents/logo-branco.png";
 import { useState } from "react";
+import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MessageIcon from '@mui/icons-material/Message';
 import EventIcon from '@mui/icons-material/Event';
@@ -41,6 +42,11 @@ function Header() {
 
     return (
         <header className="flex h-16 bg-blue-main justify-between items-center px-8 py-4 relative">
+            <div className="notifications">
+                <Badge badgeContent={5} color="error" className="text-white-main ">
+                <NotificationsIcon className="text-4xl text-white-gray"></NotificationsIcon>
+                </Badge>
+            </div>
             <img src={Logo} alt="Logo" className="h-67 w-100" />
 
             {/* Ícone de Notificações */}

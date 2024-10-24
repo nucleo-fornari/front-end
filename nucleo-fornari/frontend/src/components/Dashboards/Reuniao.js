@@ -1,5 +1,5 @@
 import React from "react";
-import SideMenu from "../SideMenu/SideMenuParents";
+import SideMenu from "../../components/SideMenu/sideMenuView";
 import "../../views/parents/parentsView.css"
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";

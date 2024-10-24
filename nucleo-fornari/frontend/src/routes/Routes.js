@@ -1,7 +1,6 @@
 // import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 // import LoginPage from './loginPage';
 // import ProfessorPage from '../views/professor/professorView';
-// import SecretariaPage from '../views/secretary/secretaryView';
 // import ResponsaveisPage from '../views/parents/parentsView';
 // import PrivateRoute from './privateRoute'; // Rota protegida
 
@@ -26,7 +25,14 @@ import ParentsPage from '../views/parents/parentsView';
 import Reuniao from '../components/Dashboards/Reuniao';
 import ProfessorPage from '../views/professor/professorView';
 import {createBrowserRouter, Navigate } from 'react-router-dom';
+import { Inicio } from '../components/Dashboards/professor/Inicio';
 
+//SECRETARIA
+import SecretaryPage from '../views/secretary/SecretaryView';
+import ChamadosSecretaria from '../components/chamadosSecretaria/ChamadosSecretaria';
+import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoSecretaria';
+import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
+import Gerencia from '../components/gerencia/Gerencia';
 
 export const router = createBrowserRouter([
   {
@@ -56,10 +62,42 @@ export const router = createBrowserRouter([
     element:<ProfessorPage/>,
     children: [
       {
-        path: "/professor/publicacoes"
+        path:"/professor",
+        element: <Inicio/>
+      },
+      {
+      path:"/professor/calendario",
+        element: <Inicio/>
+      },
+      {
+        path: "/professor/publicacoes",
+        element:<Avisos/>
       }
+      
     ]
-  }
+  },
+  {
+    path: "/secretaria",
+    element: <SecretaryPage/>,
+    children: [
+      {
+        path: "/secretaria",
+        element: <ChamadosSecretaria/>
+      },
+      {
+        path: "/secretaria/publicacao",
+        element: <PublicacaoSecretaria/>
+      },
+      {
+        path: "/secretaria/calendario",
+        element: <CalendarioSecretaria/>
+      },
+      {
+        path: "/secretaria/gerencia",
+        element: <Gerencia/>
+      },
+    ]
+  },
 ])
 
 
