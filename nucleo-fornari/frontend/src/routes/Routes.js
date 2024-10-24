@@ -33,8 +33,13 @@ import ChamadosSecretaria from '../components/chamadosSecretaria/ChamadosSecreta
 import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoSecretaria';
 import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
 import Gerencia from '../components/gerencia/Gerencia';
+import NotFound from '../components/NotFound/NotFound';
 
 export const router = createBrowserRouter([
+  {
+    path: "*",
+    element: <NotFound />
+  },
   {
     path: "/", 
     element: <Navigate to="/professor" />
