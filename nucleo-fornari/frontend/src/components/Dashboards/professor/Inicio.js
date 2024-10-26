@@ -4,10 +4,18 @@ import AlignItemsList from "./ListaLateral";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
 import ModalChamado from "./ModalChamado";
+import ModalRecadoGeral from "./ModalRecadoGeral";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
-  // const [openRecado, setRecado] = useState(false);
+  const [openRecadoGeral, setOpenRecadoGeral] = useState(false);
+
+  const handleCloseRecado = () => {
+    setOpenRecadoGeral(false);
+  };
+  const handleOpenRecado = () => {
+    setOpenRecadoGeral(true);
+  };
 
   const handleCloseChamado = () => {
     setOpenChamado(false);
@@ -39,11 +47,12 @@ export function Inicio() {
           variant="contained"
           size="medium"
           fullWidth={true}
+          onClick={handleOpenRecado}
         >Recado geral</Button>
       </div>
 
       <ModalChamado open={openChamado} handleClose={handleCloseChamado}/>
-
+      <ModalRecadoGeral open={openRecadoGeral} handleClose={handleCloseRecado}/>
     </section>
   )
 }
