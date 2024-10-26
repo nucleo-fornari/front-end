@@ -34,6 +34,7 @@ import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoS
 import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
 import Gerencia from '../components/gerencia/Gerencia';
 import NotFound from '../components/NotFound/NotFound';
+import StickyHeadTable from '../components/Dashboards/professor/TabelaChamados';
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
       {
         path: "/professor/publicacoes",
         element:<Avisos/>
+      },
+      {
+        path:"/professor/chamados",
+        element: <StickyHeadTable/>
       }
       
     ]
