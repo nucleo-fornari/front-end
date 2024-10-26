@@ -13,7 +13,6 @@ export default function AlignItemsList() {
       Turma: G1A
     </h1>
     <div className="overflow-y-auto max-h-96">
-    
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="center">
         <ListItemAvatar>
@@ -114,9 +113,6 @@ export default function AlignItemsList() {
         />
       </ListItem>
       <Divider variant="inset" component="li" />
-      
-    
-      
     </List>
     </div>
 
