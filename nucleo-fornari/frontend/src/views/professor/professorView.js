@@ -1,11 +1,51 @@
-import React from 'react';
+import React from "react";
+import Header from "../../components/Dashboards/Header";
+import { Outlet } from "react-router-dom";
+import SideMenu from "../../components/SideMenu/sideMenuView.jsx";
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
+import InboxIcon from '@mui/icons-material/Inbox';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 
 function ProfessorPage() {
+
+  const sideMenuItens = [
+    {
+      icon: <CalendarMonthIcon color='inherit' />,
+      name: 'Calendário',
+      route: '/professor/calendario'
+    },
+    {
+      icon: <NewspaperRoundedIcon color='inherit' />,
+      name: 'Publicações',
+      route: '/professor/publicacoes'
+    },
+    {
+      icon: <InboxIcon />,
+      name: 'Chamados',
+      route: '/professor/chamados'
+    },
+    {
+      icon: <DescriptionIcon />,
+      name: 'Relatórios',
+      route: '/professor/relatorio'
+    },
+  ]
+
   return (
-    <div>
-      <span className='bg-purple-main font-inter font-normal text-7xl lg:flex-row'>Bem-vindo, Professor!</span>
-      {/* Adicione outros componentes ou funcionalidades específicas aqui */}
-    </div>
+    <React.StrictMode>
+      <main className="flex">
+        <aside>
+        <SideMenu menuItens={sideMenuItens} />
+        </aside>
+
+        <section className="flex flex-col w-full bg-white-main">
+          <Header />
+          <Outlet />
+        </section>
+      </main>
+    </React.StrictMode>
   );
 }
 

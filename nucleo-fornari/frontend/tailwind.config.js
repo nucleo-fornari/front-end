@@ -19,17 +19,22 @@ module.exports = {
         main: '#7d2afa',
         pastel: '#c7a8e7',
         dark: '#2a2041',
+       claro: '#e6d4f9'
       },
       white: {
-        main: '#edebeb',
-        cinzabg: '#f2f0f0'
+         main: '#edebeb',
+         gray: '#f2f0f0',
+         ice: '#fff'
       },
       black: {
         main: '#141414'
       }     
     },
-
     extend: {
+      height: {
+        '10':'10%',
+        '67':'67px'
+      },
       width:{
         '100': '100px',
         '500':'500px',
