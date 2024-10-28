@@ -34,6 +34,9 @@ import PublicacaoSecretaria from '../components/publicacaoSecretaria/PublicacaoS
 import CalendarioSecretaria from '../components/calendarioSecretaria/CalendarioSecretaria';
 import Gerencia from '../components/gerencia/Gerencia';
 import NotFound from '../components/NotFound/NotFound';
+import GerenciaAluno from '../components/gerencia/gerenciaAluno/GerenciaAluno';
+import GerenciaFuncionario from '../components/gerencia/gerenciaFuncionario/GerenciaFuncionario';
+import CadastroAluno from '../components/gerencia/gerenciaAluno/adicionarAluno/AdicionarAluno';
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +45,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/", 
-    element: <Navigate to="/professor" />
+    element: <Navigate to="/secretaria" />
   },
   {
     path: "/responsavel",
@@ -100,6 +103,18 @@ export const router = createBrowserRouter([
       {
         path: "/secretaria/gerencia",
         element: <Gerencia/>
+      },
+      {
+        path: "/secretaria/gerencia/aluno",
+        element: <GerenciaAluno/>
+      },
+      {
+        path: "/secretaria/gerencia/funcionario",
+        element: <GerenciaFuncionario/>
+      },
+      {
+        path: "/secretaria/cadastro/aluno",
+        element: <CadastroAluno/>
       },
     ]
   },

@@ -1,0 +1,35 @@
+.containner-gerencia-funcionarios {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px
+}
+
+.containner-adicionar-funcionario {
+    display: flex;
+    justify-content: flex-start;
+    height: 40px;
+    margin-left: 50px;
+}
+
+.redireciona-adicionar-funcionario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3285fa;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.containner-lista-funcionarios {
+    background-color: #edebeb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-y: auto;
+    max-height: 94vh;
+    margin: 0 50px 0 50px;
+}
