@@ -97,6 +97,7 @@ const ModalRecadoGeral = ({ open, handleClose }) => {
             onChange={handleDateChange}
             minDate={dayjs()}
             renderInput={(params) => <TextField fullWidth margin="normal" {...params} />}
+            sx={{ mt: 2 }}
           />
         </LocalizationProvider>
 
