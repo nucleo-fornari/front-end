@@ -1,4 +1,4 @@
-// import logoBranco from "../../assets/imgs/logoBranco.png"
+import logoBranco from "../../assets/imgs/logoBranco.png"
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 
@@ -6,7 +6,7 @@ function Footer(){
     return(
         <footer className="p-16 bg-blue-dark text-white-main">
             <section className="flex justify-around">
-            {/* <img src={logoBranco} /> */}
+            <img src={logoBranco} />
         
             <div className="w-60 flex flex-col gap-5 text-lg">
             <p><EmailRoundedIcon/> nucleofornari@gmail.com</p> 
