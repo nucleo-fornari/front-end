@@ -5,20 +5,20 @@ import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 
 function ProjetoSection() {
     return (
-        <section className="bg-blue-main p-20 rounded-3xl flex m-28 items-center justify-evenly">
-            <ProjetoColumn image={<Diversity2RoundedIcon fontSize="inherit" />}
+        <section className="bg-purple-pastel p-28 rounded-3xl flex m-28 items-center justify-evenly">
+            <ProjetoColumn image={<Diversity2RoundedIcon/>}
             title="Comunicação"
-            text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
+            text= "A comunicação é essencial para manter pais, professores, coordenadores e funcionários informados sobre o desenvolvimento e as atividades das crianças. Uma plataforma digital que permita mensagens diretas e atualizações de agenda pode ser uma ferramenta valiosa para essa comunicação."
             />
             
-            <ProjetoColumn image={<InsightsRoundedIcon fontSize="inherit"/>}
+            <ProjetoColumn image={<InsightsRoundedIcon/>}
             title="Priorização"
-            text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
+            text= "A escola prioriza o bem-estar, segurança e desenvolvimento integral das crianças de 0 a 5 anos. As atividades pedagógicas e recreativas são adaptadas a cada faixa etária, com alimentação balanceada e cuidados essenciais para o crescimento saudável das crianças."
             />
 
-            <ProjetoColumn image={<SecurityRoundedIcon fontSize="inherit"/>}
+            <ProjetoColumn image={<SecurityRoundedIcon/>}
             title="Segurança"
-            text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in consectetur justo, id vulputate dolor. Proin dignissim odio ut quam fringilla, nec tristique elit gravida."
+            text= "A segurança é fundamental na escola. Medidas rigorosas incluem controle de entrada e saída, supervisão constante e protocolos de emergência. Os funcionários são treinados em primeiros socorros, e os pais são informados sobre os procedimentos para situações inesperadas."
             />
         </section>
     )
