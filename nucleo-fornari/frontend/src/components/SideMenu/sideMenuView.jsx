@@ -50,7 +50,7 @@ const SideMenu = ({menuItens}) => {
                             {item.icon}
                             {isExpanded && <span class="text-route">{item.name}</span>}
                         </button>
-                    </Link> 
+                    </Link>
                 ))}
             </div>
         </div>

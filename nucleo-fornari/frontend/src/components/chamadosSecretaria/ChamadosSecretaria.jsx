@@ -55,6 +55,12 @@ import { FaCheck } from 'react-icons/fa';
 const ChamadosSecretaria = () => {
     return (
       <div class="containner-chamados">
+        <label>Filtar por:</label>
+        <select name="" id="">
+          <option value="">Prioridade</option>
+          <option value="">Sala</option>
+          <option value="">Categoria</option>
+        </select>
         <table className="w-full table-auto bg-[#edebeb]">
           <thead>
             <tr className="text-left">
