@@ -33,7 +33,8 @@ module.exports = {
     extend: {
       height: {
         '10':'10%',
-        '67':'67px'
+        '67':'67px',
+        '90vh':'90vh'
       },
       width:{
         '100' : '100px'
