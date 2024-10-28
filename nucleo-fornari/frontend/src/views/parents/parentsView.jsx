@@ -1,5 +1,4 @@
 import React from "react";
-import "./parentsView.css";
 import { BrowserRouter as Router, Route, Switch, Redirect, Outlet, Link } from 'react-router-dom';
 import Header from "../../components/Dashboards/Header.js";
 import SideMenu from "../../components/SideMenu/sideMenuView.jsx";
