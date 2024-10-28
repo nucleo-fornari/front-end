@@ -34,19 +34,17 @@ module.exports = {
       height: {
         '10':'10%',
         '67':'67px',
-        '90vh':'90vh'
+        '90vh':'90vh',
+        '67': '67px',
+        '400':'400px',
+        'hbanner': '2127px'
       },
       width:{
         '100': '100px',
         '500':'500px',
         'wbanner': '3191px'
 
-      },
-      height:{
-        '67': '67px',
-        '400':'400px',
-        'hbanner': '2127px'
-      },
+      }
     },
   },
   plugins: [],
