@@ -37,6 +37,7 @@ import NotFound from '../components/NotFound/NotFound';
 import GerenciaAluno from '../components/gerencia/gerenciaAluno/GerenciaAluno';
 import GerenciaFuncionario from '../components/gerencia/gerenciaFuncionario/GerenciaFuncionario';
 import CadastroAluno from '../components/gerencia/gerenciaAluno/adicionarAluno/AdicionarAluno';
+import StickyHeadTable from '../components/Dashboards/professor/TabelaChamados';
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
       {
         path: "/professor/publicacoes",
         element:<Avisos/>
+      },
+      {
+        path:"/professor/chamados",
+        element: <StickyHeadTable/>
       }
       
     ]
