@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Modal,
   Box,
@@ -13,9 +13,11 @@ import {
   IconButton
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import api from '../../../services/api';
 
 const ModalChamado = ({ open, handleClose }) => {
   const [category, setCategory] = useState('');
+  const [tipos, setTipos] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isAtipic, setIsAtipic] = useState(false);
@@ -37,10 +39,31 @@ const ModalChamado = ({ open, handleClose }) => {
     setIsAtipic(event.target.value);
   };
 
-  const handleSubmit = () => {
-    console.log({ category, description, isAtipic });
+  const handleSubmit = async () => {
+
+    //CONFIGURAR EXIBIÇÃO DOS RETORNOS
+    await api.post('/chamados?idUsuario=1', {
+      descricao: description,
+      isAtipico: isAtipic,
+      tipo: {
+        id: category
+      }
+    }).then((res) => {
+      if (res.status === 201) {
+        alert('Chamado criado com sucesso!');
+      }
+    }).catch((error) => {
+      alert(error.response.data.text ?? 'Erro inesperado!');
+    })
     handleClose();
-  }; // INTEGRAR COM O BACKENDO
+  };
+
+  useEffect(() => {
+    api.get('/tipos-chamado')
+        .then((res) => {
+          setTipos(res.data);
+        })
+  }, []);
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -57,9 +80,6 @@ const ModalChamado = ({ open, handleClose }) => {
           borderRadius: 2,
         }}
       >
-        <Typography variant="h6" component="h2">
-          Assunto do Chamado:
-        </Typography>
 
         <IconButton
           aria-label="close"
@@ -73,26 +93,15 @@ const ModalChamado = ({ open, handleClose }) => {
         >
           <CloseIcon />
         </IconButton>
-
-        <TextField
-          label="Assunto"
-          multiline
-          fullWidth
-          rows={1}
-          margin="normal"
-          value={title}
-          onChange={handleTitleChange}
-        />
         <Typography variant="h6" component="h2">
           Categoria:
         </Typography>
 
         <FormControl component="fieldset" fullWidth margin="normal">
           <RadioGroup row value={category} onChange={handleCategoryChange}>
-            <FormControlLabel value="Saúde do aluno" control={<Radio />} label="Saúde do aluno" />
-            <FormControlLabel value="Necessidades do professor" control={<Radio />} label="Necessidades do professor" />
-            <FormControlLabel value="Suporte de TI" control={<Radio />} label="Suporte de TI" />
-            <FormControlLabel value="Suporte da gestão" control={<Radio />} label="Suporte da gestão" />
+            {tipos.map(((x) => (
+                <FormControlLabel value={x.id} control={<Radio />} label={x.tipo} />
+            )))}
           </RadioGroup>
         </FormControl>
 
