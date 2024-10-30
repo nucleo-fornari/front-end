@@ -44,7 +44,7 @@ const ModalChamado = ({ open, handleClose }) => {
     //CONFIGURAR EXIBIÇÃO DOS RETORNOS
     await api.post('/chamados?idUsuario=1', {
       descricao: description,
-      isAtipico: isAtipic,
+      criancaAtipica: isAtipic,
       tipo: {
         id: category
       }
