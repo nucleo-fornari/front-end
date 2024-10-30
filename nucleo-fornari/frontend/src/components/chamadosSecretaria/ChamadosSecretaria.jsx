@@ -53,9 +53,6 @@ import api from "../../services/api";
 //   );
 // };
 
-const apiUrl = process.env["REACT_APP_API_URL"]
-alert(apiUrl);
-
 const ChamadosSecretaria = () => {
 
   const [data, setData] = React.useState([]);
@@ -113,35 +110,6 @@ const ChamadosSecretaria = () => {
               </tr>
               </tbody>
           ))}
-          <tbody>
-              <tr className="bg-[#edebeb]">
-                <td className="p-3">
-                  <div className="flex justify-center items-center mr-12">
-                    <div class="red-dot"></div>
-                  </div>
-                </td>
-
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">G1A</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">ERIKA</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">necessidade do Professor</div>
-                </td>
-                <td className="p-3">
-                  <div className="bg-white p-2 rounded-md">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </div>
-                </td>
-                <td className="p-3">
-                  <div class="btn-concluir-chamado">
-                    <FaCheck size={15} color="white" />
-                  </div>                
-                </td>
-              </tr>
-          </tbody>
         </table>
       </div>
     );
