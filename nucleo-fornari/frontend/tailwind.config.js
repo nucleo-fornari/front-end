@@ -37,7 +37,7 @@ module.exports = {
         '90vh':'90vh',
         '67': '67px',
         '400':'400px',
-        'hbanner': '2127px'
+        'hbanner': '2127px',
       },
       width:{
         '100': '100px',
