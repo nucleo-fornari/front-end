@@ -94,7 +94,7 @@ const ChamadosSecretaria = () => {
      } else if (type === 1) {
          v = data.map((x) => ({
              ...x,
-             comparatorValue: x.categoria
+             comparatorValue: x.tipo.tipo
          }));
      } else if (type === 2) {
         v = data.map((x) => ({
