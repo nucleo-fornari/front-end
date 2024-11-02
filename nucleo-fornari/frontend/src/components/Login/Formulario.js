@@ -14,7 +14,7 @@ const Formulario = () => {
 
                 <div className="bg-white-main h-full w-full flex justify-center items-center flex-col">
                     <div className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center">
-                        <h2 className="text-5xl text-blue-main">Entrar</h2>
+                        <h2 className="text-5xl text-blue-main">Entre com sua conta</h2>
                         <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth={true} />
                         <InputAdornments />
                         <button className="py-3 px-8 rounded bg-blue-main hover:bg-blue-pastel text-white-main smooth-">Entrar</button>

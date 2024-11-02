@@ -26,11 +26,11 @@ function ProfessorPage() {
       name: 'Chamados',
       route: '/professor/chamados'
     },
-    {
-      icon: <DescriptionIcon />,
-      name: 'Relatórios',
-      route: '/professor/relatorio'
-    },
+    // {
+    //   icon: <DescriptionIcon />,
+    //   name: 'Relatórios',
+    //   route: '/professor/relatorio'
+    // },
   ]
 
   return (

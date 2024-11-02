@@ -27,7 +27,8 @@ module.exports = {
          ice: '#fff'
       },
       black: {
-        main: '#141414'
+        main: '#141414',
+        light: '#1e2025'
       }     
     },
     extend: {

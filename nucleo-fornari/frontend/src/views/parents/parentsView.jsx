@@ -36,7 +36,7 @@ function ParentsPage() {
 
         <aside >
 
-          <SideMenu menuItens={sideMenuItens} />
+          <SideMenu menuItens={sideMenuItens} usuario="Flávia"/>
 
 
         </aside>
