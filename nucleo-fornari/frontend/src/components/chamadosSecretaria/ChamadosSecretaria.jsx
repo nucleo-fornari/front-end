@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./chamadosSecretaria.css";
 import api from "../../services/api";
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
@@ -9,6 +9,15 @@ const ChamadosSecretaria = () => {
   const [selectValue, setSelectValue] = useState(0);
   const [ordenated, setOrdenated] = useState(false);
   const [modifiedChamados, setModifiedChamados] = useState(new Set());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
 
   useEffect(() => {
     if (!ordenated) {
@@ -187,7 +196,8 @@ const ChamadosSecretaria = () => {
                   </TableCell>
                   <TableCell align="center">
                     <IconButton
-                      onClick={() => handleMudarChamado(chamado.id)}
+                      // onClick={() => handleMudarChamado(chamado.id)}
+                      onClick={openModal}
                       color={chamado.finalizado ? "success" : "error"}
                       aria-label="Concluir chamado"
                     >
@@ -204,6 +214,48 @@ const ChamadosSecretaria = () => {
                 </TableCell>
               </TableRow>
             )}
+            {isModalOpen && (
+          <div class="modal-overlay">
+            <div class="modal-content">
+              <div className='flex flex-row-reverse'>
+                <button onClick={closeModal} className="close-modal-btn">
+                  <CloseIcon fontSize="large" />
+                </button>
+              </div>
+
+              <div className="flex justify-center items-center mr-12 bg-white-gray w-6 h-6">
+                <div class='red-dot'></div>
+              </div>
+              <div>
+              <td className="p-3">
+                <div className="bg-white p-2 rounded-md">Sala: G1A</div>
+              </td>
+              </div>
+              <div>
+              <td className="p-3">
+                <div className="bg-white p-2 rounded-md">Professor: Caique de Andrade</div>
+              </td>
+              </div>
+              <div>
+              <td className="p-3">
+                <div className="bg-white p-2 rounded-md">Categoria: </div>
+              </td>
+              </div>
+              <div>
+              <td className="p-3">
+                <div className="bg-white p-2 rounded-md">Descrição: </div>
+              </td>
+              </div>
+              <div>
+              <td className="p-3 flex flex-row-reverse">
+                <button onClick={closeModal} class='btn-interativo'>Concluir</button>
+              </td>
+              </div>
+              
+            </div>
+
+          </div>
+        )}
           </TableBody>
         </Table>
       </TableContainer>
