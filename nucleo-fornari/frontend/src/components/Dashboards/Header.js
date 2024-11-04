@@ -10,11 +10,10 @@ import { Badge, IconButton, Card, CardContent, Typography, ListItem, ListItemIco
 
 // Mock de notificações
 const mockNotifications = [
-    { id: 1, message: "Nova mensagem de João", type: "message" },
-    { id: 2, message: "Sua tarefa está atrasada!", type: "alert" },
-    { id: 3, message: "Evento amanhã: Reunião da equipe", type: "event" },
-    { id: 4, message: "Atualização disponível no sistema", type: "update" },
-    { id: 5, message: "Nova solicitação de suporte", type: "alert" },
+    { id: 1, message: "Abertura de Chamado Urgente!", type: "alert" },
+    { id: 2, message: "Foi adicionado um Recado", type: "message" },
+    { id: 3, message: "Evento amanhã: Reunião de Pais", type: "event" },
+    { id: 5, message: "Reunião daqui a 1 hora", type: "alert" },
 ];
 
 const getNotificationIcon = (type) => {

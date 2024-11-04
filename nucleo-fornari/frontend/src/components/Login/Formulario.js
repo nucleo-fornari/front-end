@@ -21,7 +21,10 @@ const Formulario = () => {
             });
 
             if (response.status === 200) {
-                console.log(response.data)
+                sessionStorage.TOKEN = response.data.token;
+                sessionStorage.FUNC = response.data.funcao;
+                sessionStorage.ID = response.data.userId;
+                sessionStorage.NOME = response.data.nome;
             
                 if(response.data.funcao === "RESPONSAVEL") {
                     navigate("/responsavel");

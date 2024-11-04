@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import api from '../../../services/api';
+import { toast } from 'react-toastify';
 
 const ModalChamado = ({ open, handleClose }) => {
   const [category, setCategory] = useState('');
@@ -40,9 +41,7 @@ const ModalChamado = ({ open, handleClose }) => {
   };
 
   const handleSubmit = async () => {
-
-    //CONFIGURAR EXIBIÇÃO DOS RETORNOS
-    await api.post('/chamados?idUsuario=1', {
+    await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
       descricao: description,
       criancaAtipica: isAtipic,
       tipo: {
@@ -50,10 +49,10 @@ const ModalChamado = ({ open, handleClose }) => {
       }
     }).then((res) => {
       if (res.status === 201) {
-        alert('Chamado criado com sucesso!');
+        toast.success('Chamado criado com sucesso!');
       }
     }).catch((error) => {
-      alert(error.response.data.text ?? 'Erro inesperado!');
+      toast.error(error.response.data.text ?? 'Erro inesperado!');
     })
     handleClose();
   };
@@ -62,7 +61,7 @@ const ModalChamado = ({ open, handleClose }) => {
     api.get('/tipos-chamado')
         .then((res) => {
           setTipos(res.data);
-        })
+        }).catch((error) => console.log(error))
   }, []);
 
   return (
@@ -99,9 +98,9 @@ const ModalChamado = ({ open, handleClose }) => {
 
         <FormControl component="fieldset" fullWidth margin="normal">
           <RadioGroup row value={category} onChange={handleCategoryChange}>
-            {tipos.map(((x) => (
+            {tipos.length > 0 ? tipos.map(((x) => (
                 <FormControlLabel value={x.id} control={<Radio />} label={x.tipo} />
-            )))}
+            ))) : null}
           </RadioGroup>
         </FormControl>
 

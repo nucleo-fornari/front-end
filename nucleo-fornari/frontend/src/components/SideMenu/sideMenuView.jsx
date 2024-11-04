@@ -34,8 +34,7 @@ const SideMenu = ({menuItens}) => {
                         {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }}/> : <MenuIcon sx={{ color: 'white' }}/>}
                     </button>
                 </div>
-
-                {isExpanded && <h2 className="text-white mt-10">Olá, usuário! </h2>}
+                {isExpanded && <h2 className="text-white mt-10">Olá, {(sessionStorage.NOME && sessionStorage.NOME.length > 3) ? sessionStorage.NOME : "user"}! </h2>}
             </div>
 
             <hr />
