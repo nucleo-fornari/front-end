@@ -2,9 +2,11 @@ import { useState } from "react";
 import imgLogin from "../../assets/imgs/imgLogin.png";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import api from "../../api.js"
 
 const Formulario = () => {
+    const navigate = useNavigate(); 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +21,18 @@ const Formulario = () => {
             });
 
             if (response.status === 200) {
-                alert('Login realizado com sucesso!');
+                console.log(response.data)
+            
+                if(response.data.funcao === "RESPONSAVEL") {
+                    navigate("/responsavel");
+                } else if (response.data.funcao === "PROFESSOR") {
+                    navigate("/professor");
+                } else if (response.data.funcao === "SECRETARIO") {
+                    navigate("/secretaria");
+                } else {
+                    console.log("Ocorreu algum erro ao coletar a função do usuário")
+                }
+
             }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data.errors) {
