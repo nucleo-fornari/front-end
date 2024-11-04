@@ -1,9 +1,10 @@
 import React from 'react';
+import Calendario from '../Dashboards/Agenda'
 
 const Publication = () => {
     return (
-        <div>
-            <h1>Pagina Calendario</h1>
+        <div className='flex items-center justify-center h-screen'>
+            <Calendario/>
         </div>
     );
 };
