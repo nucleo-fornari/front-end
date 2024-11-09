@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     transition: width 0.3s;
-    background-color: #2068cb;
+    background-color: #1976d2;
     color: white;
 }
 
@@ -19,8 +19,7 @@
 }
 
 .containner-usuario {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
