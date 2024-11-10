@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import Agenda from "../Agenda";
+import Calendario from "./Calendario"
 import AlignItemsList from "./ListaLateral";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export function Inicio() {
     <section className="flex justify-evenly p-16">
 
       <div className="text-white-main flex flex-col gap-20 ">
-        <Agenda />
+        <Calendario></Calendario>
         <Button
           variant="contained"
           startIcon={<SupportAgentRoundedIcon />}
