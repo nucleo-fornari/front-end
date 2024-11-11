@@ -6,4 +6,5 @@
         "start": "cd ./nucleo-fornari/frontend/ && npm start",
         "postinstall": "cd nucleo-fornari/frontend && npm install"
     }
+
 }
