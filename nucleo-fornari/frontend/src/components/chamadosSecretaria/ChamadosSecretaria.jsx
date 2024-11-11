@@ -195,9 +195,8 @@ const ChamadosSecretaria = () => {
                     <Box sx={{ p: 1, borderRadius: 1 }}>{chamado.descricao}</Box>
                   </TableCell>
                   <TableCell align="center">
-                    <IconButton
-                      // onClick={() => handleMudarChamado(chamado.id)}
-                      onClick={openModal}
+                  <IconButton
+                      onClick={() => handleMudarChamado(chamado.id)}
                       color={chamado.finalizado ? "success" : "error"}
                       aria-label="Concluir chamado"
                     >

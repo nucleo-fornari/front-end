@@ -84,7 +84,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/publicacao",
-        element: <PublicacaoSecretaria/>
+        element: <Avisos/>
       },
       {
         path: "/secretaria/calendario",
