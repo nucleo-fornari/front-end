@@ -1,0 +1,9 @@
+{
+    "name": "site",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node ./nucleo-fornari/frontend/src/index.js",
+        "postinstall": "cd nucleo-fornari/frontend && npm install"
+    }
+}
