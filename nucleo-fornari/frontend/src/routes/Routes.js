@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/responsavel/agenda",
-        element: <AvisosAlunos/>
+        element: <Agenda/>
       },
     ]
   },
@@ -131,7 +131,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/publicacao",
-        element: <Avisos/>
+        element: <Avisos avisosData={avisosData}/>
       },
       {
         path: "/secretaria/calendario",

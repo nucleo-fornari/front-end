@@ -72,7 +72,7 @@ function Agenda(props) {
 
     return (
         <>
-            <div className="flex p-12 items-center justify-between">
+            <div className="flex p-12 items-center justify-around">
                 <div className="flex items-center">
                 <h1><b>Agenda de</b></h1>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
