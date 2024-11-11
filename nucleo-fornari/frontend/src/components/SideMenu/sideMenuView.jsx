@@ -5,6 +5,7 @@ import "./sideMenuView.css";
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
+import Logo from "../../assets/icons/logo-branco.png"
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const SideMenu = ({ menuItens }) => {
@@ -25,6 +26,8 @@ const SideMenu = ({ menuItens }) => {
                     {/* 
                     <img
                         src={<AccountCircleIcon/>}
+                    {/* <img
+                        src={Logo}
                         alt="Project"
                         class={`img-logo ${isExpanded ? 'expanded' : 'collapsed'}`}
                     /> */}
@@ -50,6 +53,7 @@ const SideMenu = ({ menuItens }) => {
                     >
                         <MenuIcon sx={{ color: 'white' }} />
                     </IconButton>}
+                        {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }} /> : <MenuIcon sx={{ color: 'white' }} />}
                     </button>
                 </div>
                 {isExpanded && <h2 className="text-white mt-10">Olá, {(sessionStorage.NOME && sessionStorage.NOME.length > 3) ? sessionStorage.NOME : "user"}! </h2>}

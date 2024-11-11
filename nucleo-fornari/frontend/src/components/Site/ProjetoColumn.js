@@ -1,6 +1,6 @@
 function ProjetoColumn(props) {
     return (
-        <section className="flex flex-col justify-evenly items-center text-white-main">
+        <section className="flex flex-col justify-evenly items-center text-white-main bg-blue-dark p-10 rounded-3xl transition duration-500 hover:scale-125">
             <figure className="text-6xl">
                 {props.image}
             </figure>

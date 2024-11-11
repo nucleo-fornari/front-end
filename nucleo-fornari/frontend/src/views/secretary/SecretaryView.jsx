@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../../api.js'
+import Header from "../../components/Dashboards/Header";
 import { BrowserRouter as Router, Route, Switch, Redirect, Outlet } from 'react-router-dom';
 import SideMenu from '../../components/SideMenu/sideMenuView';
 import { FaClipboardList, FaBook, FaCalendarAlt, FaTools } from 'react-icons/fa';
@@ -36,6 +36,7 @@ function SecretaryPage() {
           <SideMenu menuItens={sideMenuItens} />
         </aside>
         <section className='flex flex-col w-full'>
+        <Header />
           <Outlet />
         </section>
       </main>
