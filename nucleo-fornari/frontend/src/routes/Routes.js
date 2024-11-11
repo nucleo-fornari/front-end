@@ -7,6 +7,7 @@ import Reuniao from '../components/Dashboards/Reuniao';
 import ProfessorPage from '../views/professor/professorView';
 import {createBrowserRouter, Navigate } from 'react-router-dom';
 import { Inicio } from '../components/Dashboards/professor/Inicio';
+import AvisosAlunos from '../components/Dashboards/AvisosAlunos'
 
 //SECRETARIA
 import SecretaryPage from '../views/secretary/SecretaryView';
@@ -47,7 +48,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/responsavel/agenda",
-        element: <Agenda/>
+        element: <AvisosAlunos/>
       },
     ]
   },

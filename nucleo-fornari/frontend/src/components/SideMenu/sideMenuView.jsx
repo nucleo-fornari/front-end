@@ -4,9 +4,10 @@ import "./sideMenuView.css";
 // import Logo from "../../assets/icons/logo-branco.png"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from "../../assets/icons/logo-branco.png"
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const SideMenu = ({menuItens}) => {
+const SideMenu = ({ menuItens }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
     const toggleMenu = () => {
@@ -21,9 +22,8 @@ const SideMenu = ({menuItens}) => {
 
             <div class="containner-usuario">
                 <div class={`containner-logo ${isExpanded ? 'expanded' : 'collapsed'}`}>
-{/* 
-                    <img
-                        src={<AccountCircleIcon/>}
+                    {/* <img
+                        src={Logo}
                         alt="Project"
                         class={`img-logo ${isExpanded ? 'expanded' : 'collapsed'}`}
                     /> */}
@@ -31,7 +31,7 @@ const SideMenu = ({menuItens}) => {
                         onClick={toggleMenu}
                         class="btn-espande"
                     >
-                        {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }}/> : <MenuIcon sx={{ color: 'white' }}/>}
+                        {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }} /> : <MenuIcon sx={{ color: 'white' }} />}
                     </button>
                 </div>
                 {isExpanded && <h2 className="text-white mt-10">Olá, {(sessionStorage.NOME && sessionStorage.NOME.length > 3) ? sessionStorage.NOME : "user"}! </h2>}
@@ -42,9 +42,9 @@ const SideMenu = ({menuItens}) => {
             <div class="containner-btns-route">
                 {menuItens.map((item, index) => (
                     <Link
-                    key={index}
-                    to={item.route}
-                    className={`w-full ${location.pathname === item.route ? 'bg-blue-pastel' : ''} hover:bg-blue-pastel`}
+                        key={index}
+                        to={item.route}
+                        className={`w-full ${location.pathname === item.route ? 'bg-blue-pastel' : ''} hover:bg-blue-pastel`}
                     >
                         <button key={index} class="btn-route">
                             {item.icon}
