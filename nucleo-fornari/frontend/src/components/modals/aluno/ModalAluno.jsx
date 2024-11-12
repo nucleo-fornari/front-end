@@ -1,4 +1,3 @@
-// ModalAluno.js
 import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, IconButton, TextField, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -49,7 +48,7 @@ export default function ModalAluno({ open, handleClose, aluno }) {
             component="h2" 
             align="center" 
           >
-            {aluno.nome}
+            {aluno?.nome}
           </Typography>
 
           <Typography 
@@ -58,7 +57,7 @@ export default function ModalAluno({ open, handleClose, aluno }) {
             className="text-gray-500"
             sx={{ mb: 2 }}
           >
-            RA: 01232123
+            RA: {aluno?.ra}
           </Typography>
 
           <Typography 
@@ -69,22 +68,18 @@ export default function ModalAluno({ open, handleClose, aluno }) {
           </Typography>
 
           <Stack spacing={1} sx={{ mb: 3 }}>
-            <Typography 
-              variant="body2" 
-              sx={{ display: 'flex', justifyContent: 'space-between', border: '1px solid #ddd', borderRadius: '4px', padding: '8px' }}
-            >
-              <span>Roberta Lima</span>
-              <span>11 98077-9190</span>
-            </Typography>
-            <Typography 
-              variant="body2" 
-              sx={{ display: 'flex', justifyContent: 'space-between', border: '1px solid #ddd', borderRadius: '4px', padding: '8px' }}
-            >
-              <span>Maria Eduarda</span>
-              <span>11 97487-3547</span>
-            </Typography>
+            {aluno?.filiacoes?.map((filiacao, index) => (
+              <Typography 
+                key={index} 
+                variant="body2" 
+                sx={{ display: 'flex', justifyContent: 'space-between', border: '1px solid #ddd', borderRadius: '4px', padding: '8px' }}
+              >
+                <span>{filiacao.responsavel.nome}</span>
+                <span>{filiacao.responsavel.cpf}</span>
+              </Typography>
+            ))}
           </Stack>
-
+          {/* implementar observação diária */}
           <Button 
             variant="contained" 
             fullWidth 
