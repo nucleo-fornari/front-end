@@ -4,6 +4,7 @@ import "./sideMenuView.css";
 // import Logo from "../../assets/icons/logo-branco.png"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import { IconButton } from '@mui/material';
 import Logo from "../../assets/icons/logo-branco.png"
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -22,6 +23,9 @@ const SideMenu = ({ menuItens }) => {
 
             <div class="containner-usuario">
                 <div class={`containner-logo ${isExpanded ? 'expanded' : 'collapsed'}`}>
+                    {/* 
+                    <img
+                        src={<AccountCircleIcon/>}
                     {/* <img
                         src={Logo}
                         alt="Project"
@@ -31,6 +35,24 @@ const SideMenu = ({ menuItens }) => {
                         onClick={toggleMenu}
                         class="btn-espande"
                     >
+                        {isExpanded ?
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                            sx={{ mr: 2 }}
+                        >
+                            <MenuOpenIcon sx={{ color: 'white' }} />
+                        </IconButton> : <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        sx={{ mr: 2 }}
+                    >
+                        <MenuIcon sx={{ color: 'white' }} />
+                    </IconButton>}
                         {isExpanded ? <MenuOpenIcon sx={{ color: 'white' }} /> : <MenuIcon sx={{ color: 'white' }} />}
                     </button>
                 </div>

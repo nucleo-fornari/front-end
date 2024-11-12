@@ -41,7 +41,7 @@ function ParentsPage() {
 
         </aside>
 
-        <section className='flex flex-col w-full'>
+        <section className='flex flex-col w-full h-screen'>
 
           <Header />
           <Outlet />
