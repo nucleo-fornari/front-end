@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../../components/Dashboards/Header.js";
+import Header from "../../components/header/Header.jsx";
 import { Outlet } from "react-router-dom";
-import SideMenu from "../../components/SideMenu/sideMenuView.jsx";
+import SideMenu from "../../components/side-menu/sideMenuView.jsx";
 import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
 import InboxIcon from "@mui/icons-material/Inbox";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";

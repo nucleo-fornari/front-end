@@ -29,6 +29,7 @@ const rows = [
   createData('08/07/2024', 'NF-0128', 'Professor auxiliar', 'Concluído'),
 ];
 
+
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -94,7 +95,6 @@ export default function StickyHeadTable() {
       />
     </Paper>
     <div className="flex w-52 py-10 justify-center">
-
               <Button
               variant="contained"
               size="medium"

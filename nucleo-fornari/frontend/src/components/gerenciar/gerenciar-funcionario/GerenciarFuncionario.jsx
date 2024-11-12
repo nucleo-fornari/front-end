@@ -1,8 +1,8 @@
 import React from 'react';
-import './gerenciaFuncionario.css';
+import './GerenciarFuncionario.css';
 import { Link } from 'react-router-dom';
 
-const Publication = () => {
+const GerenciarFuncionario = () => {
     return (
         <div class='containner-gerencia-funcionarios'>
             <div class='containner-adicionar-funcionario'>
@@ -24,4 +24,4 @@ const Publication = () => {
     );
 };
 
-export default Publication;
+export default GerenciarFuncionario;

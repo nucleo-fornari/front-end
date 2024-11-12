@@ -1,25 +1,23 @@
-import Agenda from "../components/agenda/Agenda";
-import Avisos from "../components/Dashboards/Avisos";
-import Home from "../pages/site-institucional";
-import Formulario from "../components/Login/Formulario";
-import ParentsPage from "../pages/responsavel";
-import Reuniao from "../components/Dashboards/Reuniao";
-import ProfessorPage from "../pages/professor";
+import Agenda from "../components/agenda/Agenda.jsx";
+import Avisos from "../components/publicacoes/Avisos.jsx";
+import Home from "../pages/site-institucional/Home";
+import Formulario from "../pages/login/Formulario";
+import ParentsPage from "../pages/responsavel/ResponsavelPage";
+import Reuniao from "../components/dashboards/Reuniao.jsx";
+import ProfessorPage from "../pages/professor/ProfessorPage";
 import { createBrowserRouter } from "react-router-dom";
-import { Inicio } from "../components/Dashboards/professor/Inicio";
-import AvisosAlunos from "../components/Dashboards/AvisosAlunos";
+import { Inicio } from "../components/dashboards/Inicio";
+import NotFound from "../pages/not-found/NotFound";
 
 //SECRETARIA
-import SecretaryPage from "../pages/secretaria";
-import ChamadosSecretaria from "../components/chamados-secretaria/ChamadosSecretaria";
-import PublicacaoSecretaria from "../components/publicacaoSecretaria/PublicacaoSecretaria";
-import Publication from "../components/calendario/calendario-secretaria";
-import Gerencia from "../components/gerencia/Gerencia";
-import NotFound from "../components/NotFound/NotFound";
-import GerenciaAluno from "../components/gerencia/gerenciaAluno/GerenciaAluno";
-import GerenciaFuncionario from "../components/gerencia/gerenciaFuncionario/GerenciaFuncionario";
-import CadastroAluno from "../components/gerencia/gerenciaAluno/adicionarAluno/AdicionarAluno";
-import StickyHeadTable from "../components/Dashboards/professor/TabelaChamados";
+import Calendario from "../components/calendario/Calendario";
+import SecretaryPage from "../pages/secretaria/SecretariaPage";
+import ChamadosSecretaria from "../components/chamados/Chamados";
+import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
+import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
+import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
+import AdicionarAluno from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/AdicionarAluno.jsx";
+import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
 
 const avisosData = [
   {
@@ -133,23 +131,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/calendario",
-        element: <CalendarioSecretaria />,
+        element: <Calendario />,
       },
       {
         path: "/secretaria/gerencia",
-        element: <Gerencia />,
+        element: <Gerenciar />,
       },
       {
         path: "/secretaria/gerencia/aluno",
-        element: <GerenciaAluno />,
+        element: <GerenciarAluno />,
       },
       {
         path: "/secretaria/gerencia/funcionario",
-        element: <GerenciaFuncionario />,
+        element: <GerenciarFuncionario />,
       },
       {
         path: "/secretaria/cadastro/aluno",
-        element: <CadastroAluno />,
+        element: <AdicionarAluno />,
       },
     ],
   },

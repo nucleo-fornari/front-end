@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from "../../components/Dashboards/Header";
+import Header from "../../components/header/Header.jsx";
 import { BrowserRouter as Router, Route, Switch, Redirect, Outlet } from 'react-router-dom';
-import SideMenu from '../../components/SideMenu/sideMenuView';
+import SideMenu from '../../components/side-menu/sideMenuView';
 import { FaClipboardList, FaBook, FaCalendarAlt, FaTools } from 'react-icons/fa';
 
 function SecretaryPage() {

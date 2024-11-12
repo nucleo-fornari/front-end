@@ -4,6 +4,8 @@ import { Paper, Box, Typography } from "@mui/material";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import Badge from "@mui/material/Badge";
 import CustomModal from "../modals/calendario/CustomModal";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
@@ -134,6 +136,7 @@ function Calendario() {
   };
 
   return (
+    <LocalizationProvider adapterLocale="pt-br" dateAdapter={AdapterDayjs}>
     <Box
       sx={{
         display: "flex",
@@ -204,6 +207,7 @@ function Calendario() {
         events={eventsForDate}
       />
     </Box>
+    </LocalizationProvider>
   );
 }
 

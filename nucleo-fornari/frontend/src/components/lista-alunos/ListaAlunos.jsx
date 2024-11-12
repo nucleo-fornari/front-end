@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useState, useEffect } from "react";
-import ModalAluno from "./modals/aluno/ModalAluno";
+import ModalAluno from "../modals/aluno/ModalAluno";
 
 export default function AlignItemsList() {
   const [alunos, setAlunos] = useState([]);

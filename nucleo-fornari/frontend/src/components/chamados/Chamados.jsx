@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./chamadosSecretaria.css";
+import "./Chamados.css";
 import api from "../../services/api";
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
 import { CheckCircle as CheckIcon, Cancel as CloseIcon, Save as SaveIcon } from "@mui/icons-material";

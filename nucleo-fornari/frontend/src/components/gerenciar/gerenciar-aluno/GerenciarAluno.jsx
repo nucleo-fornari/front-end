@@ -1,12 +1,12 @@
 import React from 'react';
-import './gerenciaAluno.css';
+import './GerenciarAluno.css';
 import { Link } from 'react-router-dom';
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
 import { CheckCircle as CheckIcon, Cancel as CloseIcon, Save as SaveIcon } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const Publication = () => {
+const GerenciarAluno = () => {
   return (
 
     <div class='containner-gerencia-alunos'>
@@ -91,4 +91,4 @@ const Publication = () => {
   );
 };
 
-export default Publication;
+export default GerenciarAluno;

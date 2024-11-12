@@ -1,5 +1,5 @@
 import React from "react";
-import Avisos from "../Dashboards/Avisos";
+import Avisos from "../publicacoes/Avisos";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";

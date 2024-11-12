@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
-import Calendario from "./Calendario";
-import AlignItemsList from "../../lista-lateral";
+import Calendar from "../calendario/Calendario";
+import AlignItemsList from "../lista-alunos/ListaAlunos";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
-import ModalChamado from "../../modals/chamado/ModalChamado";
-import ModalRecadoGeral from "../../modals/recado-geral/ModalRecadoGeral";
+import ModalChamado from "../modals/chamado/ModalChamado";
+import ModalRecadoGeral from "../modals/recado-geral/ModalRecadoGeral";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
@@ -27,7 +27,7 @@ export function Inicio() {
   return (
     <section className="flex justify-evenly p-16">
       <div className="text-white-main flex flex-col gap-20 ">
-        <Calendario></Calendario>
+        <Calendar />
         <Button
           variant="contained"
           startIcon={<SupportAgentRoundedIcon />}

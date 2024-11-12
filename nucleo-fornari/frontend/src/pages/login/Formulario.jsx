@@ -3,7 +3,7 @@ import imgLogin from "../../assets/imgs/imgLogin.png";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import api from "../../api.js"
+import api from "../../services/api"
 
 const Formulario = () => {
     const navigate = useNavigate(); 
@@ -11,44 +11,44 @@ const Formulario = () => {
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = async (event) => {
-        event.preventDefault();
+        const handleLogin = async (event) => {
+            event.preventDefault();
 
-        try {
-            const response = await api.post("usuarios/login", {
-                email: email,
-                senha: senha
-            });
-
-            if (response.status === 200) {
-                sessionStorage.TOKEN = response.data.token;
-                sessionStorage.FUNC = response.data.funcao;
-                sessionStorage.ID = response.data.userId;
-                sessionStorage.NOME = response.data.nome;
-            
-                if(response.data.funcao === "RESPONSAVEL") {
-                    navigate("/responsavel");
-                } else if (response.data.funcao === "PROFESSOR") {
-                    navigate("/professor");
-                } else if (response.data.funcao === "SECRETARIO") {
-                    navigate("/secretaria");
-                } else {
-                    console.log("Ocorreu algum erro ao coletar a função do usuário")
-                }
-
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 400 && error.response.data.errors) {
-                error.response.data.errors.forEach((err) => {
-                    console.error(`Erro no campo ${err.field}: ${err.defaultMessage}`);
-                    alert(`Erro no campo ${err.field}: ${err.defaultMessage}`);
+            try {
+                const response = await api.post("usuarios/login", {
+                    email: email,
+                    senha: senha
                 });
-            } else {
-                console.error(error.message || 'Erro inesperado!');
-                alert('Erro inesperado ao fazer login. Tente novamente.');
+
+                if (response.status === 200) {
+                    sessionStorage.TOKEN = response.data.token;
+                    sessionStorage.FUNC = response.data.funcao;
+                    sessionStorage.ID = response.data.userId;
+                    sessionStorage.NOME = response.data.nome;
+                
+                    if(response.data.funcao === "RESPONSAVEL") {
+                        navigate("/responsavel");
+                    } else if (response.data.funcao === "PROFESSOR") {
+                        navigate("/professor");
+                    } else if (response.data.funcao === "SECRETARIO") {
+                        navigate("/secretaria");
+                    } else {
+                        console.log("Ocorreu algum erro ao coletar a função do usuário")
+                    }
+
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 400 && error.response.data.errors) {
+                    error.response.data.errors.forEach((err) => {
+                        console.error(`Erro no campo ${err.field}: ${err.defaultMessage}`);
+                        alert(`Erro no campo ${err.field}: ${err.defaultMessage}`);
+                    });
+                } else {
+                    console.error(error.message || 'Erro inesperado!');
+                    alert('Erro inesperado ao fazer login. Tente novamente.');
+                }
             }
-        }
-    };
+        };
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);

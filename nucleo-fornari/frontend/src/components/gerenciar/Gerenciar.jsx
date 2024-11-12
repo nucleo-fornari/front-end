@@ -1,9 +1,9 @@
 import React from 'react';
-import "./gerencia.css";
+import "./Gerenciar.css";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
-const Gerencia = () => {
+const Gerenciar = () => {
 
     const usuariosGerenciaveis = [
         {
@@ -34,4 +34,4 @@ const Gerencia = () => {
     );
 };
 
-export default Gerencia;
+export default Gerenciar;
