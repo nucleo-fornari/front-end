@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
-import Calendario from "./Calendario"
-import AlignItemsList from "./ListaLateral";
+import Calendario from "./Calendario";
+import AlignItemsList from "../../lista-lateral";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
-import ModalChamado from "./ModalChamado";
-import ModalRecadoGeral from "./ModalRecadoGeral";
+import ModalChamado from "../../modals/chamado/ModalChamado";
+import ModalRecadoGeral from "../../modals/recado-geral/ModalRecadoGeral";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
@@ -24,10 +24,8 @@ export function Inicio() {
     setOpenChamado(true);
   };
 
-
   return (
     <section className="flex justify-evenly p-16">
-
       <div className="text-white-main flex flex-col gap-20 ">
         <Calendario></Calendario>
         <Button
@@ -48,11 +46,16 @@ export function Inicio() {
           size="medium"
           fullWidth={true}
           onClick={handleOpenRecado}
-        >Recado geral</Button>
+        >
+          Recado geral
+        </Button>
       </div>
 
-      <ModalChamado open={openChamado} handleClose={handleCloseChamado}/>
-      <ModalRecadoGeral open={openRecadoGeral} handleClose={handleCloseRecado}/>
+      <ModalChamado open={openChamado} handleClose={handleCloseChamado} />
+      <ModalRecadoGeral
+        open={openRecadoGeral}
+        handleClose={handleCloseRecado}
+      />
     </section>
-  )
+  );
 }

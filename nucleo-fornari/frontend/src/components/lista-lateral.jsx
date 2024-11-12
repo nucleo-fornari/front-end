@@ -1,12 +1,12 @@
-import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import { useState, useEffect } from 'react';
-import ModalAluno from './ModalAluno';
+import * as React from "react";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import { useState, useEffect } from "react";
+import ModalAluno from "./modals/aluno/ModalAluno";
 
 export default function AlignItemsList() {
   const [alunos, setAlunos] = useState([]);
@@ -45,14 +45,16 @@ export default function AlignItemsList() {
     return name
       .split() // Dividir o nome em palavras
       .map((n) => n[0]) // Pegar a primeira letra de cada palavra
-      .join(''); // Unir as letras para formar as iniciais
+      .join(""); // Unir as letras para formar as iniciais
   };
 
   return (
     <>
       <h1 className="text-blue-main font-semibold text-xl mb-4">Turma: G1A</h1>
       <div className="overflow-y-auto max-h-96 rounded-lg shadow-lg bg-white">
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        >
           {alunos.map((aluno, index) => (
             <React.Fragment key={index}>
               <ListItem
@@ -63,7 +65,7 @@ export default function AlignItemsList() {
                 <ListItemAvatar>
                   <Avatar
                     alt={aluno.nome}
-                    sx={{ bgcolor: 'primary.main', color: 'white' }}
+                    sx={{ bgcolor: "primary.main", color: "white" }}
                   >
                     {getInitial(aluno.nome)}
                   </Avatar>
@@ -71,8 +73,8 @@ export default function AlignItemsList() {
                 <ListItemText
                   primary={aluno.nome}
                   primaryTypographyProps={{
-                    className: 'font-medium text-gray-800',
-                    variant: 'body1',
+                    className: "font-medium text-gray-800",
+                    variant: "body1",
                   }}
                 />
               </ListItem>
