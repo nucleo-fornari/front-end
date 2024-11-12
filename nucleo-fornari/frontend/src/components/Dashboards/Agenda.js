@@ -60,14 +60,13 @@ function Agenda(props) {
         setAluno(event.target.value);
     };
 
-    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-    const mesAtualIndex = new Date().getMonth(); 
+    const filtros = ["Publicações", "Observações diárias", "Recados Gerais"];
     // Define o estado inicial com o mês atual
-    const [mes, setMes] = React.useState(meses[mesAtualIndex]);
+    const [filtro, setFiltro] = React.useState(filtros[0]);
     
 
-    const handleChangeSelectMes = (event) => {
-        setMes(event.target.value);
+    const handleChangeSelectFiltro = (event) => {
+        setFiltro(event.target.value);
     };
 
     return (
@@ -96,17 +95,17 @@ function Agenda(props) {
                     <h1><b>Filtro:</b></h1>
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                     <InputLabel id="demo-select-small-label">
-                        Mês
+                        Tipo
                     </InputLabel>
                     <Select
                         labelId="demo-select-small-label"
                         id="demo-select-small"
-                        value={mes}
-                        label="Mês"
-                        onChange={handleChangeSelectMes}
+                        value={filtro}
+                        label="Tipo"
+                        onChange={handleChangeSelectFiltro}
                     >
-                        {meses.map((nomeMes) => (
-                            <MenuItem key={nomeMes} value={nomeMes}>{nomeMes}</MenuItem>
+                        {filtros.map((filtro) => (
+                            <MenuItem key={filtro} value={filtro}>{filtro}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>

@@ -40,7 +40,7 @@ function ProfessorPage() {
         <SideMenu menuItens={sideMenuItens} />
         </aside>
 
-        <section className="flex flex-col w-full bg-white-main">
+        <section className="flex flex-col w-full h-screen bg-white-main">
           <Header />
           <Outlet />
         </section>
