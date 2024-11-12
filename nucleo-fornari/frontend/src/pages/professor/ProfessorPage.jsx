@@ -12,7 +12,7 @@ function ProfessorPage() {
     {
       icon: <CalendarMonthIcon color="inherit" />,
       name: "Calendário",
-      route: "/professor/calendario",
+      route: "/professor",
     },
     {
       icon: <NewspaperRoundedIcon color="inherit" />,
