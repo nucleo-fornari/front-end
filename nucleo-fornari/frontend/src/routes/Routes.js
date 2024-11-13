@@ -20,6 +20,7 @@ import GerenciaAluno from '../components/gerencia/gerenciaAluno/GerenciaAluno';
 import GerenciaFuncionario from '../components/gerencia/gerenciaFuncionario/GerenciaFuncionario';
 import CadastroAluno from '../components/gerencia/gerenciaAluno/adicionarAluno/AdicionarAluno';
 import StickyHeadTable from '../components/Dashboards/professor/TabelaChamados';
+import EscreverAvisos from '../components/Dashboards/EscreverAvisos';
 
 
 const avisosData = [
