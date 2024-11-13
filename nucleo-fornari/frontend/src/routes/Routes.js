@@ -132,7 +132,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/publicacao",
-        element: <Avisos avisosData={avisosData}/>
+        element: <EscreverAvisos avisosData={avisosData}/>
       },
       {
         path: "/secretaria/calendario",
