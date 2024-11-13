@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import Avisos from './Avisos';
 import * as React from 'react';
+import Checkbox from '@mui/material/Checkbox';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { pink } from '@mui/material/colors';
 
 function EscreverAvisos({ avisosData }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +18,7 @@ function EscreverAvisos({ avisosData }) {
         G2: ['G2A', 'G2B', 'G2C'],
         G3: ['G3A', 'G3B', 'G3C'],
         G4: ['G4A', 'G4B', 'G4C'],
-        G5: ['G5A', 'G5B', 'G5C']   
+        G5: ['G5A', 'G5B', 'G5C']
     };
 
     const toggleMenu = () => {
@@ -53,7 +55,7 @@ function EscreverAvisos({ avisosData }) {
                 </button>
 
                 <div
-                    className={`w-4/5 overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[650px] opacity-100' : 'max-h-0 opacity-0'}`}
+                    className={`w-4/5 overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
                 >
                     <div className="bg-blue-main border rounded-lg p-5 shadow-md">
                         <div className="mb-4">
@@ -61,42 +63,42 @@ function EscreverAvisos({ avisosData }) {
                                 Para
                             </label>
                             <div className="bg-white border border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
-                                <div className="col-span-5 flex items-center mb-0">
-                                    <input
-                                        type="checkbox"
-                                        value="all"
-                                        checked={salasSelecionadas.length === todasAsSalas.length}
-                                        onChange={handleSalaChange}
-                                        className="mr-2"
-                                    />
-                                    <label className="text-gray-700 font-semibold">Selecionar todas</label>
-                                </div>
                                 {Object.entries(salasPorGrupo).map(([grupo, salas]) => (
                                     <div key={grupo}>
                                         <div className="flex items-center mb-2">
-                                            <input
-                                                type="checkbox"
+                                            <Checkbox
                                                 value={grupo}
                                                 checked={salas.every(sala => salasSelecionadas.includes(sala))}
                                                 onChange={handleSalaChange}
-                                                className="mr-2"
+                                                color="default"
+                                                sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
                                             />
                                             <label className="font-semibold text-gray-700">{grupo}</label>
                                         </div>
                                         {salas.map((sala) => (
                                             <div key={sala} className="flex items-center mb-1">
-                                                <input
-                                                    type="checkbox"
+                                                <Checkbox
                                                     value={sala}
                                                     checked={salasSelecionadas.includes(sala)}
                                                     onChange={handleSalaChange}
-                                                    className="mr-2"
+                                                    size="small"
+                                                    color="default"
                                                 />
                                                 <label className="text-gray-700">{sala}</label>
                                             </div>
                                         ))}
                                     </div>
                                 ))}
+                                   <div className="col-span-5 flex items-center mb-0">
+                                    <Checkbox
+                                        value="all"
+                                        checked={salasSelecionadas.length === todasAsSalas.length}
+                                        onChange={handleSalaChange}
+                                        color="default"
+                                        sx={{ '& .MuiSvgIcon-root': { fontSize: 36 } }}
+                                    />
+                                    <label className="text-gray-700 font-semibold">Selecionar todas</label>
+                                </div>
                             </div>
                         
                         </div>
