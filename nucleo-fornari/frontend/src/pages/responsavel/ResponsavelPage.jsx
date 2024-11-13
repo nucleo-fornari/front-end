@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect, Outlet, Link } from 'react-router-dom';
+import { BrowserRouter as Outlet } from 'react-router-dom';
 import Header from "../../components/header/Header.jsx";
 import SideMenu from "../../components/side-menu/sideMenuView.jsx";
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './AdicionarAluno.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { CheckBox } from '@mui/icons-material';
 
 const AdicionarAluno = () => {
 

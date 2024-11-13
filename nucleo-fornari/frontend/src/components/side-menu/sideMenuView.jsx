@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "./sideMenuView.css";
-// import Logo from "../../assets/icons/logo-branco.png"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
-import Logo from "../../assets/icons/logo-branco.png"
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const SideMenu = ({ menuItens }) => {
     const [isExpanded, setIsExpanded] = useState(true);

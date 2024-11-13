@@ -5,7 +5,6 @@ import SideMenu from "../../components/side-menu/sideMenuView.jsx";
 import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
 import InboxIcon from "@mui/icons-material/Inbox";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import DescriptionIcon from "@mui/icons-material/Description";
 
 function ProfessorPage() {
   const sideMenuItens = [

@@ -1,8 +1,7 @@
 import React from 'react';
 import './GerenciarAluno.css';
 import { Link } from 'react-router-dom';
-import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
-import { CheckCircle as CheckIcon, Cancel as CloseIcon, Save as SaveIcon } from "@mui/icons-material";
+import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 

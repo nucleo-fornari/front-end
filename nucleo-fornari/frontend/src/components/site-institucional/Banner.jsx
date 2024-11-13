@@ -1,5 +1,4 @@
-import Button from "./Button";
-import imgBanner from "../../assets/imgs/imgBanner.png"
+import imgBanner from "../../assets/imgs/imgBanner.png";
 
 
 
