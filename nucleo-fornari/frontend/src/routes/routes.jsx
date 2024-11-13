@@ -1,18 +1,18 @@
 import Agenda from "../components/agenda/Agenda.jsx";
 import Avisos from "../components/publicacoes/Avisos.jsx";
-import Home from "../pages/site-institucional/Home";
-import Formulario from "../pages/login/Formulario";
-import ParentsPage from "../pages/responsavel/ResponsavelPage";
+import Home from "../pages/site-institucional/Home.jsx";
+import Formulario from "../pages/login/Formulario.jsx";
+import ParentsPage from "../pages/responsavel/ResponsavelPage.jsx";
 import Reuniao from "../components/dashboards/Reuniao.jsx";
-import ProfessorPage from "../pages/professor/ProfessorPage";
+import ProfessorPage from "../pages/professor/ProfessorPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
-import { Inicio } from "../components/dashboards/Inicio";
-import NotFound from "../pages/not-found/NotFound";
+import { Inicio } from "../components/dashboards/Inicio.jsx";
+import NotFound from "../pages/not-found/NotFound.jsx";
 
 //SECRETARIA
-import Calendario from "../components/calendario/Calendario";
-import SecretaryPage from "../pages/secretaria/SecretariaPage";
-import ChamadosSecretaria from "../components/chamados/Chamados";
+import Calendario from "../components/calendario/Calendario.jsx";
+import SecretaryPage from "../pages/secretaria/SecretariaPage.jsx";
+import ChamadosSecretaria from "../components/chamados/Chamados.jsx";
 import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
