@@ -3,8 +3,11 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "cd ./nucleo-fornari/frontend/ && npm start",
-        "postinstall": "cd nucleo-fornari/frontend && npm install"
+      "start": "serve -s nucleo-fornari/frontend/build",
+      "build": "cd nucleo-fornari/frontend && npm install && npm run build",
+      "postinstall": "npm run build"
+    },
+    "dependencies": {
+      "serve": "^14.2.0"
     }
-
-}
+  }
