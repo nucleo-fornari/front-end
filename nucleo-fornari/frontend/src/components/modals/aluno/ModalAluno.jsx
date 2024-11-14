@@ -75,7 +75,7 @@ export default function ModalAluno({ open, handleClose, aluno }) {
                 sx={{ display: 'flex', justifyContent: 'space-between', border: '1px solid #ddd', borderRadius: '4px', padding: '8px' }}
               >
                 <span>{filiacao.responsavel.nome}</span>
-                <span>{filiacao.responsavel.cpf}</span>
+                <span>{filiacao.responsavel.telefone}</span>
               </Typography>
             ))}
           </Stack>
