@@ -1,109 +1,66 @@
-.containner-cadastro-aluno {
-    gap: 150px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    justify-content: space-evenly;
-    padding: 50px 50px 50px 50px;
-}
-
-.containner-btn-interativo {
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 100px;
-}
-
 .btn-interativo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #3285fa;
-    color: white;
-    width: 150px;
-    height: 40px;
-    border-radius: 7px;
-    font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3285fa;
+  color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 7px;
 }
 
 .form-cadastro-aluno {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 100px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 100px;
 }
 
 .form-cadastro-aluno header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .steps {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .step {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
 }
 
 .circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .circle.active {
-    background-color: #3285fa;
-    color: white;
+  background-color: #3285fa;
+  color: white;
 }
 
 .step hr {
-    width: 50px;
-    border: none;
-    border-top: 2px dotted black;
-    margin: 0 10px;
-}
-
-.form-cadastro-aluno form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;    
-    padding: 100px 150px 100px 180px;
-    background-color: #edebeb;
-    border-radius: 10px;
-    gap: 10px;
-}
-
-.form-cadastro-aluno label {
-    font-weight: bold;
-}
-
-.form-cadastro-aluno input {
-    width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  width: 50px;
+  border: none;
+  border-top: 2px dotted black;
+  margin: 0 10px;
 }
