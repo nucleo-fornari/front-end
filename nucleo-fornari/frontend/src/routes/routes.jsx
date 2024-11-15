@@ -16,7 +16,6 @@ import ChamadosSecretaria from "../components/chamados/Chamados";
 import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
-import AdicionarAluno from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/AdicionarAluno.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
 import Abacaxi from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 
@@ -148,10 +147,6 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/cadastro/aluno",
-        element: <AdicionarAluno />,
-      },
-      {
-        path: "/secretaria/cadastro/aluno/novo",
         element: <Abacaxi />,
       },
     ],
