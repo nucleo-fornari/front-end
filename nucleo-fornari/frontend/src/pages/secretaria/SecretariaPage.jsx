@@ -17,11 +17,6 @@ function SecretaryPage() {
       route: '/secretaria/publicacao'
     },
     {
-      icon: <FaCalendarAlt />,
-      name: 'Calendário',
-      route: '/secretaria/calendario'
-    },
-    {
       icon: <FaTools />,
       name: 'Gerenciar',
       route: '/secretaria/gerencia'
