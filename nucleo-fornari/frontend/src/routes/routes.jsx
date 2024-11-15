@@ -1,5 +1,5 @@
 import Agenda from "../components/agenda/Agenda.jsx";
-import Avisos from "../components/publicacoes/Avisos.jsx";
+import Avisos from "../components/publicar/Avisos.jsx";
 import Home from "../pages/site-institucional/Home.jsx";
 import Formulario from "../pages/login/Formulario.jsx";
 import ParentsPage from "../pages/responsavel/ResponsavelPage.jsx";
