@@ -14,6 +14,7 @@ module.exports = {
         main: '#3285fa',
         pastel: '#82aae5',
         dark: '#001438',
+        dash: '#1976d2'
       },
       purple: {
         main: '#7d2afa',
@@ -40,11 +41,13 @@ module.exports = {
         '67': '67px',
         '400':'400px',
         'hbanner': '2127px',
+        '40': '40px'
       },
       width:{
         '100': '100px',
         '500':'500px',
-        'wbanner': '3191px'
+        'wbanner': '3191px',
+        '139':'139px'
 
       }
     },
