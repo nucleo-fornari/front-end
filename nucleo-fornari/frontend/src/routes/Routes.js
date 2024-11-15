@@ -8,6 +8,7 @@ import ProfessorPage from "../pages/professor/ProfessorPage";
 import { createBrowserRouter } from "react-router-dom";
 import { Inicio } from "../components/dashboards/Inicio";
 import NotFound from "../pages/not-found/NotFound";
+import Abacaxi from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 import EscreverAvisos from "../components/publicar/EscreverAvisos.jsx"
 
 //SECRETARIA
@@ -148,7 +149,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/secretaria/cadastro/aluno",
-                element: <AdicionarAluno />,
+                element: <Abacaxi />,
             },
         ],
     },
