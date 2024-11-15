@@ -1,0 +1,13 @@
+{
+    "name": "site",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+      "start": "serve -s nucleo-fornari/frontend/build",
+      "build": "cd nucleo-fornari/frontend && npm install && npm run build",
+      "postinstall": "npm run build"
+    },
+    "dependencies": {
+      "serve": "^14.2.0"
+    }
+  }
