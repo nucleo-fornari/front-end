@@ -22,6 +22,7 @@ const ModalChamado = ({ open, handleClose }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isAtipic, setIsAtipic] = useState(false);
+  const [descriptionError, setDescriptionError] = useState('');
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -34,6 +35,9 @@ const ModalChamado = ({ open, handleClose }) => {
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
+    if (descriptionError) {
+      setDescriptionError('');
+  }
   };
 
   const handleAtipicChange = (event) => {
@@ -41,6 +45,10 @@ const ModalChamado = ({ open, handleClose }) => {
   };
 
   const handleSubmit = async () => {
+    if (!description.trim()) {
+      setDescriptionError('O campo "Descrição" deve ser preenchido.');
+      return;
+    }
     await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
       descricao: description,
       criancaAtipica: isAtipic,
@@ -52,7 +60,11 @@ const ModalChamado = ({ open, handleClose }) => {
         toast.success('Chamado criado com sucesso!');
       }
     }).catch((error) => {
-      toast.error(error.response.data.text ?? 'Erro inesperado!');
+      if (error.response && error.response.data.text) {
+            setDescriptionError(error.response.data.text);
+        } else {
+            toast.error('Erro inesperado!');
+        }
     })
     handleClose();
   };
@@ -112,6 +124,8 @@ const ModalChamado = ({ open, handleClose }) => {
           margin="normal"
           value={description}
           onChange={handleDescriptionChange}
+          error={!!descriptionError}
+          helperText={descriptionError}
         />
 
         <FormControl component="fieldset" fullWidth margin="normal">
