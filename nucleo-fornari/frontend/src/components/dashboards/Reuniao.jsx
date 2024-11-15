@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -37,18 +37,22 @@ function Reuniao(props){
       };
       const handleClose = () => {
         setOpen(false);
-      };
-    
-      const [motivo, setMotivo] = React.useState("");
+      };    
     
       const handleChangeSelect = (event) => {
         setMotivo(event.target.value);
+        setErrors((prev) => ({ ...prev, motivo: "" }));
       };
     
-      const [value, setTurno] = React.useState("");
       const handleChangeRadio = (event) => {
         setTurno(event.target.value);
+        setErrors((prev) => ({ ...prev, turno: "" }));
       };
+
+      const [motivo, setMotivo] = useState("");
+      const [turno, setTurno] = useState("");
+      const [descricao, setDescricao] = useState("");
+      const [errors, setErrors] = useState({ motivo: "", turno: "", descricao: "" });
     
       function createData(tipo, data, sitacao, resposta) {
         return { tipo, data, sitacao, resposta };
@@ -141,7 +145,7 @@ function Reuniao(props){
                           row
                           aria-labelledby="demo-row-radio-buttons-group-label"
                           name="row-radio-buttons-group"
-                          value={value}
+                          value={turno}
                           onChange={handleChangeRadio}
                         >
                           <FormControlLabel

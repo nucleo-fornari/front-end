@@ -10,9 +10,11 @@ const Formulario = () => {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState({ email: '', senha: '' });
 
-        const handleLogin = async (event) => {
-            event.preventDefault();
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        setErrors({ email: '', senha: '' });
 
             try {
                 const response = await api.post("usuarios/login", {
@@ -25,7 +27,7 @@ const Formulario = () => {
                     sessionStorage.FUNC = response.data.funcao;
                     sessionStorage.ID = response.data.userId;
                     sessionStorage.NOME = response.data.nome;
-                
+
                     if(response.data.funcao === "RESPONSAVEL") {
                         navigate("/responsavel");
                     } else if (response.data.funcao === "PROFESSOR") {
@@ -36,19 +38,24 @@ const Formulario = () => {
                         console.log("Ocorreu algum erro ao coletar a função do usuário")
                     }
 
-                }
-            } catch (error) {
-                if (error.response && error.response.status === 400 && error.response.data.errors) {
-                    error.response.data.errors.forEach((err) => {
-                        console.error(`Erro no campo ${err.field}: ${err.defaultMessage}`);
-                        alert(`Erro no campo ${err.field}: ${err.defaultMessage}`);
-                    });
-                } else {
-                    console.error(error.message || 'Erro inesperado!');
-                    alert('Erro inesperado ao fazer login. Tente novamente.');
-                }
             }
-        };
+        } catch (error) {
+            if (error.response && error.response.status === 400 && error.response.data.errors) {
+                // const fieldErrors = {};
+                // error.response.data.errors.forEach((err) => {
+                //     fieldErrors[err.field] = err.defaultMessage;
+                // });
+                // setErrors(fieldErrors);
+                setErrors({
+                    email: '',
+                    senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
+                });
+            } else {
+                console.error(error.message || 'Erro inesperado!');
+                alert('Erro inesperado ao fazer login. Tente novamente.');
+            }
+        }
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -70,6 +77,8 @@ const Formulario = () => {
                         fullWidth={true}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        error={!!errors.email}
+                        helperText={errors.email}
                     />
                     <TextField
                         id="outlined-password"
@@ -79,6 +88,8 @@ const Formulario = () => {
                         fullWidth={true}
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
+                        error={!!errors.senha}
+                        helperText={errors.senha}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">

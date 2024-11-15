@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import './AdicionarAluno.css'
+import './adicionarAluno.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { CheckBox } from '@mui/icons-material';
+import TextField from '@mui/material/TextField';
 
-const AdicionarAluno = () => {
+const Publication = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -33,6 +35,16 @@ const AdicionarAluno = () => {
 
     const [showTable, setShowTable] = useState(false);
 
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        if (!formData.nomeCompleto) newErrors.nomeCompleto = 'Nome completo é obrigatório';
+        if (!formData.ra) newErrors.ra = 'RA é obrigatório';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+      };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -49,19 +61,6 @@ const AdicionarAluno = () => {
         }
       };
 
-    const etapasCadastro = [
-        {
-            name: '/secretaria/cadastro/aluno',
-            parte1: 'Aluno',
-            parte2: 'Adicionais',
-            parte3: 'Responsável',
-            parte4: 'Endereços',
-            parte5: 'Finalizar',
-        },
-        {
-            name: '/secretaria/cadastro/funcionario',
-        }
-    ];
 
     const incrementPartCadastro = () => {
         if (partCadastro === 4){
@@ -112,18 +111,36 @@ const AdicionarAluno = () => {
                 <form onSubmit={handleSubmit}>
                     {partCadastro === 0 && (
                         <>
-                            <label>Nome completo</label>
-                            <input 
-                            type="text" 
-                            name='nomeCompleto' 
-                            value={formData.nomeCompleto} 
-                            onChange={handleInputChange}
+                            <TextField
+                                label="Nome completo"
+                                name="nomeCompleto"
+                                value={formData.nomeCompleto}
+                                onChange={handleInputChange}
+                                error={!!errors.nomeCompleto}
+                                helperText={errors.nomeCompleto}
+                                fullWidth
+                                margin="normal"
                             />
 
-                            <label>RA</label>
-                            <input type="text" />
-                            <label>Data de nascimento</label>
-                            <input type="date" />
+                            <TextField
+                                label="RA"
+                                name="ra"
+                                value={formData.ra}
+                                onChange={handleInputChange}
+                                error={!!errors.ra}
+                                helperText={errors.ra}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Data de nascimento"
+                                name="dtNascimento"
+                                type="date"
+                                value={formData.dtNascimento}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
                         </>
                     )}
 
@@ -210,20 +227,47 @@ const AdicionarAluno = () => {
                     )}
                     {partCadastro === 2 && (
                         <>
-                            <label>Nome completo</label>
-                            <input 
-                            type="text" 
-                            name='nomeCompletoResponsavel' 
-                            value={formData.nomeCompletoResponsavel} 
-                            onChange={handleInputChange}
+                            <TextField
+                                label="Nome completo"
+                                name="nomeCompletoResponsavel"
+                                value={formData.nomeCompletoResponsavel}
+                                onChange={handleInputChange}
+                                error={!!errors.nomeCompletoResponsavel}
+                                helperText={errors.nomeCompletoResponsavel}
+                                fullWidth
+                                margin="normal"
                             />
 
-                            <label>CPF</label>
-                            <input type="text" />
-                            <label>Email</label>
-                            <input type="text" />
-                            <label>Telefone</label>
-                            <input type="text" />
+                            <TextField
+                                label="CPF"
+                                name="cpf"
+                                value={formData.cpf}
+                                onChange={handleInputChange}
+                                error={!!errors.cpf}
+                                helperText={errors.cpf}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Email"
+                                name="email"
+                                value={formData.emailResponsavel}
+                                onChange={handleInputChange}
+                                error={!!errors.emailResponsavel}
+                                helperText={errors.emailResponsavel}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Telefone"
+                                name="telefone"
+                                value={formData.telefone}
+                                onChange={handleInputChange}
+                                error={!!errors.telefone}
+                                helperText={errors.telefone}
+                                fullWidth
+                                margin="normal"
+                            />
                             <label>Parentesco</label>
                             <select name="" id="">
                                 <option value="">Mãe</option>
@@ -315,4 +359,4 @@ const AdicionarAluno = () => {
     );
 };
 
-export default AdicionarAluno;
+export default Publication;
