@@ -16,7 +16,7 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 import FormularioAluno from "./FormularioAluno";
 import CloseIcon from "@mui/icons-material/Close";
-import "./AdicionarAluno.css";
+
 import { Link } from "react-router-dom";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -200,13 +200,14 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = [
+export const steps = [
   "Dados do aluno",
   "Informações adicionais",
   "Dados do responsável",
   "Endereço",
   "Confirmar",
 ];
+
 
 function CustomizedSteppers() {
   return (
@@ -240,7 +241,7 @@ function CustomizedSteppers() {
   );
 }
 
-function Abacaxi() {
+function CadastroAlunos() {
   return (
     <>
       <main className="flex items-center justify-center flex-col w-full gap-5 h-full">
@@ -251,4 +252,4 @@ function Abacaxi() {
   );
 }
 
-export default Abacaxi;
+export default CadastroAlunos;
