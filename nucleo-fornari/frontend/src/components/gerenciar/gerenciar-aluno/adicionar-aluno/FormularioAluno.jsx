@@ -11,12 +11,19 @@ import {
   FormLabel,
   InputLabel,
   MenuItem,
+  Paper,
   Radio,
   RadioGroup,
   Select,
   styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   TextField,
 } from "@mui/material";
+
 
 function FormularioAluno() {
   const navigate = useNavigate();
@@ -43,6 +50,7 @@ function FormularioAluno() {
     numero: "",
     complemento: "",
   });
+
 
   const etapasCadastro = [
     {
@@ -128,24 +136,37 @@ function FormularioAluno() {
     width: 1,
   });
 
+  function createData(campo, valorInserido) {
+    return { campo, valorInserido };
+  }
+
+  const rows = [
+    createData("Nome completo", "valorInserido"),
+    createData("RA", "valorInserido"),
+    createData("Data de nascimento", "valorInserido"),
+    createData("Restrições alimentares", "valorInserido"),
+    createData("Possui laudo psicológico?", "valorInserido"),
+    createData("CPF do responsável", "valorInserido"),
+    createData("Email", "valorInserido"),
+    createData("Telefone", "valorInserido"),
+    createData("Parentesco", "valorInserido"),
+    createData("CEP", "valorInserido"),
+    createData("Cidade", "valorInserido"),
+    createData("UF", "valorInserido"),
+    createData("Bairro", "valorInserido"),
+    createData("Logradouro", "valorInserido"),
+    createData("Número", "valorInserido"),
+    createData("Complemento", "valorInserido"),
+  ];
+
+  //Stepper
+
+ 
+
   return (
     <>
       <section className="flex flex-row align-center h-1/2 w-full justify-center">
-        {/* <div className="steps">
-          {["Aluno", "Adicionais", "Responsável", "Endereços", "Finalizar"].map(
-            (label, index) => (
-              <div key={index} className="step">
-                <div
-                  className={`circle ${index === partCadastro ? "active" : ""}`}
-                >
-                  {index + 1}
-                </div>
-                <span>{label}</span>
-                {index < 4 && <hr />}
-              </div>
-            )
-          )}
-        </div> */}
+        {/* logica do antigo stepper estava aqui */}
 
         <form onSubmit={handleSubmit} className="flex flex-col w-1/2 h-full">
           {partCadastro === 0 && (
@@ -413,29 +434,26 @@ function FormularioAluno() {
           )}
           {partCadastro === 4 && (
             <>
-              <div className="flex gap-10 justify-between">
-                <div className="flex flex-col gap-2">
-                  <span>Nome completo aluno: </span>
-                  <span>RA: </span>
-                  <span>Data ascimento: </span>
-                  <span>Restrição alimentar: </span>
-                  <span>laudo psicologico: </span>
-                  <span>Nome completo responsavel: </span>
-                  <span>Cpf responsavel: </span>
-                  <span>Email: </span>
-                  <span>telefone: </span>
-                  <span>parentesco: </span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span>Cep: </span>
-                  <span>Cidade: </span>
-                  <span>Uf:</span>
-                  <span>Bairro: </span>
-                  <span>Rua: </span>
-                  <span>Número: </span>
-                  <span>Complemento</span>
-                </div>
-              </div>
+              <TableContainer component={Paper} className="h-80">
+                <Table  aria-label="simple table">
+                
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.campo}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row" sx={{width:'50%', fontWeight:600,}} className="text-blue-dash">
+                          {row.campo}
+                        </TableCell>
+                        <TableCell align="right" sx={{width:'50%'}}>{row.valorInserido}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </>
           )}
         </form>
