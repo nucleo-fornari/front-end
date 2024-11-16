@@ -27,7 +27,7 @@ const Formulario = () => {
                     sessionStorage.FUNC = response.data.funcao;
                     sessionStorage.ID = response.data.userId;
                     sessionStorage.NOME = response.data.nome;
-
+                    sessionStorage.SALAID = response.data.salaId;
                     if(response.data.funcao === "RESPONSAVEL") {
                         navigate("/responsavel");
                     } else if (response.data.funcao === "PROFESSOR") {
