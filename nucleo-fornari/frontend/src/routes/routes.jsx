@@ -17,7 +17,8 @@ import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
-import Abacaxi from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
+import CadastroAluno from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
+import CadastroFuncionario from "../components/gerenciar/gerenciar-funcionario/adicionar-funcionario/AdicionarFuncionario.jsx";
 
 const avisosData = [
   {
@@ -147,8 +148,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/cadastro/aluno",
-        element: <Abacaxi />,
+        element: <CadastroAluno />,
       },
+      {
+        path: "/secretaria/cadastro/funcionario",
+        element: <CadastroFuncionario/>
+      }
     ],
   },
 ]);
