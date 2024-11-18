@@ -17,6 +17,7 @@ import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
+import EscreverAvisos from "../components/publicar/EscreverAvisos.jsx"
 
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 
@@ -124,7 +125,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/publicacao",
-        element: <Avisos avisosData={avisosData} />,
+        element: <EscreverAvisos avisosData={avisosData} />,
       },
       {
         path: "/secretaria/calendario",

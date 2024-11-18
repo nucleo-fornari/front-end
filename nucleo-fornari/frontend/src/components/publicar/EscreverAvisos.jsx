@@ -55,14 +55,14 @@ function EscreverAvisos({ avisosData }) {
                 </button>
 
                 <div
-                    className={`w-4/5 overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
+                    className={`w-4/5 overflow-hidden shadow-2xl transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
                 >
-                    <div className="bg-blue-main border rounded-lg p-5 shadow-md">
+                    <div className="bg-white-main rounded-lg p-5 shadow-2xl ">
                         <div className="mb-4">
-                            <label className="text-white-ice block text-sm font-bold mb-2">
+                            <label className="text-black-main block text-sm font-bold mb-2">
                                 Para
                             </label>
-                            <div className="bg-white border border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
+                            <div className="bg-white border-spacing-1 border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
                                 {Object.entries(salasPorGrupo).map(([grupo, salas]) => (
                                     <div key={grupo}>
                                         <div className="flex items-center mb-2">
@@ -89,7 +89,7 @@ function EscreverAvisos({ avisosData }) {
                                         ))}
                                     </div>
                                 ))}
-                                   <div className="col-span-5 flex items-center mb-0">
+                                <div className="col-span-5 flex items-center mb-0">
                                     <Checkbox
                                         value="all"
                                         checked={salasSelecionadas.length === todasAsSalas.length}
@@ -97,31 +97,31 @@ function EscreverAvisos({ avisosData }) {
                                         color="default"
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: 36 } }}
                                     />
-                                    <label className="text-gray-700 font-semibold">Selecionar todas</label>
+                                    <label className="text-gray-700 ">Selecionar todas</label>
                                 </div>
                             </div>
-                        
+
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-white-ice block text-sm font-bold mb-2">
+                            <label className="text-black-main block text-sm mb-2">
                                 Escreva um título para seu aviso.
                             </label>
                             <textarea
-                                className="w-full p-2 border-gray-300 rounded-lg resize-none"
+                                className="w-full shadow-md p-2 border-gray-300 rounded-lg resize-none"
                                 rows="1"
                                 placeholder="Escreva seu título aqui..."
                             />
-                            <label className="text-white-ice block text-sm font-bold mb-2 mt-4">
+                            <label className="text-black-main block text-sm mb-2 mt-4">
                                 Escreva um aviso para sua turma
                             </label>
                             <textarea
-                                className="w-full p-2 border border-gray-300 rounded-lg resize-none"
+                                className="w-full p-2 shadow-md border-gray-300 rounded-lg resize-none"
                                 rows="2"
                                 placeholder="Escreva seu aviso aqui..."
                             />
-                            <label className="py-1 text-white-ice block text-sm font-bold mb-2 mt-4">
-                                Selecione a data do aviso 
+                            <label className="py-1 text-black-main block text-sm mb-2 mt-4">
+                                Selecione a data do aviso
                             </label>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']}>
@@ -129,12 +129,14 @@ function EscreverAvisos({ avisosData }) {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </div>
-                        
+
                         <session className="flex items-center justify-between">
-                            <button className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg" onClick={toggleMenu}>
+                            <button
+                                class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
                                 Cancelar
                             </button>
-                            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+                            <button
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
                                 Postar
                             </button>
                         </session>
