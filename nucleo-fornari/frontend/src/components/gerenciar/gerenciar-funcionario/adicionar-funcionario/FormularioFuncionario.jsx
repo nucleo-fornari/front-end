@@ -60,7 +60,7 @@ function FormularioFuncionario({ setStep }) {
     setStep(partCadastro - 1)
   };
   const finalizarFormulario = () => {
-    navigate("/secretaria/gerencia/aluno");
+    navigate("/secretaria/gerencia/funcionario");
   };
 
   const [showTable, setShowTable] = useState(false);
