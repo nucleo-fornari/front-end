@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useState} from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
@@ -208,7 +208,7 @@ const steps = [
   "Confirmar",
 ];
 
-function CustomizedSteppers() {
+function CustomizedSteppers({ step }) {
   return (
     <section className="flex flex-row w-full justify-center p-10">
       <Stack
@@ -219,7 +219,7 @@ function CustomizedSteppers() {
       >
         <Stepper
           alternativeLabel
-          activeStep={1}
+          activeStep={step}
           connector={<ColorlibConnector />}
         >
           {steps.map((label) => (
@@ -241,11 +241,13 @@ function CustomizedSteppers() {
 }
 
 function Abacaxi() {
+  const [step, setStep] = useState(0)
+
   return (
     <>
       <main className="flex items-center justify-center flex-col w-full gap-5 h-full">
-        <CustomizedSteppers />
-        <FormularioAluno />
+        <CustomizedSteppers step={step}/>
+        <FormularioAluno setStep={setStep}/>
       </main>
     </>
   );

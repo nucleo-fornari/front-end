@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 
-function FormularioAluno() {
+function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
 
   const [partCadastro, setPartCadastro] = useState(0);
@@ -63,6 +63,7 @@ function FormularioAluno() {
       finalizarFormulario();
     }
     setPartCadastro(partCadastro + 1);
+    setStep(partCadastro + 1)
   };
   const decreasePartCadastro = () => {
     if (partCadastro === 0) {
@@ -70,6 +71,7 @@ function FormularioAluno() {
       return;
     }
     setPartCadastro(partCadastro - 1);
+    setStep(partCadastro - 1)
   };
   const finalizarFormulario = () => {
     navigate("/secretaria/gerencia/aluno");
