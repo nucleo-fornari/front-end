@@ -1,138 +1,159 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avisos from "../publicar/Avisos";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import api from "../../services/api";
 
-function Agenda(props) {
-  const agenda = [
-    {
-      titulo: "Lição de Casa - Matemática",
-      conteudo: "Resolver as páginas 10 a 12 do livro de matemática.",
-      autor: "Profª Ana",
-      dataCriacao: "Segunda-Feira, 3 de Novembro",
-    },
-    {
-      titulo: "Trabalho de Ciências",
-      conteudo: "Trazer uma maquete de vulcão até o dia 8 de Novembro.",
-      autor: "Profª Marta",
-      dataCriacao: "Terça-Feira, 4 de Novembro",
-    },
-    {
-      titulo: "Prova de Português",
-      conteudo:
-        "Revisar os capítulos 1 e 2 para a prova na próxima sexta-feira.",
-      autor: "Profª Carla",
-      dataCriacao: "Quarta-Feira, 5 de Novembro",
-    },
-    {
-      titulo: "Lanche Compartilhado",
-      conteudo:
-        "Cada aluno deve trazer um prato para compartilhar na sexta-feira.",
-      autor: "Profª Renata",
-      dataCriacao: "Quinta-Feira, 6 de Novembro",
-    },
-    {
-      titulo: "Leitura de História",
-      conteudo:
-        "Ler o livro 'O Menino e o Balão Vermelho' para a roda de leitura.",
-      autor: "Profª Júlia",
-      dataCriacao: "Sexta-Feira, 7 de Novembro",
-    },
-    {
-      titulo: "Atividade de Arte",
-      conteudo:
-        "Trazer tinta guache e pincel para a atividade de pintura na segunda-feira.",
-      autor: "Profª Paula",
-      dataCriacao: "Sexta-Feira, 7 de Novembro",
-    },
-    {
-      titulo: "Passeio ao Zoológico",
-      conteudo:
-        "Levar autorização assinada e R$20 para o passeio do dia 12 de Novembro.",
-      autor: "Profª Silvia",
-      dataCriacao: "Segunda-Feira, 10 de Novembro",
-    },
-  ];
+function Agenda() {
+  const [afilhados, setAfilhados] = useState([]);
+  const [aluno, setAluno] = useState(""); 
+    const tipos = ["Observações Diárias", "Recados Gerais", "Publicações"];
+  const [tipo, setTipo] = useState(tipos[0]); // Estado para o tipo selecionado
 
-  const alunos = ["felipe", "caique"];
 
-  const [aluno, setAluno] = React.useState(alunos[0]); // Define o estado inicial com o primeiro valor
+  useEffect(() => {
+    const fetchAfilhados = async () => {
+      try {
+        const userId = parseInt(sessionStorage.getItem("ID"), 10);
+        const { data } = await api.get(`usuarios/${userId}`);
+        const fetchedAfilhados = data.afiliados || [];
+        setAfilhados(fetchedAfilhados);
 
-  const handleChangeSelectAluno = (event) => {
-    setAluno(event.target.value);
-  };
+        // Define o primeiro afilhado como selecionado (se existir)
+        if (fetchedAfilhados.length > 0) {
+          setAluno(fetchedAfilhados[0].nome);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar afilhados:", error);
+      }
+    };
 
-  const meses = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
-  const mesAtualIndex = new Date().getMonth();
-  // Define o estado inicial com o mês atual
-  const [mes, setMes] = React.useState(meses[mesAtualIndex]);
+    fetchAfilhados();
+  }, []);
 
-  const handleChangeSelectMes = (event) => {
-    setMes(event.target.value);
-  };
+  const handleChangeSelectAluno = (event) => setAluno(event.target.value);
+  const handleChangeSelectTipo = (event) => setTipo(event.target.value);
+
+
+  const avisosData = [
+    {
+        "titulo": "Observação sobre Alimentação",
+        "conteudo": "Notamos que o Joãozinho não quis comer o lanche de hoje. Sugerimos trazer uma opção alternativa.",
+        "autor": "Professora Viviane",
+        "dataCriacao": "Terça-Feira, 3 de Setembro"
+    },
+    {
+        "titulo": "Aviso sobre Atividade de Pintura",
+        "conteudo": "Lembrar de enviar uma roupa extra para a atividade de pintura, que acontecerá no dia 25 de Setembro.",
+        "autor": "Professor Carlos",
+        "dataCriacao": "Quarta-Feira, 20 de Setembro"
+    },
+    {
+        "titulo": "Desenvolvimento Social",
+        "conteudo": "A Maria está interagindo muito bem com os colegas, mas ainda precisa de incentivo para compartilhar brinquedos.",
+        "autor": "Professora Fernanda",
+        "dataCriacao": "Segunda-Feira, 15 de Setembro"
+    },
+    {
+        "titulo": "Lembrete de Reunião",
+        "conteudo": "A reunião de pais será no dia 5 de Outubro, às 09:00, na sala de artes.",
+        "autor": "Professora Juliana",
+        "dataCriacao": "Sexta-Feira, 1 de Outubro"
+    },
+    {
+        "titulo": "Sugestão de Livro para Leitura",
+        "conteudo": "Recomendamos o livro 'O Pequeno Príncipe' para leitura com o Lucas em casa, visando estimular o interesse por histórias.",
+        "autor": "Professor Rafael",
+        "dataCriacao": "Segunda-Feira, 5 de Outubro"
+    },
+    {
+        "titulo": "Informações sobre Evento",
+        "conteudo": "Teremos uma feira de profissões no pátio central às 15:00 no dia 20 de Outubro, e os pais estão convidados a participar.",
+        "autor": "Professora Luciana",
+        "dataCriacao": "Quinta-Feira, 15 de Outubro"
+    },
+    {
+        "titulo": "Atividade de Leitura em Sala",
+        "conteudo": "A semana de leitura ocorrerá na biblioteca durante o horário de aula. Enviar um livro preferido do aluno.",
+        "autor": "Professor Marcos",
+        "dataCriacao": "Sexta-Feira, 20 de Outubro"
+    }
+];
+
+const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchEventos = async () => {
+            try {
+                const res = await api.get('/eventos/publicacoes');
+                console.log(res.data)
+                setData(res.data);
+            } catch (error) {
+                console.error("Erro ao buscar eventos:", error);
+            }
+        };
+
+        fetchEventos();
+    }, []);
 
   return (
     <>
       <div className="flex p-12 items-center justify-around">
+        {/* Seleção de Aluno */}
         <div className="flex items-center">
           <h1>
             <b>Agenda de</b>
           </h1>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small-label">Aluno</InputLabel>
+            <InputLabel id="select-aluno-label">Aluno</InputLabel>
             <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
+              labelId="select-aluno-label"
+              id="select-aluno"
               value={aluno}
               label="Aluno"
               onChange={handleChangeSelectAluno}
             >
-              {alunos.map((nome) => (
-                <MenuItem key={nome} value={nome}>
-                  {nome}
-                </MenuItem>
-              ))}
+              {afilhados.length > 0 ? (
+                afilhados.map((afilhado) => (
+                  <MenuItem key={afilhado.id} value={afilhado.nome}>
+                    {afilhado.nome}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>Nenhum afilhado encontrado</MenuItem>
+              )}
             </Select>
           </FormControl>
         </div>
+
+        {/* Filtro por Tipo */}
         <div className="flex items-center">
           <h1>
             <b>Filtro:</b>
           </h1>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small-label">Mês</InputLabel>
+            <InputLabel id="select-tipo-label">Tipo</InputLabel>
             <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              value={mes}
-              label="Mês"
-              onChange={handleChangeSelectMes}
+              labelId="select-tipo-label"
+              id="select-tipo"
+              value={tipo}
+              label="Tipo"
+              onChange={handleChangeSelectTipo}
             >
-              {meses.map((nomeMes) => (
-                <MenuItem key={nomeMes} value={nomeMes}>
-                  {nomeMes}
+              {tipos.map((nomeTipo) => (
+                <MenuItem key={nomeTipo} value={nomeTipo}>
+                  {nomeTipo}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </div>
       </div>
-      <Avisos avisosData={agenda}></Avisos>
+
+      {/* Componente de Avisos */}
+      <Avisos avisosData={data}/>
     </>
   );
 }
