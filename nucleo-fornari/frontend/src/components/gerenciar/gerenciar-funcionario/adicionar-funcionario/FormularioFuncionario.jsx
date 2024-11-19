@@ -17,6 +17,7 @@ import {
   styled,
   TextField,
 } from "@mui/material";
+import api from "../../../../services/api";
 
 function FormularioFuncionario({ setStep }) {
   const navigate = useNavigate();
@@ -24,22 +25,16 @@ function FormularioFuncionario({ setStep }) {
   const [partCadastro, setPartCadastro] = useState(0);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
-    ra: "",
     dtNascimento: "",
-    restricaoAlimentar: false,
-    tipoRestricao: [],
-    laudoPsicologo: false,
-    Observacao: "",
-    nomeCompletoResponsavel: "",
-    cpfResponsavel: "",
-    emailResponsavel: "",
+    cargo: "",
+    email: "",
+    cpf: "",
     telefone: "",
-    parentesco: "",
     cep: "",
     cidade: "",
     uf: "",
     bairro: "",
-    rua: "",
+    logradouro: "",
     numero: "",
     complemento: "",
   });
@@ -63,14 +58,31 @@ function FormularioFuncionario({ setStep }) {
     navigate("/secretaria/gerencia/funcionario");
   };
 
-  const [showTable, setShowTable] = useState(false);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+
+    if (name === "cep" && value.length === 9) {
+      api.get(`enderecos?cep=${value}`)
+        .then((response) => {
+          console.log(response.data)
+
+          const endereco = response.data;
+          setFormData((prevState) => ({
+            ...prevState,
+            cidade: endereco.localidade,
+            uf: endereco.uf,
+            bairro: endereco.bairro,
+            logradouro: endereco.logradouro,
+          }));
+        })
+        .catch ((error) => {
+        console.error("Erro ao buscar endereço:", error);
+      })
+    }
   };
 
   const [hideInput, setInput] = useState(true);
@@ -79,62 +91,14 @@ function FormularioFuncionario({ setStep }) {
     setInput(event.target.checked);
   };
 
-  const [showUpload, setUpload] = useState(false);
-
-  const handleRadioChange = (event) => {
-    if (event.target.value === "sim") {
-      setShowTable(true);
-    } else {
-      setShowTable(false);
-    }
-  };
-
-  const handleLaudoChange = (event) => {
-    if (event.target.value === "sim") {
-      setUpload(true);
-    } else {
-      setUpload(false);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Dados completos:", formData);
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
   return (
     <>
       <section className="flex flex-row align-center h-1/2 w-full justify-center">
-        {/* <div className="steps">
-          {["Aluno", "Adicionais", "Responsável", "Endereços", "Finalizar"].map(
-            (label, index) => (
-              <div key={index} className="step">
-                <div
-                  className={`circle ${index === partCadastro ? "active" : ""}`}
-                >
-                  {index + 1}
-                </div>
-                <span>{label}</span>
-                {index < 4 && <hr />}
-              </div>
-            )
-          )}
-        </div> */}
-
         <form onSubmit={handleSubmit} className="flex flex-col w-1/2 h-full">
           {partCadastro === 0 && (
             <>
@@ -142,16 +106,10 @@ function FormularioFuncionario({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="Nome completo"
+                name="nomeCompleto"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
-                onChange={handleInputChange}
-              />
-              <TextField
-                margin="normal"
-                id="outlined-basic"
-                label="RA"
-                variant="outlined"
                 onChange={handleInputChange}
               />
               <TextField
@@ -159,72 +117,65 @@ function FormularioFuncionario({ setStep }) {
                 InputLabelProps={{ shrink: true }}
                 id="outlined-basic"
                 label="Data de Nascimento"
+                name="dtNascimento"
                 type="date"
                 variant="outlined"
                 value={formData.dtNascimento}
                 onChange={handleInputChange}
               />
+              <Box sx={{ width: "40%", paddingTop: "6.5px" }}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Cargo
+                  </InputLabel>
+                  <Select
+                    className="2/5"
+                    fullWidth={true}
+                    label="Cargo"
+                    name="cargo"
+                    value={formData.cargo}
+                    onChange={handleInputChange}
+                  >
+                    <MenuItem value="Secretaria">Secretaria</MenuItem>
+                    <MenuItem value="Professor">Professor</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </>
           )}
           {partCadastro === 1 && (
             <>
-              {/* Dados do responsável */}
+              {/* Dados do responsável */}            
               <TextField
                 margin="normal"
                 id="outlined-basic"
-                label="Nome completo"
+                label="Email"
+                name="email"
                 variant="outlined"
-                type="text"
-                fullWidth={true}
                 onChange={handleInputChange}
               />
               <TextField
                 margin="normal"
                 id="outlined-basic"
                 label="CPF"
+                name="cpf"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
-              />
-              <TextField
-                margin="normal"
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                type="text"
-                fullWidth={true}
-                onChange={handleInputChange}
-              />
+              />  
               <div className="flex items-center justify-between">
                 <TextField
                   margin="normal"
                   id="outlined-basic"
                   label="Telefone"
+                  name="telefone"
                   variant="outlined"
                   type="text"
                   placeholder="(11)99999-9999"
                   className="w-2/5"
                   onChange={handleInputChange}
                 />
-                <Box sx={{ width: "40%", paddingTop: "6.5px" }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-helper-label">
-                      Parentesco
-                    </InputLabel>
-                    <Select
-                      className="2/5"
-                      fullWidth={true}
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Parentesco"
-                    >
-                      <MenuItem>Selecione</MenuItem>
-                      <MenuItem value={20}>Mãe/Pai</MenuItem>
-                      <MenuItem value={30}>Irmã/Irmão</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
               </div>
             </>
           )}
@@ -234,6 +185,7 @@ function FormularioFuncionario({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="CEP"
+                name="cep"
                 variant="outlined"
                 type="text"
                 placeholder="99999-999"
@@ -245,9 +197,11 @@ function FormularioFuncionario({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="Cidade"
+                  name="cidade"
                   variant="outlined"
                   type="text"
                   className="w-2/5"
+                  value={formData.cidade}
                   onChange={handleInputChange}
                 />
                 <TextField
@@ -255,9 +209,11 @@ function FormularioFuncionario({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="UF"
+                  name="uf"
                   variant="outlined"
                   type="text"
                   className="w-1/5"
+                  value={formData.uf}
                   onChange={handleInputChange}
                 />
                 <TextField
@@ -265,9 +221,11 @@ function FormularioFuncionario({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="Bairro"
+                  name="bairro"
                   variant="outlined"
                   type="text"
                   className="w-2/6"
+                  value={formData.bairro}
                   onChange={handleInputChange}
                 />
               </div>
@@ -277,9 +235,11 @@ function FormularioFuncionario({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="Logradouro"
+                  name="logradouro"
                   variant="outlined"
                   type="text"
                   className="w-3/6"
+                  value={formData.logradouro}
                   onChange={handleInputChange}
                 />
                 {!hideInput && (
@@ -287,6 +247,7 @@ function FormularioFuncionario({ setStep }) {
                     margin="normal"
                     id="outlined-basic"
                     label="Número"
+                    name="numero"
                     variant="outlined"
                     type="text"
                     className="w-2/12"
@@ -305,6 +266,7 @@ function FormularioFuncionario({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="Complemento"
+                name="complemento"
                 variant="outlined"
                 type="text"
                 className="w-full"
@@ -316,25 +278,21 @@ function FormularioFuncionario({ setStep }) {
             <>
               <div className="flex gap-10 justify-between">
                 <div className="flex flex-col gap-2">
-                  <span>Nome completo aluno: </span>
-                  <span>RA: </span>
-                  <span>Data ascimento: </span>
-                  <span>Restrição alimentar: </span>
-                  <span>laudo psicologico: </span>
-                  <span>Nome completo responsavel: </span>
-                  <span>Cpf responsavel: </span>
-                  <span>Email: </span>
-                  <span>telefone: </span>
-                  <span>parentesco: </span>
+                  <span>Nome completo: <b>{formData.nomeCompleto}</b></span>
+                  <span>Data Nascimento: <b>{formData.dtNascimento}</b></span>
+                  <span>Cargo: <b>{formData.cargo}</b></span>
+                  <span>Email: <b>{formData.email}</b></span>
+                  <span>Cpf: <b>{formData.cpf}</b></span>
+                  <span>Telefone: <b>{formData.telefone}</b></span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span>Cep: </span>
-                  <span>Cidade: </span>
-                  <span>Uf:</span>
-                  <span>Bairro: </span>
-                  <span>Rua: </span>
-                  <span>Número: </span>
-                  <span>Complemento</span>
+                <div className="flex flex-col gap-2 Q ">
+                  <span>Cep: <b>{formData.cep}</b></span>
+                  <span>Cidade: <b>{formData.cidade}</b></span>
+                  <span>Uf: <b>{formData.uf}</b></span>
+                  <span>Bairro: <b>{formData.bairro}</b></span>
+                  <span>Logradouro: <b>{formData.logradouro}</b></span>
+                  <span>numero: <b>{formData.numero}</b></span>
+                  <span>complemento: <b>{formData.complemento}</b></span>
                 </div>
               </div>
             </>
