@@ -33,7 +33,7 @@ function ProfessorPage() {
   return (
     <React.StrictMode>
       <main className="flex">
-        <aside>
+        <aside className="lg:block md:hidden">
           <SideMenu menuItens={sideMenuItens} />
         </aside>
 
@@ -41,7 +41,11 @@ function ProfessorPage() {
           <Header />
           <Outlet />
         </section>
-      </main>
+        </main>
+        <aside className="lg:hidden md:block">
+          <SideMenu menuItens={sideMenuItens} />
+        </aside>
+      
     </React.StrictMode>
   );
 }

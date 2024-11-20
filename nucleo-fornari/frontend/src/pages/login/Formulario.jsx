@@ -63,13 +63,13 @@ const Formulario = () => {
 
     return (
         <section className="flex h-screen w-screen">
-            <div className="h-full w-full bg-blue-pastel flex items-center justify-center">
+            <div className="h-full w-full bg-blue-pastel flex items-center justify-center lg:flex md:hidden sm:hidden">
                 <img src={imgLogin} className="h-3/5" alt="Login" />
             </div>
 
             <div className="bg-white-main h-full w-full flex justify-center items-center flex-col">
                 <form onSubmit={handleLogin} className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center">
-                    <h2 className="text-5xl text-blue-main">Entre com sua conta</h2>
+                    <h2 className="lg:text-5xl md:text-4xl text-blue-main">Entre com sua conta</h2>
                     <TextField
                         id="outlined-email"
                         label="Email"

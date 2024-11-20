@@ -15,11 +15,12 @@ const SideMenu = ({ menuItens }) => {
     const location = useLocation();
 
     return (
-        <div class={`side-menu ${isExpanded ? 'expanded' : 'collapsed'}`}
+        <div className={
+            `h-screen flex flex-col items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice ${isExpanded ? 'w-64' : 'w-20'}`}
         >
 
-            <div class="containner-usuario">
-                <div class={`containner-logo ${isExpanded ? 'expanded' : 'collapsed'}`}>
+            <div className='flex flex-col items-center w-full'>
+                <div class={`containner-logo ${isExpanded ? 'w-64' : 'w-20'}`}>
                     {/* 
                     <img
                         src={<AccountCircleIcon/>}
