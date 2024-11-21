@@ -10,6 +10,10 @@ const ApiService = {
     createPublicacao: async function (publicacao) {
         publicacao.tipo = "PUBLICACAO";
         return await Api.post('/eventos', publicacao);
+    },
+
+    deleteEvento: async function (id) {
+        return await Api.delete('/eventos/' + id);
     }
 };
 

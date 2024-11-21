@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import AvisosService from "../../services/AvisosService";
 import SalaService from "../../services/SalaService";
 import {DateTimePicker} from "@mui/x-date-pickers";
+import Utils from "../../utils/Utils";
+import {useMemo} from "react";
 
 function EscreverAvisos() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,14 +49,12 @@ function EscreverAvisos() {
         todasAsSalas.forEach((sala) => {
             salasPorGrupo[sala.grupo.nome].push(sala);
         })
-
-        console.log(salasPorGrupo);
     }, [todasAsSalas]);
 
 
 
     useEffect(() => {
-        findUserPublications();
+        if (data.length === 0) findUserPublications();
     }, []);
 
     function findUserPublications () {
@@ -155,7 +155,7 @@ function EscreverAvisos() {
                                 Para
                             </label>
                             <div className="bg-white border-spacing-1 border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
-                                {Object.entries(salasPorGrupo).map(([grupo, salas]) => {
+                                {(Object.entries(salasPorGrupo).length > 0 ? Object.entries(salasPorGrupo) : []).map(([grupo, salas]) => {
                                     if (salas.length === 0) return null; // Ignorar grupos vazios
                                     return (
                                         <div key={grupo}>
@@ -169,7 +169,7 @@ function EscreverAvisos() {
                                                 />
                                                 <label className="font-semibold text-gray-700">{grupo}</label>
                                             </div>
-                                            {salas.map((sala) => (
+                                            {(salas.length ? salas : []).map((sala) => (
                                                 <div key={sala.id} className="flex items-center mb-1">
                                                     <Checkbox
                                                         value={sala.id}
@@ -233,7 +233,7 @@ function EscreverAvisos() {
                             </LocalizationProvider>
                         </div>
 
-                        <session className="flex items-center justify-between">
+                        <section className="flex items-center justify-between">
                             <button
                                 class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
                                 Cancelar
@@ -242,13 +242,13 @@ function EscreverAvisos() {
                                 class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleSubmit}>
                                 Postar
                             </button>
-                        </session>
+                        </section>
                     </div>
                 </div>
             </section>
-            <Avisos data={data.length > 0 ? data.map((x) => {
-                return {...x, autor: x.responsavel.nome}
-            }) : []}></Avisos>
+            <Avisos
+                setData={setData}
+                data={Utils.mapEventoToAviso(data)}></Avisos>
         </div>
     );
 }
