@@ -185,7 +185,8 @@ function FormularioFuncionario({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="CEP"
-                name="cep"
+                name="cep"                
+                maxLength={9}
                 variant="outlined"
                 type="text"
                 placeholder="99999-999"

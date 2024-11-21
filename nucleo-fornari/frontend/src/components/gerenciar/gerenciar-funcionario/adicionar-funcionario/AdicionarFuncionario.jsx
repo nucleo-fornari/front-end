@@ -230,7 +230,7 @@ function CustomizedSteppers({ step }) {
         </Stepper>
       </Stack>
       <div className="text-blue-dash text-opacity-80 justify-self-end ml-14">
-        <Link to={"/secretaria/gerencia/aluno"}>
+        <Link to={"/secretaria/gerencia/funcionario"}>
           <CloseIcon fontSize="medium" color="inherit" />
         </Link>
       </div>
