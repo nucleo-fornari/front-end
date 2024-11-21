@@ -1,25 +1,71 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Avisos from './Avisos';
-import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { pink } from '@mui/material/colors';
+import { toast } from 'react-toastify';
+import AvisosService from "../../services/AvisosService";
+import SalaService from "../../services/SalaService";
+import {DateTimePicker} from "@mui/x-date-pickers";
 
-function EscreverAvisos({ avisosData }) {
+function EscreverAvisos() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [salasSelecionadas, setSalasSelecionadas] = useState([]);
-    const todasAsSalas = ['G1A', 'G1B', 'G1C', 'G2A', 'G2B', 'G2C', 'G3A', 'G3B', 'G3C', 'G4A', 'G4B', 'G4C', 'G5A', 'G5B', 'G5C'];
+    const [data, setData] = useState([]); // Estado movido para o nível superior
+    const [todasAsSalas, setTodasAsSalas] = useState([]);
+    const [salasPorGrupo, setSalasPorGrupo] = useState({
+        G1: [],
+        G2: [],
+        G3: [],
+        G4: [],
+        G5: []
+    });
+    const [content, setContent] = useState('');
+    const [title, setTitle] = useState('');
+    const [date, setDate] = useState();
 
-    const salasPorGrupo = {
-        G1: ['G1A', 'G1B', 'G1C'],
-        G2: ['G2A', 'G2B', 'G2C'],
-        G3: ['G3A', 'G3B', 'G3C'],
-        G4: ['G4A', 'G4B', 'G4C'],
-        G5: ['G5A', 'G5B', 'G5C']
-    };
+    useEffect(() => {
+        SalaService.getSalas()
+            .then((res) => {
+                setTodasAsSalas(res.data);
+            })
+            .catch((error) => {
+                console.error(error);
+                toast.error('Erro ao buscar salas!');
+            });
+    }, []);
+
+    useEffect(() => {
+        if (!todasAsSalas) return;
+
+        salasPorGrupo.G1.splice(0, salasPorGrupo.G1.length);
+        salasPorGrupo.G2.splice(0, salasPorGrupo.G2.length);
+        salasPorGrupo.G3.splice(0, salasPorGrupo.G3.length);
+        salasPorGrupo.G4.splice(0, salasPorGrupo.G4.length);
+        salasPorGrupo.G5.splice(0, salasPorGrupo.G5.length);
+
+        todasAsSalas.forEach((sala) => {
+            salasPorGrupo[sala.grupo.nome].push(sala);
+        })
+
+        console.log(salasPorGrupo);
+    }, [todasAsSalas]);
+
+
+
+    useEffect(() => {
+        findUserPublications();
+    }, []);
+
+    function findUserPublications () {
+        AvisosService.getPublicacaoById(sessionStorage.ID)
+            .then((res) => {
+                setData(res.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -44,6 +90,52 @@ function EscreverAvisos({ avisosData }) {
         }
     };
 
+    function handleContentChange(e) {
+        setContent(e.target.value);
+    }
+
+    function handleTitleChange(e) {
+        setTitle(e.target.value);
+    }
+
+    function handleDateChange(e) {
+        setDate(e);
+        console.log(e);
+    }
+
+    function handleSubmit() {
+
+        if (!title || !content || !date) {
+            toast.error('Preencha todos os campos!');
+            return;
+        }
+
+        if (salasSelecionadas.length === 0) {
+            toast.error('Selecione pelo menos uma sala!');
+            return;
+        }
+
+        AvisosService.createPublicacao({
+            titulo: title,
+            descricao: content,
+            data: date.format('YYYY-MM-DDTHH:mm:ss'),
+            salas: salasSelecionadas.map(sala => sala.id),
+            usuarioId: sessionStorage.ID
+        }).then((res) => {
+            if (res.status === 201) {
+                toast.success('Criado com sucesso!');
+                findUserPublications();
+            } else {
+                toast.error('Erro ao criar!');
+            }
+        }).catch((error) => {
+            console.error(error);
+            toast.error('Erro ao criar!');
+        });
+    }
+
+
+
     return (
         <div>
             <section className="w-full flex items-center flex-col px-20 pt-10">
@@ -51,7 +143,7 @@ function EscreverAvisos({ avisosData }) {
                     className="bg-blue-main p-0 mb-3 rounded-lg w-4/5 flex flex-col gap-2"
                     onClick={toggleMenu}
                 >
-                    <p className="text-white-ice text-1xl py-5 pl-10 font-bold">Escreva um aviso para a turma</p>
+                    <p className="text-white-ice text-1xl py-5 pl-10 font-bold">Publique um novo evento</p>
                 </button>
 
                 <div
@@ -63,70 +155,81 @@ function EscreverAvisos({ avisosData }) {
                                 Para
                             </label>
                             <div className="bg-white border-spacing-1 border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
-                                {Object.entries(salasPorGrupo).map(([grupo, salas]) => (
-                                    <div key={grupo}>
-                                        <div className="flex items-center mb-2">
-                                            <Checkbox
-                                                value={grupo}
-                                                checked={salas.every(sala => salasSelecionadas.includes(sala))}
-                                                onChange={handleSalaChange}
-                                                color="default"
-                                                sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
-                                            />
-                                            <label className="font-semibold text-gray-700">{grupo}</label>
-                                        </div>
-                                        {salas.map((sala) => (
-                                            <div key={sala} className="flex items-center mb-1">
+                                {Object.entries(salasPorGrupo).map(([grupo, salas]) => {
+                                    if (salas.length === 0) return null; // Ignorar grupos vazios
+                                    return (
+                                        <div key={grupo}>
+                                            <div className="flex items-center mb-2">
                                                 <Checkbox
-                                                    value={sala}
-                                                    checked={salasSelecionadas.includes(sala)}
+                                                    value={grupo}
+                                                    checked={salas.every((sala) => salasSelecionadas.includes(sala))}
                                                     onChange={handleSalaChange}
-                                                    size="small"
                                                     color="default"
+                                                    sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
                                                 />
-                                                <label className="text-gray-700">{sala}</label>
+                                                <label className="font-semibold text-gray-700">{grupo}</label>
                                             </div>
-                                        ))}
-                                    </div>
-                                ))}
-                                <div className="col-span-5 flex items-center mb-0">
+                                            {salas.map((sala) => (
+                                                <div key={sala.id} className="flex items-center mb-1">
+                                                    <Checkbox
+                                                        value={sala.id}
+                                                        checked={salasSelecionadas.includes(sala)}
+                                                        onChange={handleSalaChange}
+                                                        size="small"
+                                                        color="default"
+                                                    />
+                                                    <label className="text-gray-700">{sala.nome}</label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    );
+                                })}
+
+                                < div className="col-span-5 flex items-center mb-0">
                                     <Checkbox
-                                        value="all"
-                                        checked={salasSelecionadas.length === todasAsSalas.length}
-                                        onChange={handleSalaChange}
-                                        color="default"
-                                        sx={{ '& .MuiSvgIcon-root': { fontSize: 36 } }}
+                                    value="all"
+                                    checked={salasSelecionadas.length === todasAsSalas.length}
+                                    onChange={handleSalaChange}
+                                    color="default"
+                                    sx={{'& .MuiSvgIcon-root': {fontSize: 36}}}
                                     />
                                     <label className="text-gray-700 ">Selecionar todas</label>
-                                </div>
-                            </div>
+                                    </div>
+                                    </div>
 
-                        </div>
+                                    </div>
 
-                        <div className="mb-4">
-                            <label className="text-black-main block text-sm mb-2">
-                                Escreva um título para seu aviso.
-                            </label>
-                            <textarea
-                                className="w-full shadow-md p-2 border-gray-300 rounded-lg resize-none"
-                                rows="1"
-                                placeholder="Escreva seu título aqui..."
-                            />
-                            <label className="text-black-main block text-sm mb-2 mt-4">
-                                Escreva um aviso para sua turma
-                            </label>
-                            <textarea
-                                className="w-full p-2 shadow-md border-gray-300 rounded-lg resize-none"
-                                rows="2"
-                                placeholder="Escreva seu aviso aqui..."
+                                    <div className="mb-4">
+                                    <label className="text-black-main block text-sm mb-2">
+                                        Título:
+                                    </label>
+                                    <textarea
+                                    value={title}
+                                    onChange={handleTitleChange}
+                                    className="w-full shadow-md p-2 border-gray-300 rounded-lg resize-none"
+                                    rows="1"
+                                    placeholder="Escreva seu título aqui..."
+                                    />
+                                    <label className="text-black-main block text-sm mb-2 mt-4">
+                                        Conteúdo:
+                                    </label>
+                                    <textarea
+                                    value={content}
+                                    onChange={handleContentChange}
+                                    className="w-full p-2 shadow-md border-gray-300 rounded-lg resize-none"
+                                    rows="2"
+                                    placeholder="Escreva seu aviso aqui..."
                             />
                             <label className="py-1 text-black-main block text-sm mb-2 mt-4">
-                                Selecione a data do aviso
+                                Data de ocorrência:
                             </label>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker label="Selecione a data do evento" />
-                                </DemoContainer>
+                                <DateTimePicker
+                                    label="Selecione a data e hora do evento"
+                                    value={date}
+                                    onChange={handleDateChange}
+                                    ampm={false}
+                                />
                             </LocalizationProvider>
                         </div>
 
@@ -136,14 +239,16 @@ function EscreverAvisos({ avisosData }) {
                                 Cancelar
                             </button>
                             <button
-                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleSubmit}>
                                 Postar
                             </button>
                         </session>
                     </div>
                 </div>
             </section>
-            <Avisos avisosData={avisosData}></Avisos>
+            <Avisos data={data.length > 0 ? data.map((x) => {
+                return {...x, autor: x.responsavel.nome}
+            }) : []}></Avisos>
         </div>
     );
 }
