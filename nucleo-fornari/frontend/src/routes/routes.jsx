@@ -10,7 +10,7 @@ import { Inicio } from "../components/dashboards/Inicio";
 import NotFound from "../pages/not-found/NotFound";
 
 //SECRETARIA
-import Calendario from "../components/calendario/Calendario";
+import Calendario from "../components/calendario/Calendario.jsx";
 import SecretaryPage from "../pages/secretaria/SecretariaPage";
 import ChamadosSecretaria from "../components/chamados/Chamados";
 import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
@@ -18,6 +18,7 @@ import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAlu
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import AdicionarAluno from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/AdicionarAluno.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
+import FetchData from "../components/calendario/FetchData.jsx";
 
 const avisosData = [
   {
@@ -131,7 +132,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/calendario",
-        element: <Calendario />,
+        element: <FetchData />,
       },
       {
         path: "/secretaria/gerencia",
