@@ -16,7 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
 
-const ModalChamado = ({ open, handleClose }) => {
+const ModalChamado = ({ setData, open, handleClose }) => {
   const [category, setCategory] = useState('');
   const [tipos, setTipos] = useState([]);
   const [title, setTitle] = useState('');
@@ -50,6 +50,7 @@ const ModalChamado = ({ open, handleClose }) => {
     }).then((res) => {
       if (res.status === 201) {
         toast.success('Chamado criado com sucesso!');
+        setData((dataPrev) => [...dataPrev, res.data])
       }
     }).catch((error) => {
       toast.error(error.response.data.text ?? 'Erro inesperado!');
