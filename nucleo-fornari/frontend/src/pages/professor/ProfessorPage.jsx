@@ -41,11 +41,10 @@ function ProfessorPage() {
           <Header />
           <Outlet />
         </section>
-        </main>
-        <aside className="lg:hidden md:block">
-          <SideMenu menuItens={sideMenuItens} />
-        </aside>
-      
+      </main>
+      <aside className="lg:hidden md:block">
+        <SideMenu menuItens={sideMenuItens} />
+      </aside>
     </React.StrictMode>
   );
 }

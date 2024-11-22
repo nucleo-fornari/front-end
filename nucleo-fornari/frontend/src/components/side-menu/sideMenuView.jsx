@@ -16,15 +16,13 @@ const SideMenu = ({ menuItens }) => {
 
   return (
     <div
-      className={`lg:h-screen lg:flex lg:flex-col lg:items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice
-        lg:${isExpanded ? "w-64" : "w-20"}
-        md:w-screen
-        md:h-20
-        `}
+      className={` h-full flex flex-col items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice
+        ${isExpanded ? "lg:w-64" : "lg:w-20"}
+        sm:w-full md:w-full`}
     >
       <div
         className={`flex flex-row w-full justify-center items-center 
-            lg:${isExpanded ? "w-64" : "w-20"}`}
+            `}
       >
         <button onClick={toggleMenu} className="lg:block h-16 md:hidden">
           {isExpanded ? (
