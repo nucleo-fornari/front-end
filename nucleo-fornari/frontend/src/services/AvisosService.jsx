@@ -4,6 +4,15 @@ const ApiService = {
     getAvisos: async function () {
         return await Api.get('/eventos/publicacoes');
     },
+
+    getRecadosByResponsavelId: async function (id) {
+        return await Api.get('/recados/responsavel/' + id)
+    },
+
+    deleteRecado: async function (id) {
+        return await Api.delete('/recados/' + id);
+    },
+
     getPublicacaoById: async function (id) {
         return await Api.get('/eventos/publicacoes/usuario/' + id);
     },
