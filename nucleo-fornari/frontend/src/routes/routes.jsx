@@ -8,6 +8,7 @@ import ProfessorPage from "../pages/professor/ProfessorPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import { Inicio } from "../components/dashboards/Inicio.jsx";
 import NotFound from "../pages/not-found/NotFound.jsx";
+import PublicacoesProfessor from "../components/publicar/professor/PublicacoesProfessor.jsx";
 
 //SECRETARIA
 import Calendario from "../components/calendario/Calendario.jsx";
@@ -17,7 +18,7 @@ import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
-import EscreverAvisos from "../components/publicar/EscreverAvisos.jsx"
+import EscreverAvisos from "../components/publicar/secretaria/EscreverAvisos.jsx"
 
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 
@@ -107,7 +108,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/professor/publicacoes",
-        element: <Avisos avisosData={avisosData} />,
+        element: <PublicacoesProfessor />,
       },
       {
         path: "/professor/chamados",
