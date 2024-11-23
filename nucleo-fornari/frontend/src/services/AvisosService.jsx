@@ -23,6 +23,10 @@ const ApiService = {
 
     deleteEvento: async function (id) {
         return await Api.delete('/eventos/' + id);
+    },
+
+    createRecado: async function (recado, alunoId) {
+        return await Api.put('/recados/create/aluno/' + alunoId, recado);
     }
 };
 

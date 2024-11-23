@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, IconButton, TextField, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import AvisosService from "../../../services/AvisosService";
+import {toast} from "react-toastify";
 
 export default function ModalAluno({ open, handleClose, aluno }) {
   const [openObservacao, setOpenObservacao] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleOpenObservacao = () => {
     setOpenObservacao(true);
@@ -12,6 +16,39 @@ export default function ModalAluno({ open, handleClose, aluno }) {
   const handleCloseObservacao = () => {
     setOpenObservacao(false);
   };
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSubmit = () => {
+
+      if(!title || !description) {
+          toast.error('Preencha todos os campos!');
+          return;
+      }
+
+    AvisosService.createRecado(
+    {
+                titulo: title,
+                conteudo: description,
+                usuarioId: sessionStorage.ID
+            },
+        aluno.id
+    ).then((res) => {
+        if (res.status === 201) {
+            toast.success('Observação criada com sucesso!');
+            handleCloseObservacao();
+        }
+    }).catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar observação!');
+    });
+  }
 
   return (
     <>
@@ -101,54 +138,95 @@ export default function ModalAluno({ open, handleClose, aluno }) {
       </Modal>
 
       {/* Modal para Observação Diária */}
-      <Modal open={openObservacao} onClose={handleCloseObservacao} aria-labelledby="observacao-modal-title">
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 300,
-            bgcolor: 'background.paper',
-            borderRadius: '16px',
-            boxShadow: 24,
-            p: 4,
-            outline: 'none',
-          }}
-        >
-          {/* Botão de Fechar */}
-          <IconButton 
-            aria-label="close" 
-            onClick={handleCloseObservacao} 
-            sx={{ 
-              position: 'absolute', 
-              top: 8, 
-              right: 8 
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+        <Modal open={openObservacao} onClose={handleCloseObservacao} aria-labelledby="observacao-modal-title">
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: { xs: 280, sm: 400 },
+                    bgcolor: 'background.paper',
+                    borderRadius: '16px',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+                    p: 4,
+                    outline: 'none',
+                }}
+            >
+                {/* Botão de Fechar */}
+                <IconButton
+                    aria-label="close"
+                    onClick={handleCloseObservacao}
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        color: 'grey.600',
+                        '&:hover': { color: 'grey.900', transform: 'scale(1.1)' },
+                        transition: 'all 0.3s ease',
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
 
-          <Typography id="observacao-modal-title" variant="h6" component="h2" align="center" sx={{ mb: 2 }}>
-            Observação Diária
-          </Typography>
-          <TextField
-            fullWidth
-            multiline
-            rows={4}
-            placeholder="Digite a observação"
-            sx={{ mb: 2 }}
-          />
-          <Button 
-            variant="contained" 
-            fullWidth 
-            className="my-2 mt-2"
-            onClick={handleCloseObservacao}
-          >
-            Enviar
-          </Button>
-        </Box>
-      </Modal>
+                {/* Título */}
+                <Typography id="observacao-modal-title" variant="h6" component="h2" align="center" sx={{ mb: 3, fontWeight: 'bold' }}>
+                    Observação Diária para {aluno?.nome}
+                </Typography>
+
+                {/* Campo de Título */}
+                <TextField
+                    fullWidth
+                    placeholder="Título"
+                    onChange={handleTitleChange}
+                    sx={{
+                        mb: 2,
+                        borderRadius: '8px',
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '8px',
+                        },
+                    }}
+                />
+
+                {/* Campo de Observação */}
+                <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    onChange={handleDescriptionChange}
+                    placeholder="Observação"
+                    sx={{
+                        mb: 2,
+                        borderRadius: '8px',
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '8px',
+                        },
+                    }}
+                />
+
+                {/* Botão de Enviar */}
+                <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={handleSubmit}
+                    sx={{
+                        mt: 2,
+                        py: 1.5,
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        borderRadius: '8px',
+                        backgroundColor: 'primary.main',
+                        '&:hover': {
+                            backgroundColor: 'primary.dark',
+                        },
+                        transition: 'all 0.3s ease',
+                    }}
+                >
+                    Enviar
+                </Button>
+            </Box>
+        </Modal>
+
     </>
   );
 }

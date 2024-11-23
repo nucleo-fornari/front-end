@@ -44,20 +44,27 @@ function Avisos({setData, data }) {
                             !aviso.deletable ?
                                 null :
                                 <button
-                                onClick={() => handleDelete(aviso.id, aviso.deleteHandler)}
-                                className="absolute top-4 right-4 text-red-500 hover:text-red-700"
+                                    onClick={() => handleDelete(aviso.id, aviso.deleteHandler)}
+                                    className="absolute top-4 right-4 text-red-500 hover:text-red-700"
                                 >
-                                    <Delete fontSize="large" />
+                                    <Delete fontSize="large"/>
                                 </button>
                         }
-                        <h1 className="text-4xl font-semibold text-blue-main">{aviso.titulo}</h1>
+                        <h1 className="text-4xl font-semibold text-blue-main">{aviso.titulo} </h1>
                         <p className="text-2xl py-5 text-black-light">{aviso.descricao}</p>
-                        <h3 className="italic font-semibold text-black-light">Por {aviso.autor}</h3>
+                        {
+                            ! aviso.alunoNome ?
+                                null :
+                                <h3 className="italic font-semibold text-black-light">
+                                    Para: <span className="text-blue-main">{aviso.alunoNome}</span>
+                                </h3>
+                        }
+                        <h3 className="italic font-semibold text-black-light">Por: {aviso.autor}</h3>
                         {
                             !aviso.data ? null :
-                            <p className="italic text-black-light">
-                                {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
-                            </p>
+                                <p className="italic text-black-light">
+                                    {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", {locale: ptBR})}
+                                </p>
                         }
                     </div>
                 ))
