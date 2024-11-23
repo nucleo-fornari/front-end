@@ -37,14 +37,14 @@ function ProfessorPage() {
           <SideMenu menuItens={sideMenuItens} />
         </aside>
 
-        <section className="flex flex-col w-full bg-white-main">
+        <section className="flex flex-col w-full bg-white-main h-screen">
           <Header />
           <Outlet />
+          <aside className="lg:hidden md:block fixed bottom-0 left-0 right-0 z-50">
+            <SideMenu menuItens={sideMenuItens} />
+          </aside>
         </section>
       </main>
-      <aside className="lg:hidden md:block">
-        <SideMenu menuItens={sideMenuItens} />
-      </aside>
     </React.StrictMode>
   );
 }

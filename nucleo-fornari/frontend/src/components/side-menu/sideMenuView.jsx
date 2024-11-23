@@ -16,9 +16,9 @@ const SideMenu = ({ menuItens }) => {
 
   return (
     <div
-      className={` h-full flex flex-col items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice
+      className={` lg:h-full md:h-32 flex flex-col items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice sm:w-full md:w-full 
         ${isExpanded ? "lg:w-64" : "lg:w-20"}
-        sm:w-full md:w-full`}
+        `}
     >
       <div
         className={`flex flex-row w-full justify-center items-center 
@@ -62,7 +62,7 @@ const SideMenu = ({ menuItens }) => {
 
       <div
         class="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
-      md:w-full md:justify-around"
+      md:w-full md:justify-around "
       >
         {menuItens.map((item, index) => (
           <Link

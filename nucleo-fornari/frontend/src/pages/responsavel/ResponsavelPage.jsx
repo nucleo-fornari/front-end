@@ -34,17 +34,20 @@ function ParentsPage() {
       <main className='flex'>
 
 
-        <aside >
+        <aside className="lg:block md:hidden">
 
           <SideMenu menuItens={sideMenuItens} usuario="Flávia"/>
 
 
         </aside>
 
-        <section className='flex flex-col w-full h-screen'>
+        <section className="flex flex-col w-full h-screen">
 
           <Header />
           <Outlet />
+          <aside className="lg:hidden md:block fixed bottom-0 left-0 right-0 z-50">
+            <SideMenu menuItens={sideMenuItens} />
+          </aside>
         </section>
 
       </main>
