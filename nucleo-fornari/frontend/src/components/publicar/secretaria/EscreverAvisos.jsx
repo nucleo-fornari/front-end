@@ -1,20 +1,23 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Avisos from '../Avisos';
 import Checkbox from '@mui/material/Checkbox';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { toast } from 'react-toastify';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {toast} from 'react-toastify';
 import AvisosService from "../../../services/AvisosService";
 import SalaService from "../../../services/SalaService";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import Utils from "../../../utils/Utils";
 import {useMemo} from "react";
+import dayjs from "dayjs";
 
 function EscreverAvisos() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [salasSelecionadas, setSalasSelecionadas] = useState([]);
     const [data, setData] = useState([]); // Estado movido para o nível superior
     const [todasAsSalas, setTodasAsSalas] = useState([]);
+    const [isEdition, setIsEdition] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
     const [salasPorGrupo, setSalasPorGrupo] = useState({
         G1: [],
         G2: [],
@@ -52,12 +55,11 @@ function EscreverAvisos() {
     }, [todasAsSalas]);
 
 
-
     useEffect(() => {
         if (data.length === 0) findUserPublications();
     }, []);
 
-    function findUserPublications () {
+    function findUserPublications() {
         AvisosService.getPublicacaoById(sessionStorage.ID)
             .then((res) => {
                 setData(res.data);
@@ -68,27 +70,46 @@ function EscreverAvisos() {
     }
 
     const toggleMenu = () => {
+        setIsEdition(false);
+        clearForm();
         setIsMenuOpen(!isMenuOpen);
     };
 
     const handleSalaChange = (e) => {
         const value = e.target.value;
+
         if (value === 'all') {
-            setSalasSelecionadas(salasSelecionadas.length === todasAsSalas.length ? [] : todasAsSalas);
-        } else if (salasPorGrupo[value]) {
-            const todasSalasDoGrupo = salasPorGrupo[value];
-            const todasSelecionadas = todasSalasDoGrupo.every(sala => salasSelecionadas.includes(sala));
-            setSalasSelecionadas((prev) =>
-                todasSelecionadas
-                    ? prev.filter((sala) => !todasSalasDoGrupo.includes(sala))
-                    : [...prev, ...todasSalasDoGrupo.filter(sala => !prev.includes(sala))]
+            // Alterna entre selecionar todas ou nenhuma sala
+            setSalasSelecionadas(
+                salasSelecionadas.length === todasAsSalas.length ? [] : todasAsSalas.map((sala) => sala.id)
             );
-        } else {
-            setSalasSelecionadas((prev) =>
-                prev.includes(value) ? prev.filter((sala) => sala !== value) : [...prev, value]
-            );
+            return;
         }
+
+        if (salasPorGrupo[value]) {
+            // Alterna a seleção de um grupo inteiro
+            const salasDoGrupo = salasPorGrupo[value].map((sala) => sala.id);
+            const todasSelecionadas = salasDoGrupo.every((salaId) =>
+                salasSelecionadas.includes(salaId)
+            );
+
+            setSalasSelecionadas((prevSelecionadas) =>
+                todasSelecionadas
+                    ? prevSelecionadas.filter((salaId) => !salasDoGrupo.includes(salaId))
+                    : [...prevSelecionadas, ...salasDoGrupo.filter((salaId) => !prevSelecionadas.includes(salaId))]
+            );
+            return;
+        }
+
+        // Alterna a seleção de uma sala individual
+        setSalasSelecionadas((prevSelecionadas) =>
+            prevSelecionadas.includes(value)
+                ? prevSelecionadas.filter((salaId) => salaId !== value)
+                : [...prevSelecionadas, value]
+        );
     };
+
+
 
     function handleContentChange(e) {
         setContent(e.target.value);
@@ -115,12 +136,30 @@ function EscreverAvisos() {
             return;
         }
 
+        if (isEdition) {
+            updatePublication();
+        } else {
+            createPublication();
+        }
+
+        clearForm();
+    }
+
+    const clearForm = () => {
+        setTitle('');
+        setContent('');
+        setDate(null);
+        setSalasSelecionadas([]);
+        setIsMenuOpen(false);
+    }
+
+    const createPublication = () => {
         AvisosService.createPublicacao({
             titulo: title,
             descricao: content,
             data: date.format('YYYY-MM-DDTHH:mm:ss'),
-            salas: salasSelecionadas.map(sala => sala.id),
-            usuarioId: sessionStorage.ID
+            salas: salasSelecionadas,
+            usuarioId: parseInt(sessionStorage.ID)
         }).then((res) => {
             if (res.status === 201) {
                 toast.success('Criado com sucesso!');
@@ -134,6 +173,36 @@ function EscreverAvisos() {
         });
     }
 
+    const updatePublication = () => {
+        AvisosService.updatePublicacao(currentId, {
+            titulo: title,
+            descricao: content,
+            data: date.format('YYYY-MM-DDTHH:mm:ss'),
+            salas: salasSelecionadas,
+            usuarioId: parseInt(sessionStorage.ID)
+        }).then((res) => {
+            if (res.status === 200) {
+                toast.success('Editado com sucesso!');
+                findUserPublications();
+                setIsEdition(false);
+            } else {
+                toast.error('Erro ao editar!');
+            }
+        }).catch((error) => {
+            console.error(error);
+            toast.error('Erro ao editar!');
+        });
+    }
+
+    const handleEdit = (evento) => {
+        setContent(evento.descricao);
+        setTitle(evento.titulo);
+        setDate(dayjs(evento.data));
+        setSalasSelecionadas(evento.salas.map((sala) => sala.id));
+        setIsMenuOpen(true);
+        setIsEdition(true);
+        setCurrentId(evento.id);
+    }
 
 
     return (
@@ -154,27 +223,37 @@ function EscreverAvisos() {
                             <label className="text-black-main block text-sm font-bold mb-2">
                                 Para
                             </label>
-                            <div className="bg-white border-spacing-1 border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
-                                {(Object.entries(salasPorGrupo).length > 0 ? Object.entries(salasPorGrupo) : []).map(([grupo, salas]) => {
+                            <div
+                                className="bg-white border-spacing-1 border-gray-300 rounded p-4 grid grid-cols-5 gap-4">
+                                {/* Renderizar os grupos e suas salas */}
+                                {Object.entries(salasPorGrupo).map(([grupo, salas]) => {
                                     if (salas.length === 0) return null; // Ignorar grupos vazios
+
+                                    const todasSelecionadas = salas.every((sala) =>
+                                        salasSelecionadas.includes(sala.id)
+                                    );
+
                                     return (
                                         <div key={grupo}>
+                                            {/* Checkbox para o grupo */}
                                             <div className="flex items-center mb-2">
                                                 <Checkbox
                                                     value={grupo}
-                                                    checked={salas.every((sala) => salasSelecionadas.includes(sala))}
-                                                    onChange={handleSalaChange}
+                                                    checked={todasSelecionadas}
+                                                    onChange={() => handleSalaChange({target: {value: grupo}})}
                                                     color="default"
-                                                    sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
+                                                    sx={{'& .MuiSvgIcon-root': {fontSize: 25}}}
                                                 />
                                                 <label className="font-semibold text-gray-700">{grupo}</label>
                                             </div>
-                                            {(salas.length ? salas : []).map((sala) => (
+
+                                            {/* Checkboxes individuais para salas */}
+                                            {salas.map((sala) => (
                                                 <div key={sala.id} className="flex items-center mb-1">
                                                     <Checkbox
                                                         value={sala.id}
-                                                        checked={salasSelecionadas.includes(sala)}
-                                                        onChange={handleSalaChange}
+                                                        checked={salasSelecionadas.includes(sala.id)}
+                                                        onChange={() => handleSalaChange({target: {value: sala.id}})}
                                                         size="small"
                                                         color="default"
                                                     />
@@ -185,40 +264,42 @@ function EscreverAvisos() {
                                     );
                                 })}
 
-                                < div className="col-span-5 flex items-center mb-0">
+                                {/* Checkbox para selecionar todas as salas */}
+                                <div className="col-span-5 flex items-center mb-0">
                                     <Checkbox
-                                    value="all"
-                                    checked={salasSelecionadas.length === todasAsSalas.length}
-                                    onChange={handleSalaChange}
-                                    color="default"
-                                    sx={{'& .MuiSvgIcon-root': {fontSize: 36}}}
+                                        value="all"
+                                        checked={salasSelecionadas.length === todasAsSalas.length}
+                                        onChange={() => handleSalaChange({target: {value: 'all'}})}
+                                        color="default"
+                                        sx={{'& .MuiSvgIcon-root': {fontSize: 36}}}
                                     />
-                                    <label className="text-gray-700 ">Selecionar todas</label>
-                                    </div>
-                                    </div>
+                                    <label className="text-gray-700">Selecionar todas</label>
+                                </div>
+                            </div>
 
-                                    </div>
 
-                                    <div className="mb-4">
-                                    <label className="text-black-main block text-sm mb-2">
-                                        Título:
-                                    </label>
-                                    <textarea
-                                    value={title}
-                                    onChange={handleTitleChange}
-                                    className="w-full shadow-md p-2 border-gray-300 rounded-lg resize-none"
-                                    rows="1"
-                                    placeholder="Escreva seu título aqui..."
-                                    />
-                                    <label className="text-black-main block text-sm mb-2 mt-4">
-                                        Conteúdo:
-                                    </label>
-                                    <textarea
-                                    value={content}
-                                    onChange={handleContentChange}
-                                    className="w-full p-2 shadow-md border-gray-300 rounded-lg resize-none"
-                                    rows="2"
-                                    placeholder="Escreva seu aviso aqui..."
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="text-black-main block text-sm mb-2">
+                                Título:
+                            </label>
+                            <textarea
+                                value={title}
+                                onChange={handleTitleChange}
+                                className="w-full shadow-md p-2 border-gray-300 rounded-lg resize-none"
+                                rows="1"
+                                placeholder="Escreva seu título aqui..."
+                            />
+                            <label className="text-black-main block text-sm mb-2 mt-4">
+                                Conteúdo:
+                            </label>
+                            <textarea
+                                value={content}
+                                onChange={handleContentChange}
+                                className="w-full p-2 shadow-md border-gray-300 rounded-lg resize-none"
+                                rows="2"
+                                placeholder="Escreva seu aviso aqui..."
                             />
                             <label className="py-1 text-black-main block text-sm mb-2 mt-4">
                                 Data de ocorrência:
@@ -236,10 +317,11 @@ function EscreverAvisos() {
                         <section className="flex items-center justify-between">
                             <button
                                 class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                                Cancelar
+                            Cancelar
                             </button>
                             <button
-                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleSubmit}>
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                onClick={handleSubmit}>
                                 Postar
                             </button>
                         </section>
@@ -248,6 +330,7 @@ function EscreverAvisos() {
             </section>
             <Avisos
                 setData={setData}
+                editHandler={handleEdit}
                 data={Utils.mapEventoToAviso(data)}></Avisos>
         </div>
     );

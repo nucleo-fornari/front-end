@@ -27,7 +27,11 @@ const ApiService = {
 
     createRecado: async function (recado, alunoId) {
         return await Api.put('/recados/create/aluno/' + alunoId, recado);
-    }
+    },
+
+    updatePublicacao: async function (eventoId, evento) {
+        return await Api.put('/eventos/' + eventoId, evento);
+    },
 };
 
 export default ApiService;
