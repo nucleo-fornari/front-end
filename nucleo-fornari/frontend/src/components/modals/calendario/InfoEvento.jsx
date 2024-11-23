@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import dayjs from 'dayjs';
 
 function InfoEvento({ open, handleClose, event }) {
     if (!event) return null; // Retorna null se não houver evento selecionado
@@ -23,7 +22,7 @@ function InfoEvento({ open, handleClose, event }) {
             >
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                        {event.title}
+                        {event.titulo}
                     </Typography>
                     <IconButton
                         aria-label="close"
@@ -37,10 +36,12 @@ function InfoEvento({ open, handleClose, event }) {
                 </Box>
 
                 <Typography sx={{ mt: 2 }}>
-                    {event.description || 'Sem descrição disponível.'}
+                    {event.descricao || 'Sem descrição disponível.'}
                 </Typography>
-                <Typography sx={{ mt: 1, fontWeight: 'bold'}}>
-                    {event.time} | {event.date ? dayjs(event.date).format('DD [de] MMMM') : 'erro data'}
+                <Typography sx={{ mt: 1, fontWeight: 'bold' }}>
+                    {event.data instanceof Date
+                        ? `${event.data.getHours().toString().padStart(2, '0')}:${event.data.getMinutes().toString().padStart(2, '0')}`
+                        : 'Erro na Hora do evento'}
                 </Typography>
             </Box>
         </Modal>

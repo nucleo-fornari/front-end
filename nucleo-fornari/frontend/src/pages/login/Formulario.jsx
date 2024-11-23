@@ -27,7 +27,8 @@ const Formulario = () => {
                     sessionStorage.FUNC = response.data.funcao;
                     sessionStorage.ID = response.data.userId;
                     sessionStorage.NOME = response.data.nome;
-                    sessionStorage.SALAID = response.data.salaId;
+                    sessionStorage.ID_SALA = response.data.salaId;
+                
                     if(response.data.funcao === "RESPONSAVEL") {
                         navigate("/responsavel");
                     } else if (response.data.funcao === "PROFESSOR") {
@@ -84,7 +85,7 @@ const Formulario = () => {
                         id="outlined-password"
                         label="Senha"
                         variant="outlined"
-                        type={showPassword ? "text" : "password"} // Alterna entre texto e senha
+                        type={showPassword ? "text" : "password"}
                         fullWidth={true}
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}

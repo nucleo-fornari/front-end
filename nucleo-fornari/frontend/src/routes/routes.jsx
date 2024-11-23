@@ -11,7 +11,6 @@ import NotFound from "../pages/not-found/NotFound.jsx";
 import PublicacoesProfessor from "../components/publicar/professor/PublicacoesProfessor.jsx";
 
 //SECRETARIA
-import Calendario from "../components/calendario/Calendario.jsx";
 import SecretaryPage from "../pages/secretaria/SecretariaPage.jsx";
 import ChamadosSecretaria from "../components/chamados/Chamados.jsx";
 import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
@@ -19,6 +18,7 @@ import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAlu
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
 import EscreverAvisos from "../components/publicar/secretaria/EscreverAvisos.jsx"
+import FetchData from "../components/calendario/FetchData.jsx";
 
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 
@@ -130,7 +130,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/calendario",
-        element: <Calendario />,
+        element: <FetchData />,
       },
       {
         path: "/secretaria/gerencia",

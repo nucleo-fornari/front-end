@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import Calendar from "../calendario/Calendario";
+import Calendar from "../calendario/FetchData.jsx";
 import AlignItemsList from "../lista-alunos/ListaAlunos";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
@@ -27,7 +27,9 @@ export function Inicio() {
   return (
     <section className="flex justify-evenly p-16">
       <div className="text-white-main flex flex-col gap-20 ">
-        <Calendar />
+        <div className="h-[500px]">
+          <Calendar />
+        </div>
         <Button
           variant="contained"
           startIcon={<SupportAgentRoundedIcon />}
