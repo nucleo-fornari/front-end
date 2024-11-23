@@ -183,7 +183,7 @@ export default function PrimarySearchAppBar() {
 
     return (
         <Box>
-            <AppBar position="static">
+            <AppBar position="static" className="lg:h-16 md:h-28 flex justify-center">
                 <Toolbar>
                     <Typography
                         variant="h6"
@@ -191,9 +191,9 @@ export default function PrimarySearchAppBar() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        <img src={logoHorizontal} className="h-45 w-139" />
+                        <img src={logoHorizontal} className="lg:h-45 lg:w-156 md:h-90 md:w-313" />
                     </Typography>
-                    <Search>
+                    {/* <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -201,11 +201,11 @@ export default function PrimarySearchAppBar() {
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                    </Search>
+                    </Search> */}
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }}} >
                         <IconButton
-                            size="large"
+                            
                             aria-label="show 4 new notifications"
                             color="inherit"
                             onClick={toggleNotifications}

@@ -25,7 +25,7 @@ export function Inicio() {
   };
 
   return (
-    <section className="flex justify-evenly p-16">
+    <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col">
       <div className="text-white-main flex flex-col gap-20 ">
         <div className="h-[500px]">
           <Calendar />
