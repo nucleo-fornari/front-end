@@ -6,51 +6,53 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api"
 
 const Formulario = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({ email: '', senha: '' });
 
-        const handleLogin = async (event) => {
-            event.preventDefault();
-            setErrors({ email: '', senha: '' });
 
-            try {
-                const response = await api.post("usuarios/login", {
-                    email: email,
-                    senha: senha
-                });
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        setErrors({ email: '', senha: '' });
 
-                if (response.status === 200) {
-                    sessionStorage.TOKEN = response.data.token;
-                    sessionStorage.FUNC = response.data.funcao;
-                    sessionStorage.ID = response.data.userId;
-                    sessionStorage.NOME = response.data.nome;
-                
-                    if(response.data.funcao === "RESPONSAVEL") {
-                        navigate("/responsavel");
-                    } else if (response.data.funcao === "PROFESSOR") {
-                        navigate("/professor");
-                    } else if (response.data.funcao === "SECRETARIO") {
-                        navigate("/secretaria");
-                    } else {
-                        console.log("Ocorreu algum erro ao coletar a função do usuário")
-                    }
+        try {
+            const response = await api.post("usuarios/login", {
+                email: email,
+                senha: senha
+            });
 
-                }
-            } catch (error) {
-                if (error.response && error.response.status === 400 && error.response.data.errors) {
-                    setErrors({
-                        email: ' ',
-                        senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
-                    });
+            if (response.status === 200) {
+                sessionStorage.TOKEN = response.data.token;
+                sessionStorage.FUNC = response.data.funcao;
+                sessionStorage.ID = response.data.userId;
+                sessionStorage.NOME = response.data.nome;
+
+                if (response.data.funcao === "RESPONSAVEL") {
+                    navigate("/responsavel");
+                } else if (response.data.funcao === "PROFESSOR") {
+                    navigate("/professor");
+                } else if (response.data.funcao === "SECRETARIO") {
+                    navigate("/secretaria");
                 } else {
-                    console.error(error.message || 'Erro inesperado!');
-                    alert('Erro inesperado ao fazer login. Tente novamente.');
+                    console.log("Ocorreu algum erro ao coletar a função do usuário")
                 }
+
             }
-        };
+        } catch (error) {
+            if (error.response && error.response.status === 400 && error.response.data.errors) {
+                setErrors({
+                    email: ' ',
+                    senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
+                });
+            } else {
+                console.error(error.message || 'Erro inesperado!');
+                alert('Erro inesperado ao fazer login. Tente novamente.');
+            }
+        }
+    }
+
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -58,13 +60,13 @@ const Formulario = () => {
 
     return (
         <section className="flex h-screen w-screen">
-            <div className="h-full w-full bg-blue-pastel flex items-center justify-center">
+            <div className="h-full w-full bg-blue-pastel flex items-center justify-center lg:flex md:hidden sm:hidden">
                 <img src={imgLogin} className="h-3/5" alt="Login" />
             </div>
 
             <div className="bg-white-main h-full w-full flex justify-center items-center flex-col">
                 <form onSubmit={handleLogin} className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center">
-                    <h2 className="text-5xl text-blue-main">Entre com sua conta</h2>
+                    <h2 className="lg:text-5xl md:text-4xl text-blue-main">Entre com sua conta</h2>
                     <TextField
                         id="outlined-email"
                         label="Email"
@@ -79,7 +81,7 @@ const Formulario = () => {
                         id="outlined-password"
                         label="Senha"
                         variant="outlined"
-                        type={showPassword ? "text" : "password"} // Alterna entre texto e senha
+                        type={showPassword ? "text" : "password"}
                         fullWidth={true}
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
@@ -105,6 +107,5 @@ const Formulario = () => {
             </div>
         </section>
     );
-}
-
+};
 export default Formulario;

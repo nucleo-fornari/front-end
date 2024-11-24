@@ -16,7 +16,7 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 import FormularioAluno from "./FormularioAluno";
 import CloseIcon from "@mui/icons-material/Close";
-import "./AdicionarAluno.css";
+
 import { Link } from "react-router-dom";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -200,7 +200,7 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = [
+export const steps = [
   "Dados do aluno",
   "Informações adicionais",
   "Dados do responsável",
@@ -240,7 +240,7 @@ function CustomizedSteppers({ step }) {
   );
 }
 
-function Abacaxi() {
+function CadastroAlunos() {
   const [step, setStep] = useState(0)
 
   return (
@@ -253,4 +253,4 @@ function Abacaxi() {
   );
 }
 
-export default Abacaxi;
+export default CadastroAlunos;

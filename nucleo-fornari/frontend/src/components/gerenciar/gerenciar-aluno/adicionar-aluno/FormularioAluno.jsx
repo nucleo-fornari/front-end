@@ -12,10 +12,16 @@ import {
   FormLabel,
   InputLabel,
   MenuItem,
+  Paper,
   Radio,
   RadioGroup,
   Select,
   styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   TextField,
 } from "@mui/material";
 import api from "../../../../services/api";
@@ -218,6 +224,34 @@ function FormularioAluno({ setStep }) {
     whiteSpace: "nowrap",
     width: 1,
   });
+
+  function createData(campo, valorInserido) {
+    return { campo, valorInserido };
+  }
+
+  const rows = [
+    createData("Nome completo", formData.nomeCompleto),
+    createData("RA", formData.ra),
+    createData("Data de nascimento", formData.dtNascimento),
+    createData("Restrições alimentares", formData.restricaoAlimentar),
+    createData("Possui laudo psicológico?", formData.laudoPsicologo),
+    createData("Nome do responsavel", formData.nomeResponsavel),
+    createData("CPF do responsável", formData.cpfResponsavel),
+    createData("Email", formData.emailResponsavel),
+    createData("Telefone", formData.telefone),
+    createData("Parentesco", formData.parentesco),
+    createData("CEP", formData.cep),
+    createData("Cidade", formData.cidade),
+    createData("UF", formData.uf),
+    createData("Bairro", formData.bairro),
+    createData("Logradouro", formData.rua),
+    createData("Número", formData.numero),
+    createData("Complemento", formData.complemento),
+  ];
+
+  //Stepper
+
+ 
 
   return (
     <>
@@ -568,29 +602,26 @@ function FormularioAluno({ setStep }) {
           )}
           {partCadastro === 4 && (
             <>
-              <div className="flex gap-10 justify-between">
-                <div className="flex flex-col gap-2">
-                  <span>Nome completo aluno: <b>{formData.nomeCompleto}</b></span>
-                  <span>RA: <b>{formData.ra}</b> </span>
-                  <span>Data ascimento: <b>{formData.dtNascimento}</b> </span>
-                  <span>Restrição alimentar: <b>{formData.restricaoAlimentar}</b> </span>
-                  <span>laudo psicologico: <b>{formData.laudoPsicologo}</b> </span>
-                  <span>Nome completo responsavel: <b>{formData.nomeResponsavel}</b> </span>
-                  <span>Cpf responsavel: <b>{formData.cpfResponsavel}</b> </span>
-                  <span>Email: <b>{formData.emailResponsavel}</b> </span>
-                  <span>telefone: <b>{formData.telefone}</b></span>
-                  <span>parentesco: <b>{formData.parentesco}</b> </span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span>Cep: <b>{formData.cep}</b> </span>
-                  <span>Cidade: <b>{formData.cidade}</b> </span>
-                  <span>Uf: <b>{formData.uf}</b></span>
-                  <span>Bairro: <b>{formData.bairro}</b> </span>
-                  <span>Rua: <b>{formData.rua}</b> </span>
-                  <span>Número: <b>{formData.numero}</b> </span>
-                  <span>Complemento: <b>{formData.complemento}</b></span>
-                </div>
-              </div>
+              <TableContainer component={Paper} className="h-80">
+                <Table  aria-label="simple table">
+                
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.campo}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row" sx={{width:'50%', fontWeight:600,}} className="text-blue-dash">
+                          {row.campo}
+                        </TableCell>
+                        <TableCell align="right" sx={{width:'50%'}}>{row.valorInserido}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </>
           )}
         </form>

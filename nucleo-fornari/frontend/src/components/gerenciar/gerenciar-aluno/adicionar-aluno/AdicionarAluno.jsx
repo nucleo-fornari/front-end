@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { CheckBox } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
 
-const AdicionarAluno = () => {
+const Publication = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -359,4 +359,4 @@ const AdicionarAluno = () => {
     );
 };
 
-export default AdicionarAluno;
+export default Publication;
