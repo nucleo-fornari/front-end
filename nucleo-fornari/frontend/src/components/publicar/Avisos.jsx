@@ -72,7 +72,7 @@ function Avisos({setData, data , editHandler}) {
                                 Para: <span className="text-blue-main">{aviso.alunoNome}</span>
                             </h3>
                         )}
-                        <h3 className="italic font-semibold text-black-light">Por: {aviso.autor}</h3>
+                        <h3 className="italic font-semibold text-black-light">Por: {aviso.responsavel.nome}</h3>
                         {!aviso.data ? null : (
                             <p className="italic text-black-light">
                                 {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
