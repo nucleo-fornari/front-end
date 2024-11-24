@@ -29,7 +29,7 @@ export default function AlignItemsList() {
     const fetchSalas = async () => {
         try {
           // Precisa buscar pelo id da sala
-          const salaId = parseInt(sessionStorage.SALAID);
+          const salaId = parseInt(sessionStorage.ID_SALA);
           const res = await api.get(`salas/${salaId}`);
           const alunos = res.data.alunos;
           setAlunos(alunos);

@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import api from "../../services/api";
+import Utils from "../../utils/Utils";
 
 function Agenda() {
   const [afilhados, setAfilhados] = useState([]);
@@ -53,7 +54,7 @@ useEffect(() => {
             api.get(`recados/aluno/${afilhadoSelecionado.id}`)
           ]);
           const avisosGerais = eventosRes.data.filter((evento) => evento.tipo === "AVISO_GERAL");
-          eventos = [...avisosGerais, ...recadosRes.data];
+          eventos = [...Utils.mapEventoToAviso(avisosGerais), ...Utils.mapRecadoToAviso(recadosRes.data)];
         }
         setData(eventos);
       }
@@ -61,7 +62,8 @@ useEffect(() => {
       console.error("Erro ao buscar eventos:", error);
     }
   };
-
+  
+  setData([]);
   fetchEventos();
 }, [aluno, afilhados, tipo]);
 
