@@ -19,7 +19,7 @@ import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
 import EscreverAvisos from "../components/publicar/secretaria/EscreverAvisos.jsx"
 import FetchData from "../components/calendario/FetchData.jsx";
-
+import CadastroFuncionario from "../components/gerenciar/gerenciar-funcionario/adicionar-funcionario/AdicionarFuncionario.jsx";
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 
 const avisosData = [
@@ -148,6 +148,10 @@ export const router = createBrowserRouter([
         path: "/secretaria/cadastro/aluno",
         element: <CadastroAlunos />,
       },
+      {
+        path: "/secretaria/cadastro/funcionario",
+        element: <CadastroFuncionario/>
+      }
     ],
   },
 ]);
