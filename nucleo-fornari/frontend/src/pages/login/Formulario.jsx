@@ -42,7 +42,7 @@ const Formulario = () => {
             } catch (error) {
                 if (error.response && error.response.status === 400 && error.response.data.errors) {
                     setErrors({
-                        email: '',
+                        email: ' ',
                         senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
                     });
                 } else {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Box,
   Button,
@@ -17,20 +18,23 @@ import {
   styled,
   TextField,
 } from "@mui/material";
+import api from "../../../../services/api";
 
 function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
 
-  const [partCadastro, setPartCadastro] = useState(0);
+  const [partCadastro, setPartCadastro] = useState(0);  
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     nomeCompleto: "",
     ra: "",
     dtNascimento: "",
-    restricaoAlimentar: false,
+    restricaoAlimentar: "",
     tipoRestricao: [],
-    laudoPsicologo: false,
+    restricaoAlimentarOutros: "",
+    laudoPsicologo: "",
     Observacao: "",
-    nomeCompletoResponsavel: "",
+    nomeResponsavel: "",
     cpfResponsavel: "",
     emailResponsavel: "",
     telefone: "",
@@ -44,23 +48,87 @@ function FormularioAluno({ setStep }) {
     complemento: "",
   });
 
-  const etapasCadastro = [
-    {
-      name: "/secretaria/cadastro/aluno",
-      parte1: "Aluno",
-      parte2: "Adicionais",
-      parte3: "Responsável",
-      parte4: "Endereços",
-      parte5: "Finalizar",
-    },
-    {
-      name: "/secretaria/cadastro/funcionario",
-    },
-  ];
+  const validateStep = (step) => {
+    const currentErrors = {};
+    const stepFields = [
+      ["nomeCompleto", "ra", "dtNascimento"],
+      ["restricaoAlimentar", "laudoPsicologo"],
+      ["nomeResponsavel", "cpf", "email", "telefone", "parentesco"],
+      ["cep"]
+    ];
+  
+    stepFields[step].forEach((field) => {
+      if (!formData[field] || formData[field] === "") {
+        currentErrors[field] = "Campo em erro";
+      }
+    });
+  
+    setErrors((prev) => ({ ...prev, ...currentErrors }));
+    return Object.keys(currentErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked
+          ? [...(prev[name] || []), value]
+          : (prev[name] || []).filter((item) => item !== value), 
+      }));
+      return;
+    }
+
+    if (name === "cep") {
+      let formattedValue = value.replace(/\D/g, "");
+      if (formattedValue.length > 5) {
+        formattedValue = `${formattedValue.slice(0, 5)}-${formattedValue.slice(5)}`;
+      }
+
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+
+      if (formattedValue.trim() !== "") {
+        setErrors((prev) => ({ ...prev, [formattedValue]: "" }));
+      } else {
+        setErrors((prev) => ({ ...prev, [formattedValue]: "Campo em erro" }));
+      }
+
+      if (formattedValue.length === 9) {
+        api.get(`enderecos?cep=${formattedValue}`)
+          .then((response) => {
+            const endereco = response.data;
+            setFormData((prevState) => ({
+              ...prevState,
+              cidade: endereco.localidade,
+              uf: endereco.uf,
+              bairro: endereco.bairro,
+              logradouro: endereco.logradouro,
+            }));
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar endereço:", error);
+          });
+      }
+      return;
+    }
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (value !== "") {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+    }
+    
+  };
 
   const incrementPartCadastro = () => {
+    if (!validateStep(partCadastro)) {
+      return;
+    }  
     if (partCadastro === 4) {
-      finalizarFormulario();
+      handleSubmit();
     }
     setPartCadastro(partCadastro + 1);
     setStep(partCadastro + 1)
@@ -73,27 +141,14 @@ function FormularioAluno({ setStep }) {
     setPartCadastro(partCadastro - 1);
     setStep(partCadastro - 1)
   };
-  const finalizarFormulario = () => {
-    navigate("/secretaria/gerencia/aluno");
-  };
 
   const [showTable, setShowTable] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   const [hideInput, setInput] = useState(true);
+  const [showUpload, setUpload] = useState(false);
 
   const handleCheckChange = (event) => {
     setInput(event.target.checked);
-  };
-
-  const [showUpload, setUpload] = useState(false);
+  };  
 
   const handleRadioChange = (event) => {
     if (event.target.value === "sim") {
@@ -111,9 +166,43 @@ function FormularioAluno({ setStep }) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dados completos:", formData);
+  const handleSubmit = async () => {
+    if (!validateStep(partCadastro)) {
+      setPartCadastro(partCadastro);
+      return;
+    } 
+
+    try {
+      const response = await api.post("/usuarios/funcionario", formData);
+      if (response.status === 201) {
+        toast.success("Funcionário cadastrado com sucesso!");
+        setFormData({
+          nomeCompleto: "",
+          ra: "",
+          dtNascimento: "",
+          restricaoAlimentar: "",
+          tipoRestricao: [],
+          restricaoAlimentarOutros: "",
+          laudoPsicologo: "",
+          Observacao: "",
+          nomeResponsavel: "",
+          cpfResponsavel: "",
+          emailResponsavel: "",
+          telefone: "",
+          parentesco: "",
+          cep: "",
+          cidade: "",
+          uf: "",
+          bairro: "",
+          rua: "",
+          numero: "",
+          complemento: "",
+        });
+        navigate("/secretaria/gerencia/aluno");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Erro ao cadastrar funcionário.");
+    }
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -133,22 +222,6 @@ function FormularioAluno({ setStep }) {
   return (
     <>
       <section className="flex flex-row align-center h-1/2 w-full justify-center">
-        {/* <div className="steps">
-          {["Aluno", "Adicionais", "Responsável", "Endereços", "Finalizar"].map(
-            (label, index) => (
-              <div key={index} className="step">
-                <div
-                  className={`circle ${index === partCadastro ? "active" : ""}`}
-                >
-                  {index + 1}
-                </div>
-                <span>{label}</span>
-                {index < 4 && <hr />}
-              </div>
-            )
-          )}
-        </div> */}
-
         <form onSubmit={handleSubmit} className="flex flex-col w-1/2 h-full">
           {partCadastro === 0 && (
             <>
@@ -156,27 +229,40 @@ function FormularioAluno({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="Nome completo"
+                name="nomeCompleto"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.nomeCompleto}
+                error={!!errors.nomeCompleto}
+                helperText={errors.nomeCompleto}
               />
               <TextField
                 margin="normal"
                 id="outlined-basic"
                 label="RA"
+                name="ra"
                 variant="outlined"
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.ra}
+                error={!!errors.ra}
+                helperText={errors.ra}
               />
               <TextField
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
                 id="outlined-basic"
                 label="Data de Nascimento"
+                name="dtNascimento"
                 type="date"
                 variant="outlined"
-                value={formData.dtNascimento}
                 onChange={handleInputChange}
+                value={formData.dtNascimento}
+                error={!!errors.dtNascimento}
+                helperText={errors.dtNascimento}
               />
             </>
           )}
@@ -189,18 +275,22 @@ function FormularioAluno({ setStep }) {
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                name="restricaoAlimentar"
+                value={formData.restricaoAlimentar || ""}
+                onChange={handleInputChange}
               >
                 <FormControlLabel
                   value="sim"
                   control={<Radio />}
                   label="Sim"
+                  name="restricaoAlimentar"
                   onChange={handleRadioChange}
                 />
                 <FormControlLabel
                   value="nao"
                   control={<Radio />}
                   label="Não"
+                  name="restricaoAlimentar"
                   onChange={handleRadioChange}
                 />
               </RadioGroup>
@@ -208,22 +298,40 @@ function FormularioAluno({ setStep }) {
                 <>
                   <FormGroup className="flex flex-wrap w-full max-h-28">
                     <FormControlLabel
-                      control={<Checkbox />}
+                      control={<Checkbox 
+                        value="Peixes e frutos do mar"
+                        checked={formData.tipoRestricao.includes("Peixes e frutos do mar")}
+                        onChange={handleInputChange}
+                        />}
                       label="Peixes e frutos do mar"
                       className="w-1/2"
                     />
                     <FormControlLabel
-                      control={<Checkbox />}
+                      control={<Checkbox 
+                        value="Trigo"
+                        checked={formData.tipoRestricao.includes("Trigo")}
+                        onChange={handleInputChange}
+                        />}
                       label="Trigo"
                       className="w-1/2"
                     />
                     <FormControlLabel
-                      control={<Checkbox />}
+                      control={<Checkbox 
+                        value="Ovos"
+                        checked={formData.tipoRestricao.includes("Ovos")}
+                        onChange={handleInputChange}
+                        />}
                       label="Ovos"
                       className="w-1/2"
                     />
                   </FormGroup>
-                  <TextField label="Outros:" className="flex-none" />
+                  <TextField 
+                  label="Outros:" 
+                  className="flex-none" 
+                  name="restricaoAlimentarOutros"
+                  value={formData.restricaoAlimentarOutros}
+                  onChange={handleInputChange}
+                  />
                 </>
               )}
 
@@ -233,13 +341,16 @@ function FormularioAluno({ setStep }) {
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                name="laudoPsicologo"
+                value={formData.laudoPsicologo || ""}
+                onChange={handleInputChange}
               >
                 <FormControlLabel
                   id="laudo"
                   value="sim"
                   control={<Radio />}
                   label="Sim"
+                  name="laudoPsicologo"
                   onChange={handleLaudoChange}
                 />
                 <FormControlLabel
@@ -247,6 +358,7 @@ function FormularioAluno({ setStep }) {
                   value="nao"
                   control={<Radio />}
                   label="Não"
+                  name="laudoPsicologo"
                   onChange={handleLaudoChange}
                 />
               </RadioGroup>
@@ -273,43 +385,63 @@ function FormularioAluno({ setStep }) {
               <TextField
                 margin="normal"
                 id="outlined-basic"
-                label="Nome completo"
+                label="Nome Responsavel"
+                name="nomeResponsavel"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.nomeResponsavel}
+                error={!!errors.nomeResponsavel}
+                helperText={errors.nomeResponsavel}
               />
               <TextField
                 margin="normal"
                 id="outlined-basic"
                 label="CPF"
+                name="cpf"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.cpf}
+                error={!!errors.cpf}
+                helperText={errors.cpf}
               />
               <TextField
                 margin="normal"
                 id="outlined-basic"
                 label="Email"
+                name="email"
                 variant="outlined"
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.email}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <div className="flex items-center justify-between">
                 <TextField
                   margin="normal"
                   id="outlined-basic"
                   label="Telefone"
+                  name="telefone"
                   variant="outlined"
                   type="text"
                   placeholder="(11)99999-9999"
                   className="w-2/5"
                   onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
+                  value={formData.telefone}
+                  error={!!errors.telefone}
+                  helperText={errors.telefone}
                 />
                 <Box sx={{ width: "40%", paddingTop: "6.5px" }}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors.parentesco}>
                     <InputLabel id="demo-simple-select-helper-label">
                       Parentesco
                     </InputLabel>
@@ -319,8 +451,10 @@ function FormularioAluno({ setStep }) {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Parentesco"
+                      name="parentesco"
+                      value={formData.parentesco}
+                      onChange={handleInputChange}
                     >
-                      <MenuItem>Selecione</MenuItem>
                       <MenuItem value={20}>Mãe/Pai</MenuItem>
                       <MenuItem value={30}>Irmã/Irmão</MenuItem>
                     </Select>
@@ -335,10 +469,15 @@ function FormularioAluno({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="CEP"
+                name="cep"
                 variant="outlined"
                 type="text"
                 placeholder="99999-999"
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.cep}
+                error={!!errors.cep}
+                helperText={errors.cep}
               />
               <div className="flex justify-between">
                 <TextField
@@ -346,30 +485,36 @@ function FormularioAluno({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="Cidade"
+                  name="cidade"
                   variant="outlined"
                   type="text"
                   className="w-2/5"
                   onChange={handleInputChange}
+                  value={formData.cidade}
                 />
                 <TextField
                   disabled
                   margin="normal"
                   id="outlined-basic"
                   label="UF"
+                  name="uf"
                   variant="outlined"
                   type="text"
                   className="w-1/5"
                   onChange={handleInputChange}
+                  value={formData.uf}
                 />
                 <TextField
                   disabled
                   margin="normal"
                   id="outlined-basic"
                   label="Bairro"
+                  name="bairro"
                   variant="outlined"
                   type="text"
                   className="w-2/6"
                   onChange={handleInputChange}
+                  value={formData.bairro}
                 />
               </div>
               <div className="flex justify-between items-center">
@@ -378,20 +523,25 @@ function FormularioAluno({ setStep }) {
                   margin="normal"
                   id="outlined-basic"
                   label="Logradouro"
+                  name="logradouro"
                   variant="outlined"
                   type="text"
                   className="w-3/6"
                   onChange={handleInputChange}
+                  value={formData.logradouro}
                 />
                 {!hideInput && (
                   <TextField
                     margin="normal"
                     id="outlined-basic"
                     label="Número"
+                    name="numero"
                     variant="outlined"
                     type="text"
                     className="w-2/12"
                     onChange={handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    value={formData.numero}
                   />
                 )}
                 <FormControlLabel
@@ -406,10 +556,13 @@ function FormularioAluno({ setStep }) {
                 margin="normal"
                 id="outlined-basic"
                 label="Complemento"
+                name="complemento"
                 variant="outlined"
                 type="text"
                 className="w-full"
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.complemento}
               />
             </>
           )}
@@ -417,25 +570,25 @@ function FormularioAluno({ setStep }) {
             <>
               <div className="flex gap-10 justify-between">
                 <div className="flex flex-col gap-2">
-                  <span>Nome completo aluno: </span>
-                  <span>RA: </span>
-                  <span>Data ascimento: </span>
-                  <span>Restrição alimentar: </span>
-                  <span>laudo psicologico: </span>
-                  <span>Nome completo responsavel: </span>
-                  <span>Cpf responsavel: </span>
-                  <span>Email: </span>
-                  <span>telefone: </span>
-                  <span>parentesco: </span>
+                  <span>Nome completo aluno: <b>{formData.nomeCompleto}</b></span>
+                  <span>RA: <b>{formData.ra}</b> </span>
+                  <span>Data ascimento: <b>{formData.dtNascimento}</b> </span>
+                  <span>Restrição alimentar: <b>{formData.restricaoAlimentar}</b> </span>
+                  <span>laudo psicologico: <b>{formData.laudoPsicologo}</b> </span>
+                  <span>Nome completo responsavel: <b>{formData.nomeResponsavel}</b> </span>
+                  <span>Cpf responsavel: <b>{formData.cpfResponsavel}</b> </span>
+                  <span>Email: <b>{formData.emailResponsavel}</b> </span>
+                  <span>telefone: <b>{formData.telefone}</b></span>
+                  <span>parentesco: <b>{formData.parentesco}</b> </span>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <span>Cep: </span>
-                  <span>Cidade: </span>
-                  <span>Uf:</span>
-                  <span>Bairro: </span>
-                  <span>Rua: </span>
-                  <span>Número: </span>
-                  <span>Complemento</span>
+                  <span>Cep: <b>{formData.cep}</b> </span>
+                  <span>Cidade: <b>{formData.cidade}</b> </span>
+                  <span>Uf: <b>{formData.uf}</b></span>
+                  <span>Bairro: <b>{formData.bairro}</b> </span>
+                  <span>Rua: <b>{formData.rua}</b> </span>
+                  <span>Número: <b>{formData.numero}</b> </span>
+                  <span>Complemento: <b>{formData.complemento}</b></span>
                 </div>
               </div>
             </>

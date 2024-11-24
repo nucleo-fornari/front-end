@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Box,
   Button,
@@ -7,21 +8,15 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup,
-  FormLabel,
   InputLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
-  styled,
   TextField,
 } from "@mui/material";
 import api from "../../../../services/api";
 
 function FormularioFuncionario({ setStep }) {
   const navigate = useNavigate();
-
   const [partCadastro, setPartCadastro] = useState(0);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
@@ -38,10 +33,80 @@ function FormularioFuncionario({ setStep }) {
     numero: "",
     complemento: "",
   });
+  const [errors, setErrors] = useState({});
+  const [hideInput, setInput] = useState(true);
+
+  const validateStep = (step) => {
+    const currentErrors = {};
+    const stepFields = [
+      ["nomeCompleto", "dtNascimento", "cargo"],
+      ["email", "cpf", "telefone"],
+      ["cep", "numero", "complemento"],
+    ];
+  
+    stepFields[step].forEach((field) => {
+      if (!formData[field] || formData[field].trim() === "") {
+        currentErrors[field] = "Campo em erro";
+      }
+    });
+  
+    setErrors((prev) => ({ ...prev, ...currentErrors }));
+    return Object.keys(currentErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "cep") {
+      let formattedValue = value.replace(/\D/g, "");
+      if (formattedValue.length > 5) {
+        formattedValue = `${formattedValue.slice(0, 5)}-${formattedValue.slice(5)}`;
+      }
+
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+
+      if (formattedValue.trim() !== "") {
+        setErrors((prev) => ({ ...prev, [formattedValue]: "" }));
+      } else {
+        setErrors((prev) => ({ ...prev, [formattedValue]: "Campo em erro" }));
+      }
+
+      if (formattedValue.length === 9) {
+        api.get(`enderecos?cep=${formattedValue}`)
+          .then((response) => {
+            const endereco = response.data;
+            setFormData((prevState) => ({
+              ...prevState,
+              cidade: endereco.localidade,
+              uf: endereco.uf,
+              bairro: endereco.bairro,
+              logradouro: endereco.logradouro,
+            }));
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar endereço:", error);
+          });
+      }
+
+      return;
+    }
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (value.trim() !== "") {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+    }
+    
+  };
 
   const incrementPartCadastro = () => {
+    if (!validateStep(partCadastro)) {
+      return;
+    }  
     if (partCadastro === 3) {
-      finalizarFormulario();
+      handleSubmit();
     }
     setPartCadastro(partCadastro + 1);
     setStep(partCadastro + 1)
@@ -54,52 +119,48 @@ function FormularioFuncionario({ setStep }) {
     setPartCadastro(partCadastro - 1);
     setStep(partCadastro - 1)
   };
-  const finalizarFormulario = () => {
-    navigate("/secretaria/gerencia/funcionario");
-  };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    if (name === "cep" && value.length === 9) {
-      api.get(`enderecos?cep=${value}`)
-        .then((response) => {
-          console.log(response.data)
-
-          const endereco = response.data;
-          setFormData((prevState) => ({
-            ...prevState,
-            cidade: endereco.localidade,
-            uf: endereco.uf,
-            bairro: endereco.bairro,
-            logradouro: endereco.logradouro,
-          }));
-        })
-        .catch ((error) => {
-        console.error("Erro ao buscar endereço:", error);
-      })
-    }
-  };
-
-  const [hideInput, setInput] = useState(true);
-
+  
   const handleCheckChange = (event) => {
     setInput(event.target.checked);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dados completos:", formData);
+  const handleSubmit = async () => {
+    if (!validateStep(partCadastro)) {
+      setPartCadastro(partCadastro);
+      return;
+    } 
+
+    try {
+      const response = await api.post("/usuarios/funcionario", formData);
+      if (response.status === 201) {
+        toast.success("Funcionário cadastrado com sucesso!");
+        setFormData({
+          nomeCompleto: "",
+          dtNascimento: "",
+          cargo: "",
+          email: "",
+          cpf: "",
+          telefone: "",
+          cep: "",
+          cidade: "",
+          uf: "",
+          bairro: "",
+          logradouro: "",
+          numero: "",
+          complemento: "",
+        });
+        navigate("/secretaria/gerencia/funcionario");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Erro ao cadastrar funcionário.");
+    }
   };
 
   return (
     <>
       <section className="flex flex-row align-center h-1/2 w-full justify-center">
-        <form onSubmit={handleSubmit} className="flex flex-col w-1/2 h-full">
+        <form className="flex flex-col w-1/2 h-full">
           {partCadastro === 0 && (
             <>
               <TextField
@@ -111,6 +172,10 @@ function FormularioFuncionario({ setStep }) {
                 type="text"
                 fullWidth={true}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.nomeCompleto}
+                error={!!errors.nomeCompleto}
+                helperText={errors.nomeCompleto}
               />
               <TextField
                 margin="normal"
@@ -120,11 +185,13 @@ function FormularioFuncionario({ setStep }) {
                 name="dtNascimento"
                 type="date"
                 variant="outlined"
-                value={formData.dtNascimento}
                 onChange={handleInputChange}
+                value={formData.dtNascimento}
+                error={!!errors.dtNascimento}
+                helperText={errors.dtNascimento}
               />
               <Box sx={{ width: "40%", paddingTop: "6.5px" }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth error={!!errors.cargo}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Cargo
                   </InputLabel>
@@ -152,7 +219,11 @@ function FormularioFuncionario({ setStep }) {
                 label="Email"
                 name="email"
                 variant="outlined"
+                InputLabelProps={{ shrink: true }}
                 onChange={handleInputChange}
+                value={formData.email}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"
@@ -162,7 +233,11 @@ function FormularioFuncionario({ setStep }) {
                 variant="outlined"
                 type="text"
                 fullWidth={true}
+                InputLabelProps={{ shrink: true }}
                 onChange={handleInputChange}
+                value={formData.cpf}
+                error={!!errors.cpf}
+                helperText={errors.cpf}
               />  
               <div className="flex items-center justify-between">
                 <TextField
@@ -174,7 +249,11 @@ function FormularioFuncionario({ setStep }) {
                   type="text"
                   placeholder="(11)99999-9999"
                   className="w-2/5"
+                  InputLabelProps={{ shrink: true }}
                   onChange={handleInputChange}
+                  value={formData.telefone}
+                  error={!!errors.telefone}
+                  helperText={errors.telefone}
                 />
               </div>
             </>
@@ -186,11 +265,13 @@ function FormularioFuncionario({ setStep }) {
                 id="outlined-basic"
                 label="CEP"
                 name="cep"                
-                maxLength={9}
+                inputProps={{ maxLength: 9 }}
                 variant="outlined"
                 type="text"
                 placeholder="99999-999"
+                InputLabelProps={{ shrink: true }}
                 onChange={handleInputChange}
+                value={formData.cep}
               />
               <div className="flex justify-between">
                 <TextField
@@ -252,7 +333,9 @@ function FormularioFuncionario({ setStep }) {
                     variant="outlined"
                     type="text"
                     className="w-2/12"
+                    InputLabelProps={{ shrink: true }}
                     onChange={handleInputChange}
+                    value={formData.numero}
                   />
                 )}
                 <FormControlLabel
@@ -271,7 +354,9 @@ function FormularioFuncionario({ setStep }) {
                 variant="outlined"
                 type="text"
                 className="w-full"
+                InputLabelProps={{ shrink: true }}
                 onChange={handleInputChange}
+                value={formData.complemento}
               />
             </>
           )}
