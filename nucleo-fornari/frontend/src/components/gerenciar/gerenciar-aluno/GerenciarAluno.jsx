@@ -67,7 +67,7 @@ const GerenciarAluno = () => {
               label="Buscar por nome:"
               variant="outlined"
               onChange={(e) => handleSelectChange(e.target.value)}
-              placeholder="Digite Sala, RA ou Aluno"
+              placeholder=""
           />
         </FormControl>
 
