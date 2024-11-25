@@ -1,11 +1,52 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './GerenciarAluno.css';
 import { Link } from 'react-router-dom';
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AlunoService from "../../../services/AlunosService";
+import {toast} from "react-toastify";
+import TextField from "@mui/material/TextField";
 
 const GerenciarAluno = () => {
+  const [alunos, setAlunos] = useState([]);
+  const [filteredAlunos, setFilteredAlunos] = useState([]);
+
+  const handleSelectChange = (event) => {
+    if (!event) {
+      setFilteredAlunos(alunos);
+      return;
+    }
+    setFilteredAlunos(alunos.filter(aluno => aluno.nome.toUpperCase().indexOf(event.toUpperCase()) !== -1));
+  }
+
+  const loadAlunos = () => {
+    AlunoService.getAlunos().then((res) => {
+      setAlunos(res.data);
+    }).catch((error) => console.log(error));
+  }
+
+  const handleDelete = (id) => {
+    AlunoService.deleteAluno(id).then((res) => {
+        if (res.status === 204) {
+            toast.success('Deletado com sucesso!');
+            const aux = alunos.filter((aluno) => aluno.id !== id);
+            setAlunos(aux);
+        }
+    }).catch((error) => {
+      console.log(error);
+      toast.error('Erro ao deletar!');
+    })
+  }
+
+  useEffect(() => {
+    loadAlunos();
+  }, []);
+
+  useEffect(() => {
+    setFilteredAlunos(alunos);
+  }, [alunos]);
+
   return (
 
     <div class='containner-gerencia-alunos'>
@@ -21,18 +62,14 @@ const GerenciarAluno = () => {
         </Link>
       </div>
       <Box sx={{ p: 5 }}>
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel id="order-label">Ordenar por:</InputLabel>
-        <Select
-          labelId="order-label"
-          label="Ordenar por:"
-          variant="outlined"
-        >
-          <MenuItem value={0}>Sala</MenuItem>
-          <MenuItem value={1}>RA</MenuItem>
-          <MenuItem value={2}>Aluno</MenuItem>
-        </Select>
-      </FormControl>
+        <FormControl fullWidth sx={{ mb: 3 }}>
+          <TextField
+              label="Buscar por nome:"
+              variant="outlined"
+              onChange={(e) => handleSelectChange(e.target.value)}
+              placeholder="Digite Sala, RA ou Aluno"
+          />
+        </FormControl>
 
       <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
         <Table>
@@ -46,41 +83,37 @@ const GerenciarAluno = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {data.length > 0 ? (
-              data.map((chamado) => ( */}
-                <TableRow hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
-                  <TableCell align="center">
-                    <Box sx={{ p: 1, borderRadius: 1 }}>G1A</Box>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ p: 1, borderRadius: 1 }}>Caique</Box>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ p: 1, borderRadius: 1 }}>01231212</Box>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ p: 1, borderRadius: 1 }}>Julia</Box>
-                  </TableCell>
-                  <TableCell align="center">
-                    <EditIcon style={{ color: 'blue' }}
-                      // onClick={() => handleMudarChamado(chamado.id)}
-                      // color={chamado.finalizado ? "success" : "error"}
-                      aria-label="Concluir chamado"
-                    >
-                      {/* {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />} */}
-                    </EditIcon>
-                    <DeleteIcon style={{ color: 'red' }} />
-                  </TableCell>
+            {!filteredAlunos || !Array.isArray(filteredAlunos) ? null :
+              filteredAlunos.map((aluno) => (
+                  <TableRow hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
+                    <TableCell align="center">
+                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.sala ?? "Não atribuída"}</Box>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.nome}</Box>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.ra}</Box>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.filiacoes[0].responsavel.nome}</Box>
+                    </TableCell>
+                    <TableCell align="center">
+                      <EditIcon style={{ color: 'blue' }}
+                          // onClick={() => handleMudarChamado(chamado.id)}
+                          // color={chamado.finalizado ? "success" : "error"}
+                                aria-label="Concluir chamado"
+                      >
+                        {/* {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />} */}
+                      </EditIcon>
+                      <DeleteIcon
+                          style={{ color: 'red' }}
+                          onClick={() => handleDelete(aluno.id)}
+                      />
+                    </TableCell>
 
-                </TableRow>
-            
-            {/* : (
-              <TableRow>
-                <TableCell colSpan={6} align="center" sx={{ py: 3, fontStyle: "italic" }}>
-                  Nenhum Aluno cadastrado
-                </TableCell>
-              </TableRow>
-            )} */}
+                  </TableRow>))
+            }
           </TableBody>
         </Table>
       </TableContainer>
