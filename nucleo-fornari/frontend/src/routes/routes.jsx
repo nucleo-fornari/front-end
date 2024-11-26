@@ -21,6 +21,8 @@ import EscreverAvisos from "../components/publicar/secretaria/EscreverAvisos.jsx
 import FetchData from "../components/calendario/FetchData.jsx";
 import CadastroFuncionario from "../components/gerenciar/gerenciar-funcionario/adicionar-funcionario/AdicionarFuncionario.jsx";
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
+import GerenciarSalas from "../components/gerenciar/gerenciar-salas/GerenciarSalas.jsx";
+import EditarSala from "../components/gerenciar/gerenciar-salas/editar-sala/EditarSala.jsx";
 
 const avisosData = [
   {
@@ -148,9 +150,18 @@ export const router = createBrowserRouter([
         path: "/secretaria/cadastro/aluno",
         element: <CadastroAlunos />,
       },
+
       {
         path: "/secretaria/cadastro/funcionario",
         element: <CadastroFuncionario/>
+      },      
+      {
+        path: "/secretaria/gerencia/salas",
+        element: <GerenciarSalas />,
+      },
+      {
+        path: "/secretaria/editar/salas",
+        element: <EditarSala/>
       }
     ],
   },
