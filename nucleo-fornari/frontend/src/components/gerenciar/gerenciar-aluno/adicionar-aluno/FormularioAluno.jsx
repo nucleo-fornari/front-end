@@ -62,13 +62,13 @@ function FormularioAluno({ setStep }) {
       ["nomeResponsavel", "cpf", "email", "telefone", "parentesco"],
       ["cep"]
     ];
-  
+    
     stepFields[step].forEach((field) => {
       if (!formData[field] || formData[field] === "") {
         currentErrors[field] = "Campo em erro";
       }
     });
-  
+    
     setErrors((prev) => ({ ...prev, ...currentErrors }));
     return Object.keys(currentErrors).length === 0;
   };
@@ -524,6 +524,7 @@ function FormularioAluno({ setStep }) {
                   type="text"
                   className="w-2/5"
                   onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
                   value={formData.cidade}
                 />
                 <TextField
@@ -536,6 +537,7 @@ function FormularioAluno({ setStep }) {
                   type="text"
                   className="w-1/5"
                   onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
                   value={formData.uf}
                 />
                 <TextField
@@ -548,6 +550,7 @@ function FormularioAluno({ setStep }) {
                   type="text"
                   className="w-2/6"
                   onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
                   value={formData.bairro}
                 />
               </div>
@@ -562,6 +565,7 @@ function FormularioAluno({ setStep }) {
                   type="text"
                   className="w-3/6"
                   onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
                   value={formData.logradouro}
                 />
                 {!hideInput && (
