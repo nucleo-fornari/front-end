@@ -25,20 +25,22 @@ export function Inicio() {
   };
 
   return (
-    <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col">
+    <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
       <div className="text-white-main flex flex-col gap-20 ">
         <div className="h-[500px]">
           <Calendar />
         </div>
-        <Button
-          variant="contained"
-          startIcon={<SupportAgentRoundedIcon />}
-          color="primary"
-          size="large"
-          onClick={handleOpenChamado}
-        >
-          Abrir chamado
-        </Button>
+        <div className="lg:h-11">
+          <Button
+            variant="contained"
+            startIcon={<SupportAgentRoundedIcon />}
+            color="primary"
+            fullWidth={true}
+            onClick={handleOpenChamado}
+          >
+            Abrir chamado
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-12">
