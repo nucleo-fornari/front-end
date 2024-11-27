@@ -28,6 +28,7 @@ const Formulario = () => {
                 sessionStorage.FUNC = response.data.funcao;
                 sessionStorage.ID = response.data.userId;
                 sessionStorage.NOME = response.data.nome;
+                sessionStorage.ID_SALA = response.data.salaId;
 
                 if (response.data.funcao === "RESPONSAVEL") {
                     navigate("/responsavel");

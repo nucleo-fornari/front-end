@@ -56,7 +56,7 @@ const GerenciarAluno = () => {
         >
           <span class='redireciona-adicionar-aluno'>
 
-            + Novo Aluno
+            Novo Aluno
 
           </span>
         </Link>

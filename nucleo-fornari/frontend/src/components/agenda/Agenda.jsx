@@ -47,7 +47,7 @@ useEffect(() => {
         let eventos = [];
         if (tipo === "Secretaria") {
           const res = await api.get(`eventos/sala/${afilhadoSelecionado.sala.id}`);
-          eventos = res.data.filter((evento) => evento.tipo === "PUBLICACAO");
+          eventos = Utils.mapEventoToAviso(res.data.filter((evento) => evento.tipo === "PUBLICACAO"));
         } else if (tipo === "Professora") {
           const [eventosRes, recadosRes] = await Promise.all([
             api.get(`eventos/sala/${afilhadoSelecionado.sala.id}`),
