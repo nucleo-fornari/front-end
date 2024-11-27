@@ -5,6 +5,7 @@ import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
 import ModalChamado from "../modals/chamado/ModalChamado";
 import ModalRecadoGeral from "../modals/recado-geral/ModalRecadoGeral";
+import api from "../../services/api.js";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
@@ -23,6 +24,35 @@ export function Inicio() {
   const handleOpenChamado = () => {
     setOpenChamado(true);
   };
+
+  const handleRelatorio = async () => {
+    try {
+      const idSala = sessionStorage.getItem("ID_SALA");
+  
+      if (!idSala) {
+        throw new Error("ID_SALA não encontrado no sessionStorage.");
+      }
+  
+      const { data: sala } = await api.get(`/salas/${idSala}`);
+  
+      await api.post("/files/generate", sala);
+  
+      const response = await api.get(`/files/download/pessoas-autorizadas-${sala.nome}.csv`, {
+        responseType: "blob",
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `pessoas-autorizadas-${sala.nome}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Erro ao gerar ou baixar o relatório:", error);
+    }
+  };
+  
 
   return (
     <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
@@ -52,6 +82,15 @@ export function Inicio() {
           onClick={handleOpenRecado}
         >
           Recado geral
+        </Button>
+
+        <Button
+          variant="outlined"
+          size="medium"
+          fullWidth={true}
+          onClick={handleRelatorio}
+        >
+          Pessoas Autorizadas
         </Button>
       </div>
 
