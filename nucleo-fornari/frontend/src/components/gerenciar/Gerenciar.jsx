@@ -1,5 +1,6 @@
 import React from 'react';
 import "./Gerenciar.css";
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +10,11 @@ const Gerenciar = () => {
         {
             route: '/secretaria/gerencia/aluno',
             name: 'ALUNOS',
+        },
+        
+        {
+            route: '/secretaria/gerencia/salas',
+            name: 'SALAS'
         },
         {
             route: '/secretaria/gerencia/funcionario',
@@ -23,7 +29,8 @@ const Gerenciar = () => {
                 to={item.route}
                 >
                 <div class='gerencia-alunos-funcionarios'>
-                    <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
+                    {item.name === 'SALAS' ? <SupervisedUserCircleIcon style={{ fontSize: 300, color: '#3285fa' }}/> :
+                     <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />}
                     <span key={index} class='gerencia-text'>
                         {item.name}
                     </span>

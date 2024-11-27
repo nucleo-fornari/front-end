@@ -6,48 +6,45 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api"
 
 const Formulario = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({ email: '', senha: '' });
 
+
     const handleLogin = async (event) => {
         event.preventDefault();
         setErrors({ email: '', senha: '' });
 
-            try {
-                const response = await api.post("usuarios/login", {
-                    email: email,
-                    senha: senha
-                });
+        try {
+            const response = await api.post("usuarios/login", {
+                email: email,
+                senha: senha
+            });
 
-                if (response.status === 200) {
-                    sessionStorage.TOKEN = response.data.token;
-                    sessionStorage.FUNC = response.data.funcao;
-                    sessionStorage.ID = response.data.userId;
-                    sessionStorage.NOME = response.data.nome;
-                    sessionStorage.SALAID = response.data.salaId;
-                    if(response.data.funcao === "RESPONSAVEL") {
-                        navigate("/responsavel");
-                    } else if (response.data.funcao === "PROFESSOR") {
-                        navigate("/professor");
-                    } else if (response.data.funcao === "SECRETARIO") {
-                        navigate("/secretaria");
-                    } else {
-                        console.log("Ocorreu algum erro ao coletar a função do usuário")
-                    }
+            if (response.status === 200) {
+                sessionStorage.TOKEN = response.data.token;
+                sessionStorage.FUNC = response.data.funcao;
+                sessionStorage.ID = response.data.userId;
+                sessionStorage.NOME = response.data.nome;
+                sessionStorage.ID_SALA = response.data.salaId;
+
+                if (response.data.funcao === "RESPONSAVEL") {
+                    navigate("/responsavel");
+                } else if (response.data.funcao === "PROFESSOR") {
+                    navigate("/professor");
+                } else if (response.data.funcao === "SECRETARIO") {
+                    navigate("/secretaria");
+                } else {
+                    console.log("Ocorreu algum erro ao coletar a função do usuário")
+                }
 
             }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data.errors) {
-                // const fieldErrors = {};
-                // error.response.data.errors.forEach((err) => {
-                //     fieldErrors[err.field] = err.defaultMessage;
-                // });
-                // setErrors(fieldErrors);
                 setErrors({
-                    email: '',
+                    email: ' ',
                     senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
                 });
             } else {
@@ -55,7 +52,8 @@ const Formulario = () => {
                 alert('Erro inesperado ao fazer login. Tente novamente.');
             }
         }
-    };
+    }
+
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -84,7 +82,7 @@ const Formulario = () => {
                         id="outlined-password"
                         label="Senha"
                         variant="outlined"
-                        type={showPassword ? "text" : "password"} // Alterna entre texto e senha
+                        type={showPassword ? "text" : "password"}
                         fullWidth={true}
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
@@ -110,6 +108,5 @@ const Formulario = () => {
             </div>
         </section>
     );
-}
-
+};
 export default Formulario;

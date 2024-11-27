@@ -8,18 +8,21 @@ import ProfessorPage from "../pages/professor/ProfessorPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import { Inicio } from "../components/dashboards/Inicio.jsx";
 import NotFound from "../pages/not-found/NotFound.jsx";
+import PublicacoesProfessor from "../components/publicar/professor/PublicacoesProfessor.jsx";
 
 //SECRETARIA
-import Calendario from "../components/calendario/Calendario.jsx";
 import SecretaryPage from "../pages/secretaria/SecretariaPage.jsx";
 import ChamadosSecretaria from "../components/chamados/Chamados.jsx";
 import Gerenciar from "../components/gerenciar/Gerenciar.jsx";
 import GerenciarAluno from "../components/gerenciar/gerenciar-aluno/GerenciarAluno.jsx";
 import GerenciarFuncionario from "../components/gerenciar/gerenciar-funcionario/GerenciarFuncionario.jsx";
 import StickyHeadTable from "../components/dashboards/TabelaChamados.jsx";
-import EscreverAvisos from "../components/publicar/EscreverAvisos.jsx"
-
+import EscreverAvisos from "../components/publicar/secretaria/EscreverAvisos.jsx"
+import FetchData from "../components/calendario/FetchData.jsx";
+import CadastroFuncionario from "../components/gerenciar/gerenciar-funcionario/adicionar-funcionario/AdicionarFuncionario.jsx";
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
+import GerenciarSalas from "../components/gerenciar/gerenciar-salas/GerenciarSalas.jsx";
+import EditarSala from "../components/gerenciar/gerenciar-salas/editar-sala/EditarSala.jsx";
 
 const avisosData = [
   {
@@ -107,7 +110,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/professor/publicacoes",
-        element: <Avisos avisosData={avisosData} />,
+        element: <PublicacoesProfessor />,
       },
       {
         path: "/professor/chamados",
@@ -129,7 +132,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/calendario",
-        element: <Calendario />,
+        element: <FetchData />,
       },
       {
         path: "/secretaria/gerencia",
@@ -147,6 +150,19 @@ export const router = createBrowserRouter([
         path: "/secretaria/cadastro/aluno",
         element: <CadastroAlunos />,
       },
+
+      {
+        path: "/secretaria/cadastro/funcionario",
+        element: <CadastroFuncionario/>
+      },      
+      {
+        path: "/secretaria/gerencia/salas",
+        element: <GerenciarSalas />,
+      },
+      {
+        path: "/secretaria/editar/salas",
+        element: <EditarSala/>
+      }
     ],
   },
 ]);

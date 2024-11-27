@@ -14,9 +14,9 @@ import HealingIcon from "@mui/icons-material/Healing";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
-import FormularioAluno from "./FormularioAluno";
+import FormularioAluno from "./FormularioFuncionario";
 import CloseIcon from "@mui/icons-material/Close";
-
+import "./AdicionarFuncionario.css";
 import { Link } from "react-router-dom";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -166,10 +166,9 @@ function ColorlibStepIcon(props) {
 
   const icons = {
     1: <PersonIcon />,
-    2: <HealingIcon />,
-    3: <PersonAddIcon />,
-    4: <AddLocationAltIcon />,
-    5: <CheckCircleIcon />,
+    2: <PersonAddIcon />,
+    3: <AddLocationAltIcon />,
+    4: <CheckCircleIcon />,
   };
 
   return (
@@ -200,10 +199,9 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-export const steps = [
-  "Dados do aluno",
+const steps = [
+  "Dados do Funcionario",
   "Informações adicionais",
-  "Dados do responsável",
   "Endereço",
   "Confirmar",
 ];
@@ -232,7 +230,7 @@ function CustomizedSteppers({ step }) {
         </Stepper>
       </Stack>
       <div className="text-blue-dash text-opacity-80 justify-self-end ml-14">
-        <Link to={"/secretaria/gerencia/aluno"}>
+        <Link to={"/secretaria/gerencia/funcionario"}>
           <CloseIcon fontSize="medium" color="inherit" />
         </Link>
       </div>
@@ -240,7 +238,7 @@ function CustomizedSteppers({ step }) {
   );
 }
 
-function CadastroAlunos() {
+function CadastroFuncionario() {
   const [step, setStep] = useState(0)
 
   return (
@@ -253,4 +251,4 @@ function CadastroAlunos() {
   );
 }
 
-export default CadastroAlunos;
+export default CadastroFuncionario;
