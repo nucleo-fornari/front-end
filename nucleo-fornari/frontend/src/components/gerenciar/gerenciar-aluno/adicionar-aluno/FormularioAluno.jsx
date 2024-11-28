@@ -22,7 +22,7 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
+  TextField, Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
 
@@ -53,6 +53,11 @@ function FormularioAluno({ setStep }) {
     numero: "",
     complemento: "",
   });
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   const validateStep = (step) => {
     const currentErrors = {};
@@ -172,43 +177,89 @@ function FormularioAluno({ setStep }) {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!validateStep(partCadastro)) {
-      setPartCadastro(partCadastro);
-      return;
-    } 
+  const handleSubmit = () => {
+    // if (!validateStep(partCadastro)) {
+    //   setPartCadastro(partCadastro);
+    //   return;
+    // }
 
-    try {
-      const response = await api.post("/usuarios/funcionario", formData);
-      if (response.status === 201) {
-        toast.success("Funcionário cadastrado com sucesso!");
-        setFormData({
-          nomeCompleto: "",
-          ra: "",
-          dtNascimento: "",
-          restricaoAlimentar: "",
-          tipoRestricao: [],
-          restricaoAlimentarOutros: "",
-          laudoPsicologo: "",
-          Observacao: "",
-          nomeResponsavel: "",
-          cpfResponsavel: "",
-          emailResponsavel: "",
-          telefone: "",
-          parentesco: "",
-          cep: "",
-          cidade: "",
-          uf: "",
-          bairro: "",
-          rua: "",
-          numero: "",
-          complemento: "",
-        });
-        navigate("/secretaria/gerencia/aluno");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Erro ao cadastrar funcionário.");
-    }
+      const curDate = new Date();
+      // Falta a data de nascimento do responsável no formulário!!!
+      //CPF, email do responsável e laudado não estão sendo armazenados no formdata!!!
+
+      const obj = JSON.stringify({
+        id: null,
+        ra: formData.ra,
+        nome: formData.nomeCompleto,
+        laudado: true,
+        dtNasc: formData.dtNascimento,
+        observacoes: formData.Observacao,
+        filiacao: {
+          responsavel: {
+            id: null,
+            nome: formData.nomeResponsavel,
+            cpf: "50111980062",
+            email: "email@email.com",
+            telefone: formData.telefone,
+            dtNasc: curDate.toISOString().slice(0, 10),
+            funcao: "RESPONSAVEL",
+            endereco: {
+              id: null,
+              cep: formData.cep,
+              localidade: formData.cidade,
+              uf: formData.uf,
+              bairro: formData.bairro,
+              numero: formData.numero,
+              logradouro: formData.rua,
+              complemento: formData.complemento
+            }
+          },
+          parentesco: formData.parentesco
+        },
+        restricoes: formData.tipoRestricao
+      })
+
+    console.log(obj);
+    alert(curDate.toISOString().slice(0, 10))
+      const requestBody = new FormData();
+      requestBody.append("body", obj)
+
+      requestBody.append("laudo", selectedFile)
+
+      api.post("/alunos", requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((response) => {
+        if (response.status === 201) {
+          toast.success("Funcionário cadastrado com sucesso!");
+          setFormData({
+            nomeCompleto: "",
+            ra: "",
+            dtNascimento: "",
+            restricaoAlimentar: "",
+            tipoRestricao: [],
+            restricaoAlimentarOutros: "",
+            laudoPsicologo: "",
+            Observacao: "",
+            nomeResponsavel: "",
+            cpfResponsavel: "",
+            emailResponsavel: "",
+            telefone: "",
+            parentesco: "",
+            cep: "",
+            cidade: "",
+            uf: "",
+            bairro: "",
+            rua: "",
+            numero: "",
+            complemento: "",
+          });
+          navigate("/secretaria/gerencia/aluno");
+      }}).catch((error) => {
+        console.error(error);
+        toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
+      });
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -397,19 +448,29 @@ function FormularioAluno({ setStep }) {
                 />
               </RadioGroup>
               {showUpload && (
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                >
-                  Adicionar laudo
-                  <VisuallyHiddenInput
-                    type="file"
-                    onChange={(event) => console.log(event.target.files)}
-                    multiple
-                  />
-                </Button>
+                  <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+                    <Typography variant="h5">Upload de Arquivo</Typography>
+
+                    {/* Input para selecionar o arquivo */}
+                    <input
+                        id="upload-input"
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={handleFileChange}
+                    />
+                    <label htmlFor="upload-input">
+                      <Button variant="contained" component="span">
+                        Selecionar Arquivo
+                      </Button>
+                    </label>
+
+                    {/* Exibe o nome do arquivo selecionado */}
+                    {selectedFile && (
+                        <Typography variant="body1">Arquivo: {selectedFile.name}</Typography>
+                    )}
+
+                    {/* Exibe o status */}
+                  </Box>
               )}
             </>
           )}
@@ -489,7 +550,9 @@ function FormularioAluno({ setStep }) {
                       value={formData.parentesco}
                       onChange={handleInputChange}
                     >
-                      <MenuItem value={20}>Mãe/Pai</MenuItem>
+                      {/*CORRIJA OS VALORES DO SELECT !!*/}
+                      {/*GENITOR|IRMÃO|AVÔ|TIO|PRIMO*/}
+                      <MenuItem value={"GENITOR"}>Mãe/Pai</MenuItem>
                       <MenuItem value={30}>Irmã/Irmão</MenuItem>
                     </Select>
                   </FormControl>
@@ -647,7 +710,7 @@ function FormularioAluno({ setStep }) {
           variant="contained"
           size="medium"
           fullWidth={false}
-          onClick={incrementPartCadastro}
+          onClick={partCadastro === 4 ? handleSubmit : incrementPartCadastro}
         >
           {partCadastro === 4 ? "Finalizar" : "Próximo"}
         </Button>
