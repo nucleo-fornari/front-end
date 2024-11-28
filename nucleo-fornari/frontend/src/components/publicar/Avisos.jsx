@@ -12,6 +12,7 @@ function Avisos({setData, data , editHandler}) {
     useEffect(() => {
         if (data && Array.isArray(data)) {
             setCurrentData(data);
+            console.log(data);
         }
     }, [data]);
 

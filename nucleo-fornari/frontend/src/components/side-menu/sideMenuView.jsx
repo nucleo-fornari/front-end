@@ -16,7 +16,7 @@ const SideMenu = ({ menuItens }) => {
 
   return (
     <div
-      className={` lg:h-full md:h-32 flex flex-col items-center transition-all duration-700 ease-out bg-blue-dash text-white-ice sm:w-full md:w-full 
+      className={` lg:h-full md:h-32 flex flex-col items-center lg:justify-normal md:justify-center sm:justify-center transition-all duration-700 ease-out bg-blue-dash text-white-ice sm:w-full md:w-full 
         ${isExpanded ? "lg:w-64" : "lg:w-20"}
         `}
     >
