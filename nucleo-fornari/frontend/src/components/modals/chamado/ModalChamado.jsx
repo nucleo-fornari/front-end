@@ -10,11 +10,16 @@ import {
   FormControlLabel,
   TextField,
   Button,
-  IconButton
+  IconButton,
+  createTheme,
+  styled,
+  ThemeProvider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
+import { WidthWide } from '@mui/icons-material';
+import { red } from '@mui/material/colors';
 
 const ModalChamado = ({ setData, open, handleClose }) => {
   const [category, setCategory] = useState('');
@@ -77,15 +82,47 @@ const ModalChamado = ({ setData, open, handleClose }) => {
         }).catch((error) => console.log(error))
   }, []);
 
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        mobile: 1,
+        tablet: 768,
+        laptop: 1024,
+      },
+    },
+  });
+
+  const Root = styled('div')(({ theme }) => ({
+    padding: theme.spacing(1),
+    [theme.breakpoints.up('mobile')]: {
+      width:700
+    
+    },
+    [theme.breakpoints.up('tablet')]: {
+      width:500
+    },
+    [theme.breakpoints.up('laptop')]: {
+      width:400
+    },
+  }));
+
+  
+
   return (
     <Modal open={open} onClose={handleClose}>
+      <ThemeProvider theme={theme}>
+      <Root>
       <Box
         sx={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 400,
+          width: {
+            mobile: '700px', // Largura dinâmica para telas pequenas
+            tablet: '500px', // Largura fixa para tablet
+            laptop: '400px', // Largura fixa para laptop
+          },
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -141,6 +178,8 @@ const ModalChamado = ({ setData, open, handleClose }) => {
           Enviar
         </Button>
       </Box>
+      </Root>
+      </ThemeProvider>
     </Modal>
   );
 };
