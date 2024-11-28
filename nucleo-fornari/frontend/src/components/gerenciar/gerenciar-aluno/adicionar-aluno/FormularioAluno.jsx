@@ -29,7 +29,7 @@ import api from "../../../../services/api";
 function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
 
-  const [partCadastro, setPartCadastro] = useState(0);  
+  const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     nomeCompleto: "",
@@ -67,13 +67,13 @@ function FormularioAluno({ setStep }) {
       ["nomeResponsavel", "cpf", "email", "telefone", "parentesco"],
       ["cep"]
     ];
-    
+
     stepFields[step].forEach((field) => {
       if (!formData[field] || formData[field] === "") {
         currentErrors[field] = "Campo em erro";
       }
     });
-    
+
     setErrors((prev) => ({ ...prev, ...currentErrors }));
     return Object.keys(currentErrors).length === 0;
   };
@@ -86,7 +86,7 @@ function FormularioAluno({ setStep }) {
         ...prev,
         [name]: checked
           ? [...(prev[name] || []), value]
-          : (prev[name] || []).filter((item) => item !== value), 
+          : (prev[name] || []).filter((item) => item !== value),
       }));
       return;
     }
@@ -123,21 +123,22 @@ function FormularioAluno({ setStep }) {
       }
       return;
     }
-    
+
     setFormData((prev) => ({ ...prev, [name]: value }));
 
+    console.log(formData);
     if (value !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
       setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
     }
-    
+
   };
 
   const incrementPartCadastro = () => {
     if (!validateStep(partCadastro)) {
       return;
-    }  
+    }
     if (partCadastro === 4) {
       handleSubmit();
     }
@@ -159,10 +160,10 @@ function FormularioAluno({ setStep }) {
 
   const handleCheckChange = (event) => {
     setInput(event.target.checked);
-  };  
+  };
 
   const handleRadioChange = (event) => {
-    if (event.target.value === "sim") {
+    if (event === true) {
       setShowTable(true);
     } else {
       setShowTable(false);
@@ -183,83 +184,84 @@ function FormularioAluno({ setStep }) {
     //   return;
     // }
 
-      const curDate = new Date();
-      // Falta a data de nascimento do responsável no formulário!!!
-      //CPF, email do responsável e laudado não estão sendo armazenados no formdata!!!
+    const curDate = new Date();
+    // Falta a data de nascimento do responsável no formulário!!!
+    //CPF, email do responsável e laudado não estão sendo armazenados no formdata!!!
 
-      const obj = JSON.stringify({
-        id: null,
-        ra: formData.ra,
-        nome: formData.nomeCompleto,
-        laudado: true,
-        dtNasc: formData.dtNascimento,
-        observacoes: formData.Observacao,
-        filiacao: {
-          responsavel: {
+    const obj = JSON.stringify({
+      id: null,
+      ra: formData.ra,
+      nome: formData.nomeCompleto,
+      laudado: true,
+      dtNasc: formData.dtNascimento,
+      observacoes: formData.Observacao,
+      filiacao: {
+        responsavel: {
+          id: null,
+          nome: formData.nomeResponsavel,
+          cpf: "50111980062",
+          email: "email@email.com",
+          telefone: formData.telefone,
+          dtNasc: curDate.toISOString().slice(0, 10),
+          funcao: "RESPONSAVEL",
+          endereco: {
             id: null,
-            nome: formData.nomeResponsavel,
-            cpf: "50111980062",
-            email: "email@email.com",
-            telefone: formData.telefone,
-            dtNasc: curDate.toISOString().slice(0, 10),
-            funcao: "RESPONSAVEL",
-            endereco: {
-              id: null,
-              cep: formData.cep,
-              localidade: formData.cidade,
-              uf: formData.uf,
-              bairro: formData.bairro,
-              numero: formData.numero,
-              logradouro: formData.rua,
-              complemento: formData.complemento
-            }
-          },
-          parentesco: formData.parentesco
+            cep: formData.cep,
+            localidade: formData.cidade,
+            uf: formData.uf,
+            bairro: formData.bairro,
+            numero: formData.numero,
+            logradouro: formData.rua,
+            complemento: formData.complemento
+          }
         },
-        restricoes: formData.tipoRestricao
-      })
+        parentesco: formData.parentesco
+      },
+      restricoes: formData.tipoRestricao
+    })
 
     console.log(obj);
     alert(curDate.toISOString().slice(0, 10))
-      const requestBody = new FormData();
-      requestBody.append("body", obj)
+    const requestBody = new FormData();
+    requestBody.append("body", obj)
 
-      requestBody.append("laudo", selectedFile)
+    requestBody.append("laudo", selectedFile)
 
-      api.post("/alunos", requestBody, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).then((response) => {
-        if (response.status === 201) {
-          toast.success("Funcionário cadastrado com sucesso!");
-          setFormData({
-            nomeCompleto: "",
-            ra: "",
-            dtNascimento: "",
-            restricaoAlimentar: "",
-            tipoRestricao: [],
-            restricaoAlimentarOutros: "",
-            laudoPsicologo: "",
-            Observacao: "",
-            nomeResponsavel: "",
-            cpfResponsavel: "",
-            emailResponsavel: "",
-            telefone: "",
-            parentesco: "",
-            cep: "",
-            cidade: "",
-            uf: "",
-            bairro: "",
-            rua: "",
-            numero: "",
-            complemento: "",
-          });
-          navigate("/secretaria/gerencia/aluno");
-      }}).catch((error) => {
-        console.error(error);
-        toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
-      });
+    api.post("/alunos", requestBody, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((response) => {
+      if (response.status === 201) {
+        toast.success("Funcionário cadastrado com sucesso!");
+        setFormData({
+          nomeCompleto: "",
+          ra: "",
+          dtNascimento: "",
+          restricaoAlimentar: "",
+          tipoRestricao: [],
+          restricaoAlimentarOutros: "",
+          laudoPsicologo: "",
+          Observacao: "",
+          nomeResponsavel: "",
+          cpfResponsavel: "",
+          emailResponsavel: "",
+          telefone: "",
+          parentesco: "",
+          cep: "",
+          cidade: "",
+          uf: "",
+          bairro: "",
+          rua: "",
+          numero: "",
+          complemento: "",
+        });
+        navigate("/secretaria/gerencia/aluno");
+      }
+    }).catch((error) => {
+      console.error(error);
+      toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
+    });
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -302,7 +304,7 @@ function FormularioAluno({ setStep }) {
 
   //Stepper
 
- 
+
 
   return (
     <>
@@ -361,61 +363,70 @@ function FormularioAluno({ setStep }) {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="restricaoAlimentar"
-                value={formData.restricaoAlimentar || ""}
+                value={formData.restricaoAlimentar}
                 onChange={handleInputChange}
               >
                 <FormControlLabel
-                  value="sim"
+                  value={true}
                   control={<Radio />}
                   label="Sim"
                   name="restricaoAlimentar"
-                  onChange={handleRadioChange}
+                  onChange={() => handleRadioChange(true)}
                 />
                 <FormControlLabel
-                  value="nao"
+                  value={false}
                   control={<Radio />}
                   label="Não"
                   name="restricaoAlimentar"
-                  onChange={handleRadioChange}
+                  onChange={() => handleRadioChange(false)}
                 />
               </RadioGroup>
               {showTable && (
                 <>
                   <FormGroup className="flex flex-wrap w-full max-h-28">
                     <FormControlLabel
-                      control={<Checkbox 
+                      control={<Checkbox
                         value="Peixes e frutos do mar"
                         checked={formData.tipoRestricao.includes("Peixes e frutos do mar")}
-                        onChange={handleInputChange}
-                        />}
+                        onChange={() => handleInputChange}
+                      />}
                       label="Peixes e frutos do mar"
                       className="w-1/2"
                     />
                     <FormControlLabel
-                      control={<Checkbox 
+                      control={<Checkbox
                         value="Trigo"
                         checked={formData.tipoRestricao.includes("Trigo")}
-                        onChange={handleInputChange}
-                        />}
+                        onChange={() => handleInputChange}
+                      />}
                       label="Trigo"
                       className="w-1/2"
                     />
                     <FormControlLabel
-                      control={<Checkbox 
+                      control={<Checkbox
                         value="Ovos"
                         checked={formData.tipoRestricao.includes("Ovos")}
-                        onChange={handleInputChange}
-                        />}
+                        onChange={() => handleInputChange}
+                      />}
                       label="Ovos"
                       className="w-1/2"
                     />
+                    <FormControlLabel
+                      control={<Checkbox
+                        value="Outro"
+                        checked={formData.tipoRestricao.includes("Outro")}
+                        onChange={() => handleInputChange}
+                      />}
+                      label="Outro"
+                      className="w-1/2"
+                    />
                   </FormGroup>
-                  <TextField 
-                  label="Outros:" 
-                  className="flex-none" 
-                  name="restricaoAlimentarOutros"
-                  value={formData.restricaoAlimentarOutros}
-                  onChange={handleInputChange}
+                  <TextField
+                    label="Outros:"
+                    className="flex-none"
+                    name="restricaoAlimentarOutros"
+                    value={formData.restricaoAlimentarOutros}
+                    onChange={handleInputChange}
                   />
                 </>
               )}
@@ -448,29 +459,29 @@ function FormularioAluno({ setStep }) {
                 />
               </RadioGroup>
               {showUpload && (
-                  <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-                    <Typography variant="h5">Upload de Arquivo</Typography>
+                <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+                  <Typography variant="h5">Upload de Arquivo</Typography>
 
-                    {/* Input para selecionar o arquivo */}
-                    <input
-                        id="upload-input"
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={handleFileChange}
-                    />
-                    <label htmlFor="upload-input">
-                      <Button variant="contained" component="span">
-                        Selecionar Arquivo
-                      </Button>
-                    </label>
+                  {/* Input para selecionar o arquivo */}
+                  <input
+                    id="upload-input"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="upload-input">
+                    <Button variant="contained" component="span">
+                      Selecionar Arquivo
+                    </Button>
+                  </label>
 
-                    {/* Exibe o nome do arquivo selecionado */}
-                    {selectedFile && (
-                        <Typography variant="body1">Arquivo: {selectedFile.name}</Typography>
-                    )}
+                  {/* Exibe o nome do arquivo selecionado */}
+                  {selectedFile && (
+                    <Typography variant="body1">Arquivo: {selectedFile.name}</Typography>
+                  )}
 
-                    {/* Exibe o status */}
-                  </Box>
+                  {/* Exibe o status */}
+                </Box>
               )}
             </>
           )}
@@ -670,8 +681,8 @@ function FormularioAluno({ setStep }) {
           {partCadastro === 4 && (
             <>
               <TableContainer component={Paper} className="h-80">
-                <Table  aria-label="simple table">
-                
+                <Table aria-label="simple table">
+
                   <TableBody>
                     {rows.map((row) => (
                       <TableRow
@@ -680,10 +691,10 @@ function FormularioAluno({ setStep }) {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row" sx={{width:'50%', fontWeight:600,}} className="text-blue-dash">
+                        <TableCell component="th" scope="row" sx={{ width: '50%', fontWeight: 600, }} className="text-blue-dash">
                           {row.campo}
                         </TableCell>
-                        <TableCell align="right" sx={{width:'50%'}}>{row.valorInserido}</TableCell>
+                        <TableCell align="right" sx={{ width: '50%' }}>{row.valorInserido}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
