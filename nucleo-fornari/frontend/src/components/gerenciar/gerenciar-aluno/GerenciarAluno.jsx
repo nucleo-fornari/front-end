@@ -60,8 +60,7 @@ const GerenciarAluno = () => {
 
           </span>
         </Link>
-      </div>
-      <Box sx={{ p: 5 }}>
+        
         <FormControl fullWidth sx={{ mb: 3 }}>
           <TextField
               label="Buscar por nome:"
@@ -70,6 +69,9 @@ const GerenciarAluno = () => {
               placeholder=""
           />
         </FormControl>
+      </div>
+      <Box sx={{ p: 5 }}>
+        
 
       <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
         <Table>
