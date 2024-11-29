@@ -41,8 +41,9 @@ function FormularioAluno({ setStep }) {
     laudoPsicologo: "",
     Observacao: "",
     nomeResponsavel: "",
-    cpfResponsavel: "",
-    emailResponsavel: "",
+    cpf: "",
+    email: "",
+    dtNascimentoResponsavel: "",
     telefone: "",
     parentesco: "",
     cep: "",
@@ -63,10 +64,20 @@ function FormularioAluno({ setStep }) {
     const currentErrors = {};
     const stepFields = [
       ["nomeCompleto", "ra", "dtNascimento"],
-      ["restricaoAlimentar", "laudoPsicologo"],
-      ["nomeResponsavel", "cpf", "email", "telefone", "parentesco"],
+      ["restricaoAlimentar", "restricaoAlimentarOutros", "laudoPsicologo"],
+      ["nomeResponsavel", "cpf", "email", "dtNascimentoResponsavel", "telefone", "parentesco"],
       ["cep"]
     ];
+
+    if (step === 1) {
+      if (formData.tipoRestricao?.includes("Outro")) {
+        if (!stepFields[1].includes("restricaoAlimentarOutros")) {
+          stepFields[1].push("restricaoAlimentarOutros");
+        }
+      } else {
+        stepFields[1] = stepFields[1].filter(field => field !== "restricaoAlimentarOutros");
+      }
+    }
 
     stepFields[step].forEach((field) => {
       if (!formData[field] || formData[field] === "") {
@@ -78,21 +89,74 @@ function FormularioAluno({ setStep }) {
     return Object.keys(currentErrors).length === 0;
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
 
+    if (name === "ra") {
+      const filteredValue = value.replace(/\D/g, "");
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+      if (value !== "") {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      } else {
+        setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+      }
+      return;
+    }
+
     if (type === "checkbox") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: checked
-          ? [...(prev[name] || []), value]
-          : (prev[name] || []).filter((item) => item !== value),
-      }));
+      setFormData((prev) => {
+        const updatedFormData = {
+          ...prev,
+          [name]: checked
+            ? [...(prev[name] || []), value]
+            : (prev[name] || []).filter((item) => item !== value),
+        };
+  
+        if (value === "Outro" && !checked) {
+          updatedFormData.restricaoAlimentarOutros = "";
+        }
+  
+        return updatedFormData;
+      });
+      return;
+    }
+
+    if (name === "cpf") {
+      const filteredValue = value.replace(/\D/g, "").slice(0, 11);
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+      if (value.length < 11) {        
+      setErrors((prev) => ({ ...prev, [name]: "Cpf deve conter 11 caracteres" }));
+      } else {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+      return;
+    }
+
+    if (name === "telefone") {
+      let formattedValue = value.replace(/\D/g, "").slice(0, 11);
+      if (formattedValue.length > 0) {
+        formattedValue = `${formattedValue.slice(0, 0)}(${formattedValue.slice(0)}`
+      }if (formattedValue.length > 3) {
+        formattedValue = `${formattedValue.slice(0, 3)}) ${formattedValue.slice(3)}`
+      }if (formattedValue.length > 10) {
+        formattedValue = `${formattedValue.slice(0, 10)}-${formattedValue.slice(10)}`
+      }
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+      if (value.length < 11) {        
+        setErrors((prev) => ({ ...prev, [name]: "Número de telefone invalido" }));
+        } else {
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+        }
       return;
     }
 
     if (name === "cep") {
-      let formattedValue = value.replace(/\D/g, "");
+      let formattedValue = value.replace(/\D/g, "").slice(0, 8);
       if (formattedValue.length > 5) {
         formattedValue = `${formattedValue.slice(0, 5)}-${formattedValue.slice(5)}`;
       }
@@ -167,11 +231,16 @@ function FormularioAluno({ setStep }) {
       setShowTable(true);
     } else {
       setShowTable(false);
+      setFormData((prev) => ({
+        ...prev,
+        tipoRestricao: [],
+        restricaoAlimentarOutros: ""
+      }))
     }
   };
 
   const handleLaudoChange = (event) => {
-    if (event.target.value === "sim") {
+    if (event === true) {
       setUpload(true);
     } else {
       setUpload(false);
@@ -184,35 +253,31 @@ function FormularioAluno({ setStep }) {
     //   return;
     // }
 
-    const curDate = new Date();
-    // Falta a data de nascimento do responsável no formulário!!!
-    //CPF, email do responsável e laudado não estão sendo armazenados no formdata!!!
-
     const obj = JSON.stringify({
       id: null,
       ra: formData.ra,
       nome: formData.nomeCompleto,
-      laudado: true,
+      laudado: formData.laudoPsicologo,
       dtNasc: formData.dtNascimento,
       observacoes: formData.Observacao,
       filiacao: {
         responsavel: {
           id: null,
           nome: formData.nomeResponsavel,
-          cpf: "50111980062",
-          email: "email@email.com",
+          cpf: formData.cpf,
+          email: formData.email,
           telefone: formData.telefone,
-          dtNasc: curDate.toISOString().slice(0, 10),
+          dtNasc: formData.dtNascimentoResponsavel,
           funcao: "RESPONSAVEL",
           endereco: {
             id: null,
             cep: formData.cep,
-            localidade: formData.cidade,
             uf: formData.uf,
+            localidade: formData.cidade,
             bairro: formData.bairro,
-            numero: formData.numero,
             logradouro: formData.rua,
-            complemento: formData.complemento
+            complemento: formData.complemento,
+            numero: formData.numero,
           }
         },
         parentesco: formData.parentesco
@@ -221,7 +286,6 @@ function FormularioAluno({ setStep }) {
     })
 
     console.log(obj);
-    alert(curDate.toISOString().slice(0, 10))
     const requestBody = new FormData();
     requestBody.append("body", obj)
 
@@ -244,8 +308,9 @@ function FormularioAluno({ setStep }) {
           laudoPsicologo: "",
           Observacao: "",
           nomeResponsavel: "",
-          cpfResponsavel: "",
-          emailResponsavel: "",
+          cpf: "",
+          email: "",
+          dtNascimentoResponsavel: "",
           telefone: "",
           parentesco: "",
           cep: "",
@@ -264,20 +329,6 @@ function FormularioAluno({ setStep }) {
     });
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
   function createData(campo, valorInserido) {
     return { campo, valorInserido };
   }
@@ -286,11 +337,13 @@ function FormularioAluno({ setStep }) {
     createData("Nome completo", formData.nomeCompleto),
     createData("RA", formData.ra),
     createData("Data de nascimento", formData.dtNascimento),
-    createData("Restrições alimentares", formData.restricaoAlimentar),
-    createData("Possui laudo psicológico?", formData.laudoPsicologo),
+    createData("Restrições alimentares", formData.restricaoAlimentar ? "Sim" : "Não"),
+    createData("Possui laudo psicológico?", formData.laudoPsicologo ? "Sim" : "Não"),
+    createData("Observação", formData.Observacao),
     createData("Nome do responsavel", formData.nomeResponsavel),
-    createData("CPF do responsável", formData.cpfResponsavel),
-    createData("Email", formData.emailResponsavel),
+    createData("CPF do responsável", formData.cpf),
+    createData("Email", formData.email),
+    createData("Data de nascimento Responsavel", formData.dtNascimentoResponsavel),
     createData("Telefone", formData.telefone),
     createData("Parentesco", formData.parentesco),
     createData("CEP", formData.cep),
@@ -351,6 +404,18 @@ function FormularioAluno({ setStep }) {
                 error={!!errors.dtNascimento}
                 helperText={errors.dtNascimento}
               />
+              <TextField
+                margin="normal"
+                id="outlined-basic"
+                label="Observação"
+                name="Observacao"
+                variant="outlined"
+                type="text"
+                fullWidth={true}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                value={formData.Observacao}
+              />
             </>
           )}
 
@@ -387,8 +452,9 @@ function FormularioAluno({ setStep }) {
                     <FormControlLabel
                       control={<Checkbox
                         value="Peixes e frutos do mar"
-                        checked={formData.tipoRestricao.includes("Peixes e frutos do mar")}
-                        onChange={() => handleInputChange}
+                        name="tipoRestricao"
+                        checked={formData.tipoRestricao?.includes("Peixes e frutos do mar")}
+                        onChange={handleInputChange}
                       />}
                       label="Peixes e frutos do mar"
                       className="w-1/2"
@@ -396,8 +462,9 @@ function FormularioAluno({ setStep }) {
                     <FormControlLabel
                       control={<Checkbox
                         value="Trigo"
-                        checked={formData.tipoRestricao.includes("Trigo")}
-                        onChange={() => handleInputChange}
+                        name="tipoRestricao"
+                        checked={formData.tipoRestricao?.includes("Trigo")}
+                        onChange={handleInputChange}
                       />}
                       label="Trigo"
                       className="w-1/2"
@@ -405,8 +472,9 @@ function FormularioAluno({ setStep }) {
                     <FormControlLabel
                       control={<Checkbox
                         value="Ovos"
-                        checked={formData.tipoRestricao.includes("Ovos")}
-                        onChange={() => handleInputChange}
+                        name="tipoRestricao"
+                        checked={formData.tipoRestricao?.includes("Ovos")}
+                        onChange={handleInputChange}
                       />}
                       label="Ovos"
                       className="w-1/2"
@@ -414,20 +482,26 @@ function FormularioAluno({ setStep }) {
                     <FormControlLabel
                       control={<Checkbox
                         value="Outro"
-                        checked={formData.tipoRestricao.includes("Outro")}
-                        onChange={() => handleInputChange}
+                        name="tipoRestricao"
+                        checked={formData.tipoRestricao?.includes("Outro")}
+                        onChange={handleInputChange}
                       />}
                       label="Outro"
                       className="w-1/2"
                     />
                   </FormGroup>
-                  <TextField
+                  {formData.tipoRestricao?.includes("Outro") && (
+                    <TextField
                     label="Outros:"
                     className="flex-none"
                     name="restricaoAlimentarOutros"
-                    value={formData.restricaoAlimentarOutros}
+                    value={formData.restricaoAlimentarOutros || ""}
                     onChange={handleInputChange}
+                    error={!!errors.restricaoAlimentarOutros}
+                    helperText={errors.restricaoAlimentarOutros}
                   />
+                  )}
+                  
                 </>
               )}
 
@@ -438,24 +512,24 @@ function FormularioAluno({ setStep }) {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="laudoPsicologo"
-                value={formData.laudoPsicologo || ""}
+                value={formData.laudoPsicologo}
                 onChange={handleInputChange}
               >
                 <FormControlLabel
                   id="laudo"
-                  value="sim"
+                  value={true}
                   control={<Radio />}
                   label="Sim"
                   name="laudoPsicologo"
-                  onChange={handleLaudoChange}
+                  onChange={()=> handleLaudoChange(true)}
                 />
                 <FormControlLabel
                   id="laudo"
-                  value="nao"
+                  value={false}
                   control={<Radio />}
                   label="Não"
                   name="laudoPsicologo"
-                  onChange={handleLaudoChange}
+                  onChange={()=> handleLaudoChange(false)}
                 />
               </RadioGroup>
               {showUpload && (
@@ -530,6 +604,19 @@ function FormularioAluno({ setStep }) {
                 error={!!errors.email}
                 helperText={errors.email}
               />
+              <TextField
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+                id="outlined-basic"
+                label="Data de Nascimento"
+                name="dtNascimentoResponsavel"
+                type="date"
+                variant="outlined"
+                onChange={handleInputChange}
+                value={formData.dtNascimentoResponsavel}
+                error={!!errors.dtNascimentoResponsavel}
+                helperText={errors.dtNascimentoResponsavel}
+              />
               <div className="flex items-center justify-between">
                 <TextField
                   margin="normal"
@@ -538,7 +625,7 @@ function FormularioAluno({ setStep }) {
                   name="telefone"
                   variant="outlined"
                   type="text"
-                  placeholder="(11)99999-9999"
+                  placeholder="(11) 99999-9999"
                   className="w-2/5"
                   onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
@@ -558,13 +645,13 @@ function FormularioAluno({ setStep }) {
                       id="demo-simple-select"
                       label="Parentesco"
                       name="parentesco"
-                      value={formData.parentesco}
+                      value={formData.parentesco || ""}
                       onChange={handleInputChange}
                     >
                       {/*CORRIJA OS VALORES DO SELECT !!*/}
                       {/*GENITOR|IRMÃO|AVÔ|TIO|PRIMO*/}
-                      <MenuItem value={"GENITOR"}>Mãe/Pai</MenuItem>
-                      <MenuItem value={30}>Irmã/Irmão</MenuItem>
+                      <MenuItem value="GENITOR">Mãe/Pai</MenuItem>
+                      <MenuItem value="IRMÃO">Irmã/Irmão</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
