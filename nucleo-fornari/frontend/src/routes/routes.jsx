@@ -23,6 +23,7 @@ import CadastroFuncionario from "../components/gerenciar/gerenciar-funcionario/a
 import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-aluno/novoAdicionarAluno.jsx";
 import GerenciarSalas from "../components/gerenciar/gerenciar-salas/GerenciarSalas.jsx";
 import EditarSala from "../components/gerenciar/gerenciar-salas/editar-sala/EditarSala.jsx";
+import CadastroSala from "../components/gerenciar/gerenciar-salas/adicionar-sala/AdicionarSala.jsx";
 
 const avisosData = [
   {
@@ -161,7 +162,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/secretaria/editar/salas",
-        element: <EditarSala/>
+        element: <EditarSala />
+      },
+      {
+        path: "/secretaria/cadastro/sala",
+        element: <CadastroSala />
       }
     ],
   },

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import api from '../../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const GerenciarSalas = () => {
     
@@ -16,7 +16,6 @@ const GerenciarSalas = () => {
             .then((res) => setData(res.data))
             .catch((error) => {
                 console.error('Erro ao buscar salas:', error);
-                setData([]);
             });
     };
 
@@ -31,14 +30,16 @@ const GerenciarSalas = () => {
     return (
         <div className="mt-12 flex flex-col gap-4">
             <div className="flex justify-start h-15 ml-12">
-                <button
-                    className="flex justify-center items-center bg-blue-500 text-white-ice px-7 py-2 rounded-lg font-semibold"
-                >
-                    Criar sala
-                </button>
+                <Link
+                to={'/secretaria/cadastro/sala'}
+                >                
+                    <span class='flex justify-center items-center bg-blue-500 text-white-ice px-7 py-2 rounded-lg font-semibold'>
+                        Criar sala
+                    </span>
+                </Link>
             </div>
             <Box sx={{ p: 5 }}>
-
+                {!data.length <= 0 ?
                 <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
                     <Table>
                         <TableHead>
@@ -51,7 +52,8 @@ const GerenciarSalas = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((sala) => (
+                            {
+                            data.map((sala) => (
                                 <TableRow key={sala.id} hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
                                     <TableCell align="center">{sala.nome}</TableCell>
                                     <TableCell align="center">{sala.localizacao}</TableCell>
@@ -66,6 +68,9 @@ const GerenciarSalas = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                :
+                <span>Sem salas cadastradas</span>
+                }
             </Box>
         </div>
     );
