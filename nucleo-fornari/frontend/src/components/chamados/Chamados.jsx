@@ -1,15 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "./Chamados.css";
 import api from "../../services/api";
-import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
-import { CheckCircle as CheckIcon, Cancel as CloseIcon, Save as SaveIcon } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
+} from "@mui/material";
+import {Cancel as CloseIcon, CheckCircle as CheckIcon, Save as SaveIcon} from "@mui/icons-material";
+import {Queue} from "../../utils/classes/Queue";
+import {Stack} from "../../utils/classes/Stack";
+import {toast} from "react-toastify";
+import TimerModal from "../modals/chamado/TimerModal";
 
 const ChamadosSecretaria = () => {
   const [data, setData] = useState([]);
   const [selectValue, setSelectValue] = useState(0);
   const [ordenated, setOrdenated] = useState(false);
-  const [modifiedChamados, setModifiedChamados] = useState(new Set());
+  const [modifiedChamados, setModifiedChamados] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
+  const queue = useRef(new Queue());
+  const stack = useRef(new Stack());
+  const [undoing , setUndoing] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -39,28 +62,59 @@ const ChamadosSecretaria = () => {
     fetchChamados();
   }, []);
 
+  useEffect(() => {
+    let newModifiedChamados = modifiedChamados;
+    if (Array.isArray(data)) {
+      data.forEach((obj) => {
+        newModifiedChamados = (newModifiedChamados.indexOf(obj.id) < 0
+            ? (obj.finalizado ? [...newModifiedChamados, obj.id] : [...newModifiedChamados])
+            : (obj.finalizado ? [...newModifiedChamados] : newModifiedChamados.filter(item => item !== obj.id)));
+      });
+    }
+    setModifiedChamados(newModifiedChamados);
+  }, [data])
+
   const handleMudarChamado = (id) => {
     setData((prevData) =>
-      prevData.map((chamado) =>
-        chamado.id === id ? { ...chamado, finalizado: !chamado.finalizado } : chamado
-      )
+        prevData.map((chamado) =>
+            chamado.id === id ? { ...chamado, finalizado: !chamado.finalizado } : chamado
+        )
     );
-    setModifiedChamados((prev) => new Set(prev).add(id));
   };
 
+  const restoreChamadoState = (id) => {
+    setData((prev) =>
+        prev.map((x) => x.id === id ? { ...x, finalizado: false} : x));
+  }
+
   const handleSaveChanges = () => {
-    const promises = Array.from(modifiedChamados).map((id) =>
-      api.patch(`/chamados/${id}`).catch((error) =>
-        console.error(`Erro ao salvar o chamado ${id}:`, error)
-      )
-    );
-  
+    modifiedChamados.forEach((item) => {
+      queue.current.enqueue(item);
+      stack.current.push(item);
+    });
+
+    setIsTimerModalOpen(true);
+  };
+
+  const handleSubmit = () => {
+    setIsTimerModalOpen(false);
+    const promises = [];
+
+    if (queue.current.isEmpty()) return;
+
+    while(!queue.current.isEmpty()) {
+      const id = queue.current.dequeue();
+      promises.push(api.patch(`/chamados/${id}`).catch((error) =>
+          console.error(`Erro ao salvar o chamado ${id}:`, error)));
+    }
+
     Promise.all(promises).then(() => {
       // Limpa o set de modificações e atualiza a lista de chamados ao concluir todas as requisições
-      setModifiedChamados(new Set());
+      setModifiedChamados([]);
       fetchChamados();
+      toast.success('Alterações salvas com sucesso!');
     });
-  };
+  }
 
   const handleSelectChange = (event) => {
     setSelectValue(event.target.value)
@@ -138,8 +192,33 @@ const ChamadosSecretaria = () => {
     return n1 < n2;
   }
 
+  const handleDiscardChanges = () => {
+    setIsTimerModalOpen(false);
+    toast.success("Descartando alterações...");
+    setModifiedChamados([]);
+    queue.current.clear();
+    setUndoing(true);
+    processDiscardStack();
+  };
+
+  const processDiscardStack = () => {
+    if (!stack.current.isEmpty()) {
+      const id = stack.current.pop();
+      handleMudarChamado(id);
+      setTimeout(processDiscardStack, 500);
+    } else setUndoing(false);
+  };
+
+
   return (
     <Box sx={{ p: 5 }}>
+      <TimerModal
+          open={isTimerModalOpen}
+          onPositiveClose={handleSubmit}
+          onNegativeClose={handleDiscardChanges}
+          mainText={"Os chamados serão finalizados em %s segundos. Realmente deseja finaliza-los?"}
+          initialTimer={15}
+      ></TimerModal>
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel id="order-label">Ordenar por:</InputLabel>
         <Select
@@ -250,7 +329,7 @@ const ChamadosSecretaria = () => {
                 <button onClick={closeModal} class='btn-interativo'>Concluir</button>
               </td>
               </div>
-              
+
             </div>
 
           </div>
@@ -265,7 +344,7 @@ const ChamadosSecretaria = () => {
         color="primary"
         startIcon={<SaveIcon />}
         sx={{ mt: 2 }}
-        disabled={modifiedChamados.size === 0}
+        disabled={modifiedChamados.length < 1 || undoing}
       >
         Salvar Alterações
       </Button>
