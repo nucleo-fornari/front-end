@@ -82,11 +82,6 @@ const ChamadosSecretaria = () => {
     );
   };
 
-  const restoreChamadoState = (id) => {
-    setData((prev) =>
-        prev.map((x) => x.id === id ? { ...x, finalizado: false} : x));
-  }
-
   const handleSaveChanges = () => {
     modifiedChamados.forEach((item) => {
       queue.current.enqueue(item);
@@ -182,14 +177,6 @@ const ChamadosSecretaria = () => {
     }
     if (indInicio < j) quickSort(v, indInicio, j);
     if (i < indFim) quickSort(v, i, indFim);
-  }
-
-  const compareString = (str1, str2) => {
-    return str1.localeCompare(str2) < 0;
-  }
-
-  const compareNumber = (n1, n2) => {
-    return n1 < n2;
   }
 
   const handleDiscardChanges = () => {

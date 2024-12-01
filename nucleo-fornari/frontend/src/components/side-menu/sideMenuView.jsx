@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./sideMenuView.css";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
 
 const SideMenu = ({ menuItens }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate("/login");
   };
 
   const location = useLocation();
@@ -68,9 +75,8 @@ const SideMenu = ({ menuItens }) => {
           <Link
             key={index}
             to={item.route}
-            className={`lg:w-full md:w-20 md:h-full ${
-              location.pathname === item.route ? "bg-blue-pastel" : ""
-            } hover:bg-blue-pastel`}
+            className={`lg:w-full md:w-20 md:h-full ${location.pathname === item.route ? "bg-blue-pastel" : ""
+              } hover:bg-blue-pastel`}
           >
             <button
               key={index}
@@ -86,6 +92,22 @@ const SideMenu = ({ menuItens }) => {
           </Link>
         ))}
       </div>
+
+      <div className="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
+      md:w-full md:justify-around">
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full p-4 hover:bg-red-500"
+        >
+          <LogoutIcon />
+          {isExpanded && (
+            <span className="ml-4 text-lg font-semibold hidden sm:inline">
+              Sair
+            </span>
+          )}
+        </button>
+      </div>
+
     </div>
   );
 };

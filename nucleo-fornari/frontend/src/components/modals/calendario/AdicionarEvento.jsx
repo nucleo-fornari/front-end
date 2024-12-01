@@ -44,7 +44,12 @@ function AdicionarEvento({ setEvent, setEvents, open, handleClose, selectedDate 
             .catch((error) => {
                 console.log(error);
 
-              toast.error(error.response?.data?.text ?? 'Erro inesperado!');
+                if(error.response.data.status === 409) {
+                    toast.error("Você ainda não está em uma sala. Informe a secretaria!")
+                } else {
+
+                    toast.error(error.response?.data?.text ?? 'Erro inesperado!');
+                }
             });
     };
 
