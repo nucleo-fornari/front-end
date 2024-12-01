@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -55,10 +55,25 @@ function FormularioAluno({ setStep }) {
     complemento: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
+  const [restricaoData, setRestricaoData] = useState([])
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  const loadRestricoes = () => {
+    api.get("/restricoes").then((res) => {
+      console.log("resposta do back: ", res.data)
+      setRestricaoData(res.data)
+      console.log("guaradado em variavel: ", restricaoData)
+    }).catch((error) => console.log(error));
+  }
+  useEffect(() => {
+    loadRestricoes();
+  }, []);
+
+  useEffect(() => {
+    console.log("Valor atualizado em restricaoData: ", restricaoData);
+  }, [restricaoData]);
 
   const validateStep = (step) => {
     const currentErrors = {};
@@ -87,11 +102,6 @@ function FormularioAluno({ setStep }) {
 
     setErrors((prev) => ({ ...prev, ...currentErrors }));
     return Object.keys(currentErrors).length === 0;
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   const handleInputChange = (e) => {
@@ -194,7 +204,7 @@ function FormularioAluno({ setStep }) {
     if (value !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
-      setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+      setErrors((prev) => ({ ...prev, [name]: "Campo obrigatório" }));
     }
 
   };
@@ -248,10 +258,6 @@ function FormularioAluno({ setStep }) {
   };
 
   const handleSubmit = () => {
-    // if (!validateStep(partCadastro)) {
-    //   setPartCadastro(partCadastro);
-    //   return;
-    // }
 
     const obj = JSON.stringify({
       id: null,
@@ -325,6 +331,16 @@ function FormularioAluno({ setStep }) {
       }
     }).catch((error) => {
       console.error(error);
+      if(error.response.data.message === "Data de nascimento inválida. A idade deve estar entre 0 e 6 anos.") {
+        setPartCadastro(0)
+        
+        setErrors((prev) => ({ ...prev, [`dtNascimento`]: "A idade deve estar entre 0 e 6 anos." }));
+      }else if(error.response.data.message === "CPF inválido. Por favor, verifique se foi digitado corretamente.") {
+        setPartCadastro(2)
+
+        setErrors((prev) => ({ ...prev, [`cpf`]: "Verifique se foi digitado corretamente." }));
+      }
+
       toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
     });
   };
@@ -449,36 +465,19 @@ function FormularioAluno({ setStep }) {
               {showTable && (
                 <>
                   <FormGroup className="flex flex-wrap w-full max-h-28">
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Peixes e frutos do mar"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Peixes e frutos do mar")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Peixes e frutos do mar"
-                      className="w-1/2"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Trigo"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Trigo")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Trigo"
-                      className="w-1/2"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Ovos"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Ovos")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Ovos"
-                      className="w-1/2"
-                    />
+                    {restricaoData.map((restricao) => (
+                      <FormControlLabel
+                        key={restricao.id}
+                        control={<Checkbox
+                          value={restricao.id}
+                          name="tipoRestricao"
+                          checked={formData.tipoRestricao?.includes(`${restricao.id}`)}
+                          onChange={handleInputChange}
+                        />}
+                        label={restricao.tipo}
+                        className="w-1/2"
+                      />
+                    ))}
                     <FormControlLabel
                       control={<Checkbox
                         value="Outro"
