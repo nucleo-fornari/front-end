@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -25,12 +25,14 @@ import {
   TextField, Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
+import RestricoesService from "../../../../services/RestricoesService";
 
 function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
 
   const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});
+  const [restricoes, setRestricoes] = useState([]);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
     ra: "",
@@ -56,9 +58,30 @@ function FormularioAluno({ setStep }) {
   });
   const [selectedFile, setSelectedFile] = useState(null);
 
+  useEffect(() => {
+    loadRestricoes();
+  }, []);
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const handleRestricaoSelection = (id) => {
+    const aux = {...formData}
+    if (formData.tipoRestricao.includes(id)) {
+      aux.tipoRestricao = formData.tipoRestricao.filter((item) => item !== id);
+    } else {
+      aux.tipoRestricao.push(id);
+    }
+
+    setFormData(aux);
+  }
+
+  const loadRestricoes = () => {
+    RestricoesService.getRestricoes().then((res) => {
+      setRestricoes(res.data);
+    }).catch((error) => console.log(error));
+  }
 
   const validateStep = (step) => {
     const currentErrors = {};
@@ -297,7 +320,7 @@ function FormularioAluno({ setStep }) {
       },
     }).then((response) => {
       if (response.status === 201) {
-        toast.success("Funcionário cadastrado com sucesso!");
+        toast.success("Aluno cadastrado com sucesso!");
         setFormData({
           nomeCompleto: "",
           ra: "",
@@ -447,63 +470,26 @@ function FormularioAluno({ setStep }) {
                 />
               </RadioGroup>
               {showTable && (
-                <>
-                  <FormGroup className="flex flex-wrap w-full max-h-28">
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Peixes e frutos do mar"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Peixes e frutos do mar")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Peixes e frutos do mar"
-                      className="w-1/2"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Trigo"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Trigo")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Trigo"
-                      className="w-1/2"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Ovos"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Ovos")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Ovos"
-                      className="w-1/2"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Outro"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Outro")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Outro"
-                      className="w-1/2"
-                    />
-                  </FormGroup>
-                  {formData.tipoRestricao?.includes("Outro") && (
-                    <TextField
-                    label="Outros:"
-                    className="flex-none"
-                    name="restricaoAlimentarOutros"
-                    value={formData.restricaoAlimentarOutros || ""}
-                    onChange={handleInputChange}
-                    error={!!errors.restricaoAlimentarOutros}
-                    helperText={errors.restricaoAlimentarOutros}
-                  />
-                  )}
-                  
-                </>
+                  restricoes.length > 0 ? (
+                      restricoes.map((x) => (
+                          <FormGroup className="flex flex-wrap w-full max-h-28">
+                            <FormControlLabel
+                                control={
+                                  <Checkbox
+                                      value={x.id}
+                                      name="tipoRestricao"
+                                      checked={formData.tipoRestricao?.includes(x.id)}
+                                      onChange={() => handleRestricaoSelection(x.id)}
+                                  />
+                                }
+                                label={x.tipo}
+                                className="w-1/2"
+                            />
+                          </FormGroup>
+                      ))
+                  ) : (<p>Nenhuma restrição cadastrada no sistema.</p>)
               )}
+
 
               <FormLabel id="demo-row-radio-buttons-group-label">
                 O aluno possui laudo psicológico?
