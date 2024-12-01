@@ -5,16 +5,32 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ModalAtrelar from '../../../modals/atrelar/ModalAtrelar';
+import ModalConfirm from '../../../modals/confirmar-acao/ModalConfirm';
+import api from '../../../../services/api';
+import { toast } from "react-toastify";
 
 const EditarSala = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { data } = location.state || {};
     const [dataState, setDataState] = useState(data);
+    
     const [openModal, setOpenModal] = useState(false);
     const [role, setRole] = useState("");
-    const [newName, setNewName] = useState('');
-    const [newLocation, setNewLocation] = useState('');
+    const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
+    const [roleClicked, setRoleClicked] = useState({});
+
+    const handleOpenConfirmModal = (role) => {
+        setRoleClicked(role)
+        setModalConfirmOpen(true);
+    };
+
+    const handleCloseModal = () => setModalConfirmOpen(false);
+
+    const handleConfirmAction = () => {
+        handleDelete()
+        setModalConfirmOpen(false);
+    };
 
     const handleBack = () => {
         navigate('/secretaria/gerencia/salas');
@@ -25,31 +41,48 @@ const EditarSala = () => {
         setOpenModal(true);
     }
 
-    const handleUpdate = (field) => {
-        if (field === 'nome') {
-            console.log('Novo nome:', newName);
-            // Lógica para atualizar o nome
-        } else if (field === 'localizacao') {
-            console.log('Nova localização:', newLocation);
-            // Lógica para atualizar a localização
-        }
-    };
-
     const handleEdit = (data) => {
         //navigate('/secretaria/editar/salas', { state: { data } });
     }
 
-    const handleDelete = (data) => {
-        // api.delete( + parseInt(data.id))
-        //     .then((res) => {
-        //         if (res.status === 204) {
-        //             setData((prevData) => prevData.filter((sala) => sala.id !== data.id));
-        //             toast.success('Sala ' + data.nome + ' deletada com sucesso!');
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         toast.error('Erro ao deletar a sala: ' + data.nome);
-        //     });
+    const handleDelete = () => {
+        if (roleClicked.ra) {
+            api.patch("/alunos/" + roleClicked.id + "/sala/remover")
+                .then((res) => {
+                        if (res.status === 200) {
+                            setDataState((prevData) => {
+                                return {
+                                    ...prevData,
+                                    alunos: prevData.alunos.filter(
+                                        (aluno) => aluno.id !== roleClicked.id
+                                    )
+                                };
+                            });
+                            toast.success('O aluno ' + roleClicked.nome + ' foi desatrelado com sucesso!');
+                        }
+                })
+                .catch((error) => {
+                    toast.error('Erro ao deletar a sala: ' + data.nome);
+                });
+        } else {
+            api.patch("/usuarios/professor/" + roleClicked.id + "/sala/remover")
+                .then((res) => {
+                    if (res.status === 200) {
+                        setDataState((prevData) => {
+                            return {
+                                ...prevData,
+                                professores: prevData.professores.filter(
+                                    (professor) => professor.id !== roleClicked.id
+                                )
+                            };
+                        });
+                        toast.success('O professor ' + roleClicked.nome + ' foi desatrelado com sucesso!');
+                    }
+                })
+                .catch((error) => {
+                    toast.error('Erro ao deletar o aluno: ' + roleClicked.nome);
+                });
+        }
     }
 
     return (
@@ -64,8 +97,8 @@ const EditarSala = () => {
                             Voltar
                         </button>
 
-                            <Typography variant="h6">Sala: {data.nome}</Typography>
-                            <Typography variant="h6">Localização: {data.localizacao}</Typography>
+                        <Typography variant="h6">Sala: {data.nome}</Typography>
+                        <Typography variant="h6">Grupo: {data.grupo.nome}</Typography>
                     </div>
 
                     <div className="flex space-x-4 mr-12">
@@ -108,7 +141,7 @@ const EditarSala = () => {
                                         <TableCell align="center">{professor.dtNasc}</TableCell>
                                         <TableCell align="center">
                                             <EditIcon onClick={() => handleEdit(professor)} style={{ color: 'blue', cursor: 'pointer', marginRight: 8 }} />
-                                            <DeleteIcon onClick={() => handleDelete(professor)} style={{ color: 'red', cursor: 'pointer' }} />
+                                            <DeleteIcon onClick={() => handleOpenConfirmModal(professor)} style={{ color: 'red', cursor: 'pointer' }} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -138,7 +171,7 @@ const EditarSala = () => {
                                         <TableCell align="center">{aluno.filiacoes[0]?.responsavel?.nome || 'Não informado'}</TableCell>
                                         <TableCell align="center">
                                             <EditIcon onClick={() => handleEdit(aluno)} style={{ color: 'blue', cursor: 'pointer', marginRight: 8 }} />
-                                            <DeleteIcon onClick={() => handleDelete(aluno)} style={{ color: 'red', cursor: 'pointer' }} />
+                                            <DeleteIcon onClick={() => handleOpenConfirmModal(aluno)} style={{ color: 'red', cursor: 'pointer' }} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -148,6 +181,13 @@ const EditarSala = () => {
                 </Box>
             </div >
             <ModalAtrelar setDataState={setDataState} setOpenModal={setOpenModal} role={role} openModal={openModal} idSala={dataState.id} />
+            <ModalConfirm
+                open={modalConfirmOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmAction}
+                title={`Deseja desatrelar o ${roleClicked.ra ? "aluno" : "professor"}?`}
+                description={`O ${roleClicked.nome} será desatrelado, Após confirmar esta ação não poderá ser desfeita.`}
+            />
         </>
     )
 }
