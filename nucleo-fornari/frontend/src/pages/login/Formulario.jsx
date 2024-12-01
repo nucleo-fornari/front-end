@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import imgLogin from "../../assets/imgs/imgLogin.png";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api"
+import { toast } from "react-toastify";
 
 const Formulario = () => {
     const navigate = useNavigate();
@@ -15,12 +16,12 @@ const Formulario = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        setErrors({ email: '', senha: '' });
+        setErrors({ email: "", senha: "" });
 
         try {
             const response = await api.post("usuarios/login", {
                 email: email,
-                senha: senha
+                senha: senha,
             });
 
             if (response.status === 200) {
@@ -29,30 +30,48 @@ const Formulario = () => {
                 sessionStorage.ID = response.data.userId;
                 sessionStorage.NOME = response.data.nome;
                 sessionStorage.ID_SALA = response.data.salaId;
-
-                if (response.data.funcao === "RESPONSAVEL") {
-                    navigate("/responsavel");
-                } else if (response.data.funcao === "PROFESSOR") {
-                    navigate("/professor");
-                } else if (response.data.funcao === "SECRETARIO") {
-                    navigate("/secretaria");
-                } else {
-                    console.log("Ocorreu algum erro ao coletar a função do usuário")
-                }
-
+                redirectByRole(response.data.funcao);
             }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data.errors) {
                 setErrors({
-                    email: ' ',
-                    senha: 'Email ou senha incorretos. Verifique os dados e tente novamente.',
+                    email: " ",
+                    senha: "Email ou senha incorretos. Verifique os dados e tente novamente.",
                 });
             } else {
-                console.error(error.message || 'Erro inesperado!');
-                alert('Erro inesperado ao fazer login. Tente novamente.');
+                console.error(error.message || "Erro inesperado!");
+                toast.error("Erro inesperado ao fazer login. Tente novamente.");
             }
         }
-    }
+    };
+
+    useEffect(() => {
+        const id = sessionStorage.getItem("ID");
+        const func = sessionStorage.getItem("FUNC");
+    
+        if (id && func) {
+            redirectByRole(func);
+        }
+    }, []);
+
+
+    const redirectByRole = (role) => {
+        switch (role) {
+            case "RESPONSAVEL":
+                navigate("/responsavel");
+                break;
+            case "PROFESSOR":
+                navigate("/professor");
+                break;
+            case "SECRETARIO":
+                navigate("/secretaria");
+                break;
+            default:
+                console.log("Erro ao redirecionar para a rota do user")
+                break;
+        }
+    };
+
 
 
     const togglePasswordVisibility = () => {

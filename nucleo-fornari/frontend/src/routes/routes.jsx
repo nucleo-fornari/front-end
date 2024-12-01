@@ -9,6 +9,8 @@ import { createBrowserRouter } from "react-router-dom";
 import { Inicio } from "../components/dashboards/Inicio.jsx";
 import NotFound from "../pages/not-found/NotFound.jsx";
 import PublicacoesProfessor from "../components/publicar/professor/PublicacoesProfessor.jsx";
+import PrivateRoute from "./PrivateRoute";
+import Unauthorized from "../pages/unauthorized/Unauthorized.jsx"
 
 //SECRETARIA
 import SecretaryPage from "../pages/secretaria/SecretariaPage.jsx";
@@ -80,12 +82,20 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
+  {
     path: "/login",
     element: <Formulario />,
   },
   {
     path: "/responsavel",
-    element: <ParentsPage />,
+    element: (
+      <PrivateRoute allowedRoles={["RESPONSAVEL"]}>
+        <ParentsPage />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/responsavel",
@@ -103,7 +113,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/professor",
-    element: <ProfessorPage />,
+    element: (
+      <PrivateRoute allowedRoles={["PROFESSOR"]}>
+        <ProfessorPage />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/professor",
@@ -121,7 +135,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/secretaria",
-    element: <SecretaryPage />,
+    element: (
+      <PrivateRoute allowedRoles={["SECRETARIO"]}>
+        <SecretaryPage />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/secretaria",
@@ -154,8 +172,8 @@ export const router = createBrowserRouter([
 
       {
         path: "/secretaria/cadastro/funcionario",
-        element: <CadastroFuncionario/>
-      },      
+        element: <CadastroFuncionario />
+      },
       {
         path: "/secretaria/gerencia/salas",
         element: <GerenciarSalas />,
