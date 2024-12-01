@@ -85,7 +85,7 @@ const ModalChamado = ({ setData, open, handleClose }) => {
   const theme = createTheme({
     breakpoints: {
       values: {
-        mobile: 1,
+        mobile: 767,
         tablet: 768,
         laptop: 1024,
       },
@@ -94,15 +94,17 @@ const ModalChamado = ({ setData, open, handleClose }) => {
 
   const Root = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
-    [theme.breakpoints.up('mobile')]: {
-      width:700
-    
+    [theme.breakpoints.down('mobile')]: {
+      width:700,
+      height:0
     },
     [theme.breakpoints.up('tablet')]: {
-      width:500
+      width:600,
+      height:0
     },
     [theme.breakpoints.up('laptop')]: {
-      width:400
+      width:400,
+      height:0
     },
   }));
 
@@ -119,10 +121,11 @@ const ModalChamado = ({ setData, open, handleClose }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: {
-            mobile: '700px', // Largura dinâmica para telas pequenas
-            tablet: '500px', // Largura fixa para tablet
+            mobile: '800px', // Largura dinâmica para telas pequenas
+            tablet: '600px', // Largura fixa para tablet
             laptop: '400px', // Largura fixa para laptop
           },
+         
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -142,7 +145,12 @@ const ModalChamado = ({ setData, open, handleClose }) => {
         >
           <CloseIcon />
         </IconButton>
-        <Typography variant="h6" component="h2">
+        <Typography variant="h6" component="h2" sx={{
+          fontSize:{
+            tablet:18,
+            laptop:16,
+          }
+        }}>
           Categoria:
         </Typography>
 

@@ -56,7 +56,7 @@ export function Inicio() {
 
   return (
     <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
-      <div className="text-white-main flex flex-col gap-20 ">
+      <div className="text-white-main flex flex-col gap-20 w-3/4">
         <div className="h-[500px]">
           <Calendar />
         </div>
