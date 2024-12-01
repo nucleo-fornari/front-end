@@ -16,13 +16,13 @@ import {
   Radio,
   RadioGroup,
   Select,
-  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField, Typography,
+  TextField,
+  Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
 
@@ -62,18 +62,12 @@ function FormularioAluno({ setStep }) {
   };
   const loadRestricoes = () => {
     api.get("/restricoes").then((res) => {
-      console.log("resposta do back: ", res.data)
       setRestricaoData(res.data)
-      console.log("guaradado em variavel: ", restricaoData)
     }).catch((error) => console.log(error));
   }
   useEffect(() => {
     loadRestricoes();
   }, []);
-
-  useEffect(() => {
-    console.log("Valor atualizado em restricaoData: ", restricaoData);
-  }, [restricaoData]);
 
   const validateStep = (step) => {
     const currentErrors = {};
@@ -200,7 +194,7 @@ function FormularioAluno({ setStep }) {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    console.log(formData);
+    // console.log(formData);
     if (value !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
@@ -291,7 +285,7 @@ function FormularioAluno({ setStep }) {
       restricoes: formData.tipoRestricao
     })
 
-    console.log(obj);
+    // console.log(obj);
     const requestBody = new FormData();
     requestBody.append("body", obj)
 
@@ -303,7 +297,7 @@ function FormularioAluno({ setStep }) {
       },
     }).then((response) => {
       if (response.status === 201) {
-        toast.success("Funcionário cadastrado com sucesso!");
+        toast.success("Aluno cadastrado com sucesso!");
         setFormData({
           nomeCompleto: "",
           ra: "",
@@ -341,7 +335,7 @@ function FormularioAluno({ setStep }) {
         setErrors((prev) => ({ ...prev, [`cpf`]: "Verifique se foi digitado corretamente." }));
       }
 
-      toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
+      toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar Aluno.");
     });
   };
 
@@ -370,10 +364,6 @@ function FormularioAluno({ setStep }) {
     createData("Número", formData.numero),
     createData("Complemento", formData.complemento),
   ];
-
-  //Stepper
-
-
 
   return (
     <>
