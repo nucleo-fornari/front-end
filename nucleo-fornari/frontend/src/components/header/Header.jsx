@@ -25,6 +25,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -145,7 +146,7 @@ export default function PrimarySearchAppBar() {
             src={logoHorizontal}
             className="lg:h-45 lg:w-156 md:h-90 md:w-313"
           />
-          <Box sx={{ flexGrow: 1 }} />
+          {/* <Box sx={{ flexGrow: 1 }} />
           <Box>
             <IconButton
               size="large"
@@ -172,11 +173,13 @@ export default function PrimarySearchAppBar() {
                         <ListItem
                           key={notification.id}
                           style={{
+                            position:"absolute", 
                             marginTop: "10px",
                             padding: "10px",
                             borderRadius: "8px",
                             backgroundColor: "#f5f5f5",
                             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                            zIndex:10
                           }}
                         >
                           <ListItemIcon>
@@ -214,8 +217,8 @@ export default function PrimarySearchAppBar() {
                             color="inherit"
                         >
                             <AccountCircle />
-                        </IconButton> */}
-          </Box>
+                        </IconButton> 
+          </Box> */}
         </Toolbar>
       </AppBar>
 

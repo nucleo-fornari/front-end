@@ -263,12 +263,12 @@ const Calendario = ({
   return (
     <>
       <div
-        className={`bg-[#FFF] rounded-2xl bg-white pb-10 text-slate-800 ${
+        className={`bg-[#FFF] relative w-full lg:min-w-full rounded-2xl bg-white pb-10 text-slate-800 ${
           fullHeight ? "" : "calendar-container h-full overflow-y-scroll"
         }`}
       >
         <div className="sticky -top-px z-50 w-full bg-white px-5 sm:px-10 bg-[#FFF]">
-          <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-6">
+          <div className="py-2 flex w-full flex-wrap items-center justify-between gap-6">
             <div className="flex flex-wrap gap-2 sm:gap-3">
               <Select
                 name=""
@@ -374,18 +374,13 @@ const Select = ({ name, value, label, options = [], onChange, className }) => (
       ))}
     </select>
     <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-1 sm:pr-2">
-      <svg
-        className="size-5 text-slate-600"
-        viewBox="0 0 20 20"
-        fill="currentcor"
-        aria-hidden="true"
-      >
+      
         <path
           fillRule="evenodd"
           d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
           clipRule="evenodd"
         />
-      </svg>
+      
     </span>
   </div>
 );

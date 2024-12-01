@@ -99,7 +99,13 @@ export default function StickyHeadTable() {
         />
       </Paper>
       <div className="flex w-52 py-10 justify-center">
-        <Button variant="contained" size="medium" onClick={openModal}>Novo chamado</Button>
+        <Button
+        variant="contained"
+        size="large"
+        className='lg:h-11 md:h-14 sm:h-16'
+        onClick={openModal}>
+          Novo chamado
+          </Button>
       </div>
       <ModalChamado setData={setData} open={isModalOpen} handleClose={closeModal} />
     </>

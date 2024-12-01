@@ -52,9 +52,9 @@ export default function AlignItemsList() {
 
   return (
     <>
-      <h1 className="text-blue-main font-semibold text-xl mb-4">Turma: {nomeSala.toUpperCase()}</h1>
+      <div className="text-base text-blue-main font-semibold md:text-3xl lg:text-2xl md:py-8 lg:pt-0">Turma: {nomeSala.toUpperCase()}</div>
       <div className="overflow-y-auto max-h-96 rounded-lg shadow-lg bg-white">
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper'  }}>
           {alunos.map((aluno, index) => (
             <React.Fragment key={index}>
               <ListItem

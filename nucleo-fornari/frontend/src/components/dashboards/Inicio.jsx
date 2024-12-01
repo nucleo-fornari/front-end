@@ -56,16 +56,18 @@ export function Inicio() {
 
   return (
     <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
-      <div className="text-white-main flex flex-col gap-20 ">
+      <div className="text-white-main flex flex-col gap-20 w-3/4">
         <div className="h-[500px]">
           <Calendar />
         </div>
-        <div className="lg:h-11">
+        <div className="lg:h-11 md:text-4xl">
           <Button
+            className="lg:h-11 md:h-14 sm:h-16"
             variant="contained"
-            startIcon={<SupportAgentRoundedIcon />}
+            // startIcon={<SupportAgentRoundedIcon />}
             color="primary"
             fullWidth={true}
+            size="large"
             onClick={handleOpenChamado}
           >
             Abrir chamado
@@ -76,8 +78,9 @@ export function Inicio() {
       <div className="flex flex-col gap-12">
         <AlignItemsList />
         <Button
+        className="lg:h-11 md:h-14 sm:h-16"
           variant="contained"
-          size="medium"
+          size="large"
           fullWidth={true}
           onClick={handleOpenRecado}
         >
@@ -85,8 +88,9 @@ export function Inicio() {
         </Button>
 
         <Button
+        className="lg:h-11 md:h-14 sm:h-16"
           variant="outlined"
-          size="medium"
+          size="large"
           fullWidth={true}
           onClick={handleRelatorio}
         >
