@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -16,23 +16,21 @@ import {
   Radio,
   RadioGroup,
   Select,
-  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField, Typography,
+  TextField,
+  Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
-import RestricoesService from "../../../../services/RestricoesService";
 
 function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
 
   const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});
-  const [restricoes, setRestricoes] = useState([]);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
     ra: "",
@@ -57,31 +55,19 @@ function FormularioAluno({ setStep }) {
     complemento: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => {
-    loadRestricoes();
-  }, []);
+  const [restricaoData, setRestricaoData] = useState([])
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
-  const handleRestricaoSelection = (id) => {
-    const aux = {...formData}
-    if (formData.tipoRestricao.includes(id)) {
-      aux.tipoRestricao = formData.tipoRestricao.filter((item) => item !== id);
-    } else {
-      aux.tipoRestricao.push(id);
-    }
-
-    setFormData(aux);
-  }
-
   const loadRestricoes = () => {
-    RestricoesService.getRestricoes().then((res) => {
-      setRestricoes(res.data);
+    api.get("/restricoes").then((res) => {
+      setRestricaoData(res.data)
     }).catch((error) => console.log(error));
   }
+  useEffect(() => {
+    loadRestricoes();
+  }, []);
 
   const validateStep = (step) => {
     const currentErrors = {};
@@ -110,11 +96,6 @@ function FormularioAluno({ setStep }) {
 
     setErrors((prev) => ({ ...prev, ...currentErrors }));
     return Object.keys(currentErrors).length === 0;
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   const handleInputChange = (e) => {
@@ -213,11 +194,11 @@ function FormularioAluno({ setStep }) {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    console.log(formData);
+    // console.log(formData);
     if (value !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
-      setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+      setErrors((prev) => ({ ...prev, [name]: "Campo obrigatório" }));
     }
 
   };
@@ -271,10 +252,6 @@ function FormularioAluno({ setStep }) {
   };
 
   const handleSubmit = () => {
-    // if (!validateStep(partCadastro)) {
-    //   setPartCadastro(partCadastro);
-    //   return;
-    // }
 
     const obj = JSON.stringify({
       id: null,
@@ -308,7 +285,7 @@ function FormularioAluno({ setStep }) {
       restricoes: formData.tipoRestricao
     })
 
-    console.log(obj);
+    // console.log(obj);
     const requestBody = new FormData();
     requestBody.append("body", obj)
 
@@ -348,7 +325,17 @@ function FormularioAluno({ setStep }) {
       }
     }).catch((error) => {
       console.error(error);
-      toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar funcionário.");
+      if(error.response.data.message === "Data de nascimento inválida. A idade deve estar entre 0 e 6 anos.") {
+        setPartCadastro(0)
+        
+        setErrors((prev) => ({ ...prev, [`dtNascimento`]: "A idade deve estar entre 0 e 6 anos." }));
+      }else if(error.response.data.message === "CPF inválido. Por favor, verifique se foi digitado corretamente.") {
+        setPartCadastro(2)
+
+        setErrors((prev) => ({ ...prev, [`cpf`]: "Verifique se foi digitado corretamente." }));
+      }
+
+      toast.error(error.response?.data?.message || error.text || "Erro ao cadastrar Aluno.");
     });
   };
 
@@ -377,10 +364,6 @@ function FormularioAluno({ setStep }) {
     createData("Número", formData.numero),
     createData("Complemento", formData.complemento),
   ];
-
-  //Stepper
-
-
 
   return (
     <>
@@ -470,26 +453,46 @@ function FormularioAluno({ setStep }) {
                 />
               </RadioGroup>
               {showTable && (
-                  restricoes.length > 0 ? (
-                      restricoes.map((x) => (
-                          <FormGroup className="flex flex-wrap w-full max-h-28">
-                            <FormControlLabel
-                                control={
-                                  <Checkbox
-                                      value={x.id}
-                                      name="tipoRestricao"
-                                      checked={formData.tipoRestricao?.includes(x.id)}
-                                      onChange={() => handleRestricaoSelection(x.id)}
-                                  />
-                                }
-                                label={x.tipo}
-                                className="w-1/2"
-                            />
-                          </FormGroup>
-                      ))
-                  ) : (<p>Nenhuma restrição cadastrada no sistema.</p>)
+                <>
+                  <FormGroup className="flex flex-wrap w-full max-h-28">
+                    {restricaoData.map((restricao) => (
+                      <FormControlLabel
+                        key={restricao.id}
+                        control={<Checkbox
+                          value={restricao.id}
+                          name="tipoRestricao"
+                          checked={formData.tipoRestricao?.includes(`${restricao.id}`)}
+                          onChange={handleInputChange}
+                        />}
+                        label={restricao.tipo}
+                        className="w-1/2"
+                      />
+                    ))}
+                    <FormControlLabel
+                      control={<Checkbox
+                        value="Outro"
+                        name="tipoRestricao"
+                        checked={formData.tipoRestricao?.includes("Outro")}
+                        onChange={handleInputChange}
+                      />}
+                      label="Outro"
+                      className="w-1/2"
+                    />
+                  </FormGroup>
+                  {formData.tipoRestricao?.includes("Outro") && (
+                    <TextField
+                    label="Outros:"
+                    className="flex-none"
+                    name="restricaoAlimentarOutros"
+                    value={formData.restricaoAlimentarOutros || ""}
+                    onChange={handleInputChange}
+                    error={!!errors.restricaoAlimentarOutros}
+                    helperText={errors.restricaoAlimentarOutros}
+                  />
+                  )}
+                  
+                </>
               )}
-
 
               <FormLabel id="demo-row-radio-buttons-group-label">
                 O aluno possui laudo psicológico?

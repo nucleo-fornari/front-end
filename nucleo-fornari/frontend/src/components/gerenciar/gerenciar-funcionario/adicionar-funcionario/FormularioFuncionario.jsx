@@ -12,6 +12,13 @@ import {
   MenuItem,
   Select,
   TextField,
+  TableContainer,
+  Paper,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
 
@@ -41,7 +48,7 @@ function FormularioFuncionario({ setStep }) {
     const stepFields = [
       ["nomeCompleto", "dtNascimento", "cargo"],
       ["email", "cpf", "telefone"],
-      ["cep", "numero", "complemento"],
+      ["cep"],
     ];
   
     stepFields[step].forEach((field) => {
@@ -56,6 +63,35 @@ function FormularioFuncionario({ setStep }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "cpf") {
+      const filteredValue = value.replace(/\D/g, "").slice(0, 11);
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+      if (value.length < 11) {        
+      setErrors((prev) => ({ ...prev, [name]: "Cpf deve conter 11 caracteres" }));
+      } else {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+      return;
+    }
+
+    if (name === "telefone") {
+      let formattedValue = value.replace(/\D/g, "").slice(0, 11);
+      if (formattedValue.length > 0) {
+        formattedValue = `${formattedValue.slice(0, 0)}(${formattedValue.slice(0)}`
+      }if (formattedValue.length > 3) {
+        formattedValue = `${formattedValue.slice(0, 3)}) ${formattedValue.slice(3)}`
+      }if (formattedValue.length > 10) {
+        formattedValue = `${formattedValue.slice(0, 10)}-${formattedValue.slice(10)}`
+      }
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+      if (value.length < 11) {        
+        setErrors((prev) => ({ ...prev, [name]: "Número de telefone invalido" }));
+        } else {
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+        }
+      return;
+    }
 
     if (name === "cep") {
       let formattedValue = value.replace(/\D/g, "");
@@ -93,10 +129,13 @@ function FormularioFuncionario({ setStep }) {
     
     setFormData((prev) => ({ ...prev, [name]: value }));
 
+    console.log(formData);
+
+
     if (value.trim() !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
-      setErrors((prev) => ({ ...prev, [name]: "Campo em erro" }));
+      setErrors((prev) => ({ ...prev, [name]: "Campo Obrigatório" }));
     }
     
   };
@@ -126,15 +165,33 @@ function FormularioFuncionario({ setStep }) {
   };
 
   const handleSubmit = async () => {
-    if (!validateStep(partCadastro)) {
-      setPartCadastro(partCadastro);
-      return;
-    } 
 
-    try {
-      const response = await api.post("/usuarios/funcionario", formData);
-      if (response.status === 201) {
-        toast.success("Funcionário cadastrado com sucesso!");
+    const obj = {
+      id: null,
+      nome: formData.nomeCompleto,
+      cpf: formData.cpf,
+      email: formData.email,
+      telefone: formData.telefone,
+      dtNasc: formData.dtNascimento,
+      funcao: formData.cargo,
+      endereco: {
+        id: null,
+        cep: formData.cep,
+        uf: formData.uf,
+        localidade: formData.cidade,
+        bairro: formData.bairro,
+        logradouro: formData.logradouro,
+        complemento: formData.complemento,
+        numero: formData.numero
+      }
+    }
+
+    const requestBody = new FormData();
+    requestBody.append("body", obj)
+
+    api.post("/usuarios/funcionario", obj).then((response) => {
+      if (response.status === 201) {        
+        toast.success("Funcionario cadastrado com sucesso!");
         setFormData({
           nomeCompleto: "",
           dtNascimento: "",
@@ -152,10 +209,31 @@ function FormularioFuncionario({ setStep }) {
         });
         navigate("/secretaria/gerencia/funcionario");
       }
-    } catch (error) {
+    }).catch((error) => {
+      console.log(error);
       toast.error(error.response?.data?.message || "Erro ao cadastrar funcionário.");
-    }
+    });
   };
+
+  function createData(campo, valorInserido) {
+    return { campo, valorInserido };
+  }
+
+  const rows = [
+    createData("Nome completo", formData.nomeCompleto),
+    createData("Data de nascimento", formData.dtNascimento),
+    createData("Cargo", formData.cargo),
+    createData("Email", formData.email),
+    createData("CPF", formData.cpf),
+    createData("Telefone", formData.telefone),
+    createData("CEP", formData.cep),
+    createData("Cidade", formData.cidade),
+    createData("UF", formData.uf),
+    createData("Bairro", formData.bairro),
+    createData("Logradouro", formData.logradouro),
+    createData("Número", formData.numero),
+    createData("Complemento", formData.complemento),
+  ];
 
   return (
     <>
@@ -203,8 +281,8 @@ function FormularioFuncionario({ setStep }) {
                     value={formData.cargo}
                     onChange={handleInputChange}
                   >
-                    <MenuItem value="Secretaria">Secretaria</MenuItem>
-                    <MenuItem value="Professor">Professor</MenuItem>
+                    <MenuItem value="SECRETARIO">Secretaria</MenuItem>
+                    <MenuItem value="PROFESSOR">Professor</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -361,26 +439,48 @@ function FormularioFuncionario({ setStep }) {
             </>
           )}
           {partCadastro === 3 && (
+            // <>
+            //   <div className="flex gap-10 justify-between">
+            //     <div className="flex flex-col gap-2">
+            //       <span>Nome completo: <b>{formData.nomeCompleto}</b></span>
+            //       <span>Data Nascimento: <b>{formData.dtNascimento}</b></span>
+            //       <span>Cargo: <b>{formData.cargo}</b></span>
+            //       <span>Email: <b>{formData.email}</b></span>
+            //       <span>Cpf: <b>{formData.cpf}</b></span>
+            //       <span>Telefone: <b>{formData.telefone}</b></span>
+            //     </div>
+            //     <div className="flex flex-col gap-2 Q ">
+            //       <span>Cep: <b>{formData.cep}</b></span>
+            //       <span>Cidade: <b>{formData.cidade}</b></span>
+            //       <span>Uf: <b>{formData.uf}</b></span>
+            //       <span>Bairro: <b>{formData.bairro}</b></span>
+            //       <span>Logradouro: <b>{formData.logradouro}</b></span>
+            //       <span>numero: <b>{formData.numero}</b></span>
+            //       <span>complemento: <b>{formData.complemento}</b></span>
+            //     </div>
+            //   </div>
+            // </>
             <>
-              <div className="flex gap-10 justify-between">
-                <div className="flex flex-col gap-2">
-                  <span>Nome completo: <b>{formData.nomeCompleto}</b></span>
-                  <span>Data Nascimento: <b>{formData.dtNascimento}</b></span>
-                  <span>Cargo: <b>{formData.cargo}</b></span>
-                  <span>Email: <b>{formData.email}</b></span>
-                  <span>Cpf: <b>{formData.cpf}</b></span>
-                  <span>Telefone: <b>{formData.telefone}</b></span>
-                </div>
-                <div className="flex flex-col gap-2 Q ">
-                  <span>Cep: <b>{formData.cep}</b></span>
-                  <span>Cidade: <b>{formData.cidade}</b></span>
-                  <span>Uf: <b>{formData.uf}</b></span>
-                  <span>Bairro: <b>{formData.bairro}</b></span>
-                  <span>Logradouro: <b>{formData.logradouro}</b></span>
-                  <span>numero: <b>{formData.numero}</b></span>
-                  <span>complemento: <b>{formData.complemento}</b></span>
-                </div>
-              </div>
+              <TableContainer component={Paper} className="h-80">
+                <Table aria-label="simple table">
+
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.campo}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row" sx={{ width: '50%', fontWeight: 600, }} className="text-blue-dash">
+                          {row.campo}
+                        </TableCell>
+                        <TableCell align="right" sx={{ width: '50%' }}>{row.valorInserido}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </>
           )}
         </form>
@@ -402,7 +502,7 @@ function FormularioFuncionario({ setStep }) {
           variant="contained"
           size="medium"
           fullWidth={false}
-          onClick={incrementPartCadastro}
+          onClick={partCadastro === 3 ? handleSubmit : incrementPartCadastro}
         >
           {partCadastro === 3 ? "Finalizar" : "Próximo"}
         </Button>
