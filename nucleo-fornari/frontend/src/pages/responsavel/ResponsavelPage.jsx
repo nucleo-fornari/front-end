@@ -12,11 +12,6 @@ function ParentsPage() {
 
   const sideMenuItens = [
     {
-      icon: <NewspaperRoundedIcon />,
-      name: 'Publicações',
-      route: '/responsavel'
-    },
-    {
       icon: <PeopleRoundedIcon />,
       name: 'Reuniões',
       route: '/responsavel/reunioes'
@@ -24,7 +19,7 @@ function ParentsPage() {
     {
       icon: <StickyNote2RoundedIcon />,
       name: 'Agenda',
-      route: '/responsavel/agenda'
+      route: '/responsavel'
     },
   ]
 

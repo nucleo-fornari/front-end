@@ -98,15 +98,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/responsavel",
-        element: <Avisos avisosData={avisosData} />,
-      },
-      {
         path: "/responsavel/reunioes",
         element: <Reuniao />,
       },
       {
-        path: "/responsavel/agenda",
+        path: "/responsavel",
         element: <Agenda />,
       },
     ],
