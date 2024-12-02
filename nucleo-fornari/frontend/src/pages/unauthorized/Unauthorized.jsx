@@ -27,7 +27,7 @@ const Unauthorized = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(-2)}
         >
           Voltar
         </Button>
