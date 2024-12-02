@@ -89,7 +89,7 @@ const GerenciarAluno = () => {
               filteredAlunos.map((aluno) => (
                   <TableRow hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
                     <TableCell align="center">
-                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.sala ?? "Não atribuída"}</Box>
+                      <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.sala ? aluno.sala.nome :  "Não atribuída"}</Box>
                     </TableCell>
                     <TableCell align="center">
                       <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.nome}</Box>

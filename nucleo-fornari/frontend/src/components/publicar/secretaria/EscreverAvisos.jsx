@@ -50,7 +50,7 @@ function EscreverAvisos() {
         salasPorGrupo.G5.splice(0, salasPorGrupo.G5.length);
 
         todasAsSalas.forEach((sala) => {
-            salasPorGrupo[sala.grupo.nome].push(sala);
+            salasPorGrupo[sala.grupo.nome]?.push(sala);
         })
     }, [todasAsSalas]);
 
