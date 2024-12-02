@@ -7,11 +7,26 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FuncionarioService from "../../../services/FuncionariosService";
 import {toast} from "react-toastify";
 import TextField from "@mui/material/TextField";
+import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 
 const GerenciarFuncionario = () => {
 
     const [funcionarios, setFuncionarios] = useState([]);
     const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
+    const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
+    const [id, setId] = useState(null);
+
+    const handleCloseModal = () => setModalConfirmOpen(false);
+
+    const handleOpenConfirmModal = (id) => {
+        setId(id)
+        setModalConfirmOpen(true);
+    };
+
+    const handleConfirmAction = () => {
+        handleDelete();
+        setModalConfirmOpen(false);
+    };
 
     const handleSelectChange = (event) => {
         if (!event) {
@@ -23,11 +38,11 @@ const GerenciarFuncionario = () => {
 
     const loadFuncionarios = () => {
         FuncionarioService.getFuncionarios().then((res) => {
-            setFuncionarios(res.data.filter(func => func.funcao !== 'RESPONSAVEL'));
+            setFuncionarios(res.data.filter(func => func.funcao !== 'RESPONSAVEL' && func.id !== parseInt(sessionStorage.ID)));
         }).catch((error) => console.log(error));
     }
 
-    const handleDelete = (id) => {
+    const handleDelete = () => {
         FuncionarioService.deleteFuncionario(id).then((res) => {
             if (res.status === 204) {
                 toast.success('Deletado com sucesso!');
@@ -94,16 +109,16 @@ const GerenciarFuncionario = () => {
                             <Box sx={{ p: 1, borderRadius: 1 }}>{func.email}</Box>
                         </TableCell>
                         <TableCell align="center">
-                            <EditIcon style={{ color: 'blue' }}
-                                // onClick={() => handleMudarChamado(chamado.id)}
-                                // color={chamado.finalizado ? "success" : "error"}
+                            {/* <EditIcon style={{ color: 'blue' }}
+                                onClick={() => handleMudarChamado(chamado.id)}
+                                color={chamado.finalizado ? "success" : "error"}
                                       aria-label="Concluir chamado"
                             >
-                                {/* {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />} */}
-                            </EditIcon>
+                                {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />}
+                            </EditIcon> */}
                             <DeleteIcon
-                                onClick={() => handleDelete(func.id)}
-                                style={{ color: 'red' }} />
+                                onClick={() => handleOpenConfirmModal(func.id)}
+                                style={{ color: 'red', cursor: 'pointer', marginRight: 8 }} />
                         </TableCell>
                     </TableRow>
                     ))}
@@ -111,8 +126,14 @@ const GerenciarFuncionario = () => {
         </Table>
       </TableContainer>
     </Box>
-
-        </div>
+    <ModalConfirm
+                open={modalConfirmOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmAction}
+                title={`Deseja apagar o usuário?`}
+                description={`O usuário será apagado, Após confirmar esta ação não poderá ser desfeita.`}
+            />
+    </div>
     );
 };
 
