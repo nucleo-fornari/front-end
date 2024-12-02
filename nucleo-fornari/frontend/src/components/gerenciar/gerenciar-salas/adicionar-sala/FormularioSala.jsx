@@ -91,8 +91,7 @@ export default function FormularioSala({ setStep }) {
         if (!validateStep(partCadastro)) {
             setPartCadastro(partCadastro);
             return;
-        }
-
+        }     
         if (!formData.grupo.id) {
             api.post(`/salas/grupos/${formData.grupo.nome}`)
                 .then((response) => {

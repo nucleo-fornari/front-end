@@ -4,20 +4,15 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  
-  useEffect(() => {
-    const token = sessionStorage.TOKEN;
-    const func = sessionStorage.FUNC;
 
-    if (token && func) {
-      setUser({
-        token,
-        func,
-        id: sessionStorage.ID,
-        nome: sessionStorage.NOME,
-        salaId: sessionStorage.ID_SALA,
-      });
-    }
+  useEffect(() => {
+    setUser({
+      token: sessionStorage.TOKEN,
+      func: sessionStorage.FUNC,
+      id: sessionStorage.ID,
+      nome: sessionStorage.NOME,
+      salaId: sessionStorage.ID_SALA,
+    });
   }, []);
 
   return (

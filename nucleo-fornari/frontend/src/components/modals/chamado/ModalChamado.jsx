@@ -67,9 +67,7 @@ const ModalChamado = ({ setData, open, handleClose }) => {
       }
     }).catch((error) => {
       if (error.response && error.response.data.text) {
-            setDescriptionError(error.response.data.text);
-        } else {
-            toast.error('Erro inesperado!');
+        toast.error(error.response.data.text);
         }
     })
     handleClose();

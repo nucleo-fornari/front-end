@@ -4,11 +4,11 @@ import { useAuth } from "../AuthProvider";
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth();
 
-  if (!user) {
+    if (!user) {
     return <Navigate to="/login" />;
   }
-  
-  if (!allowedRoles.includes(user.func)) {
+
+  if (!allowedRoles.includes(user.func) && user.func === null) {
     return <Navigate to="/unauthorized" />;
   }
 
