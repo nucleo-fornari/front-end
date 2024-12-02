@@ -1,12 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import './GerenciarAluno.css';
 import { Link } from 'react-router-dom';
-import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box} from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
+import {
+  FormControl,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Box,
+  IconButton
+} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AlunoService from "../../../services/AlunosService";
 import {toast} from "react-toastify";
 import TextField from "@mui/material/TextField";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 const GerenciarAluno = () => {
   const [alunos, setAlunos] = useState([]);
@@ -38,6 +49,16 @@ const GerenciarAluno = () => {
       toast.error('Erro ao deletar!');
     })
   }
+
+  const handleDownload = (fileName) => {
+    const fileUrl = process.env.REACT_APP_API_URL + "/files/download/" + fileName;
+
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   useEffect(() => {
     loadAlunos();
@@ -101,15 +122,18 @@ const GerenciarAluno = () => {
                       <Box sx={{ p: 1, borderRadius: 1 }}>{aluno.filiacoes[0].responsavel.nome}</Box>
                     </TableCell>
                     <TableCell align="center">
-                      <EditIcon style={{ color: 'blue' }}
-                          // onClick={() => handleMudarChamado(chamado.id)}
-                          // color={chamado.finalizado ? "success" : "error"}
-                                aria-label="Concluir chamado"
-                      >
-                        {/* {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />} */}
-                      </EditIcon>
+                      { aluno.laudoNome ?
+                          (<IconButton>
+                          <InsertDriveFileIcon
+                              onClick={() => handleDownload(aluno.laudoNome, aluno.nome)}
+                              sx={{ color: 'green' }}
+                          />
+                        </IconButton>) : null
+                      }
+                      {/*<EditIcon style={{color: 'blue'}}>*/}
+                      {/*</EditIcon>*/}
                       <DeleteIcon
-                          style={{ color: 'red' }}
+                          style={{color: 'red'}}
                           onClick={() => handleDelete(aluno.id)}
                       />
                     </TableCell>

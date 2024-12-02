@@ -11,11 +11,11 @@ import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
 function ParentsPage() {
 
   const sideMenuItens = [
-    {
-      icon: <PeopleRoundedIcon />,
-      name: 'Reuniões',
-      route: '/responsavel/reunioes'
-    },
+    // {
+    //   icon: <PeopleRoundedIcon />,
+    //   name: 'Reuniões',
+    //   route: '/responsavel/reunioes'
+    // },
     {
       icon: <StickyNote2RoundedIcon />,
       name: 'Agenda',

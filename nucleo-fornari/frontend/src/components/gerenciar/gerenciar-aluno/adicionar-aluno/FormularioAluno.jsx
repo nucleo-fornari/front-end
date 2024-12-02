@@ -455,7 +455,7 @@ function FormularioAluno({ setStep }) {
               {showTable && (
                 <>
                   <FormGroup className="flex flex-wrap w-full max-h-28">
-                    {restricaoData.map((restricao) => (
+                    {Array.isArray(restricaoData) && restricaoData.length > 0 ? restricaoData.map((restricao) => (
                       <FormControlLabel
                         key={restricao.id}
                         control={<Checkbox
@@ -467,7 +467,7 @@ function FormularioAluno({ setStep }) {
                         label={restricao.tipo}
                         className="w-1/2"
                       />
-                    ))}
+                    )) : <p>Nenhuam restrição encontrada</p>}
                     <FormControlLabel
                       control={<Checkbox
                         value="Outro"
