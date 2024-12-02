@@ -18,7 +18,7 @@ const Gerenciar = () => {
         },
         {
             route: '/secretaria/gerencia/funcionario',
-            name: 'FUNCIONARIOS',
+            name: 'FUNCIONÁRIOS',
         },
     ]
     return (

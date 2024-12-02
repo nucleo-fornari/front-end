@@ -32,27 +32,26 @@ function FormularioAluno({ setStep }) {
   const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    nomeCompleto: "",
-    ra: "",
-    dtNascimento: "",
-    restricaoAlimentar: "",
-    tipoRestricao: [],
-    restricaoAlimentarOutros: "",
-    laudoPsicologo: "",
-    Observacao: "",
-    nomeResponsavel: "",
-    cpf: "",
-    email: "",
-    dtNascimentoResponsavel: "",
-    telefone: "",
-    parentesco: "",
-    cep: "",
-    cidade: "",
-    uf: "",
-    bairro: "",
-    rua: "",
-    numero: "",
-    complemento: "",
+    nomeCompleto: "Felipe Villa do Conde",
+    ra: "0123123",
+    dtNascimento: "2020-08-06",
+    restricaoAlimentar: true,
+    tipoRestricao: ["1", "2"],
+    laudoPsicologo: true,
+    Observacao: "Aspectro autista",
+    nomeResponsavel: "Juliana Villa do Conde",
+    cpf: "91048265072",
+    email: "julianna@gmail.com",
+    dtNascimentoResponsavel: "2000-12-12",
+    telefone: "(11) 94988-8888",
+    parentesco: "GENITOR",
+    cep: "04724-003",
+    cidade: "São Paulo",
+    uf: "SP",
+    bairro: "Santo Amaro",
+    logradouro: "Avenida João Dias",
+    numero: "447",
+    complemento: "casa",
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [restricaoData, setRestricaoData] = useState([])
@@ -73,20 +72,10 @@ function FormularioAluno({ setStep }) {
     const currentErrors = {};
     const stepFields = [
       ["nomeCompleto", "ra", "dtNascimento"],
-      ["restricaoAlimentar", "restricaoAlimentarOutros", "laudoPsicologo"],
+      ["restricaoAlimentar", "laudoPsicologo"],
       ["nomeResponsavel", "cpf", "email", "dtNascimentoResponsavel", "telefone", "parentesco"],
       ["cep"]
     ];
-
-    if (step === 1) {
-      if (formData.tipoRestricao?.includes("Outro")) {
-        if (!stepFields[1].includes("restricaoAlimentarOutros")) {
-          stepFields[1].push("restricaoAlimentarOutros");
-        }
-      } else {
-        stepFields[1] = stepFields[1].filter(field => field !== "restricaoAlimentarOutros");
-      }
-    }
 
     stepFields[step].forEach((field) => {
       if (!formData[field] || formData[field] === "") {
@@ -194,7 +183,7 @@ function FormularioAluno({ setStep }) {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // console.log(formData);
+    console.log(formData);
     if (value !== "") {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
@@ -222,9 +211,9 @@ function FormularioAluno({ setStep }) {
     setStep(partCadastro - 1)
   };
 
-  const [showTable, setShowTable] = useState(false);
-  const [hideInput, setInput] = useState(true);
-  const [showUpload, setUpload] = useState(false);
+  const [showTable, setShowTable] = useState(true);
+  const [hideInput, setInput] = useState(false);
+  const [showUpload, setUpload] = useState(true);
 
   const handleCheckChange = (event) => {
     setInput(event.target.checked);
@@ -275,7 +264,7 @@ function FormularioAluno({ setStep }) {
             uf: formData.uf,
             localidade: formData.cidade,
             bairro: formData.bairro,
-            logradouro: formData.rua,
+            logradouro: formData.logradouro,
             complemento: formData.complemento,
             numero: formData.numero,
           }
@@ -360,7 +349,7 @@ function FormularioAluno({ setStep }) {
     createData("Cidade", formData.cidade),
     createData("UF", formData.uf),
     createData("Bairro", formData.bairro),
-    createData("Logradouro", formData.rua),
+    createData("Logradouro", formData.logradouro),
     createData("Número", formData.numero),
     createData("Complemento", formData.complemento),
   ];
@@ -468,29 +457,7 @@ function FormularioAluno({ setStep }) {
                         className="w-1/2"
                       />
                     )) : <p>Nenhuam restrição encontrada</p>}
-                    <FormControlLabel
-                      control={<Checkbox
-                        value="Outro"
-                        name="tipoRestricao"
-                        checked={formData.tipoRestricao?.includes("Outro")}
-                        onChange={handleInputChange}
-                      />}
-                      label="Outro"
-                      className="w-1/2"
-                    />
-                  </FormGroup>
-                  {formData.tipoRestricao?.includes("Outro") && (
-                    <TextField
-                    label="Outros:"
-                    className="flex-none"
-                    name="restricaoAlimentarOutros"
-                    value={formData.restricaoAlimentarOutros || ""}
-                    onChange={handleInputChange}
-                    error={!!errors.restricaoAlimentarOutros}
-                    helperText={errors.restricaoAlimentarOutros}
-                  />
-                  )}
-                  
+                  </FormGroup>                  
                 </>
               )}
 
