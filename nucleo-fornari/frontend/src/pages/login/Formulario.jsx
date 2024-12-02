@@ -5,6 +5,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api"
 import { toast } from "react-toastify";
+// import { useAuth } from "../../AuthProvider";
 
 const Formulario = () => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Formulario = () => {
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({ email: '', senha: '' });
-
+    // const { user, login } = useAuth();
 
     const handleLogin = async (event) => {
         event.preventDefault();

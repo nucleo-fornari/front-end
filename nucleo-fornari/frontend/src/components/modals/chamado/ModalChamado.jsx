@@ -18,13 +18,10 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
-import { WidthWide } from '@mui/icons-material';
-import { red } from '@mui/material/colors';
 
 const ModalChamado = ({ setData, open, handleClose }) => {
   const [category, setCategory] = useState('');
   const [tipos, setTipos] = useState([]);
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isAtipic, setIsAtipic] = useState(false);
   const [descriptionError, setDescriptionError] = useState('');
@@ -33,16 +30,13 @@ const ModalChamado = ({ setData, open, handleClose }) => {
     setCategory(event.target.value);
   };
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+    const newDescription = event.target.value;
+    setDescription(newDescription); 
+  
     if (descriptionError) {
       setDescriptionError('');
-  }
+    }
   };
 
   const handleAtipicChange = (event) => {
@@ -54,22 +48,26 @@ const ModalChamado = ({ setData, open, handleClose }) => {
       setDescriptionError('O campo "Descrição" deve ser preenchido.');
       return;
     }
-    await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
-      descricao: description,
-      criancaAtipica: isAtipic,
-      tipo: {
-        id: category
-      }
-    }).then((res) => {
-      if (res.status === 201) {
+
+    try {
+      const response = await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
+        descricao: description,
+        criancaAtipica: isAtipic,
+        tipo: {
+          id: category,
+        },
+      });
+  
+      if (response.status === 201) {
         toast.success('Chamado criado com sucesso!');
-        setData((dataPrev) => [...dataPrev, res.data])
+        setData((dataPrev) => [...dataPrev, response.data]);
       }
-    }).catch((error) => {
+    } catch (error) {
       if (error.response && error.response.data.text) {
-        toast.error(error.response.data.text);
-        }
-    })
+        toast.error('Erro ao criar chamado');
+      }
+    }
+  
     handleClose();
   };
 
@@ -80,38 +78,38 @@ const ModalChamado = ({ setData, open, handleClose }) => {
         }).catch((error) => console.log(error))
   }, []);
 
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        mobile: 767,
-        tablet: 768,
-        laptop: 1024,
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       mobile: 767,
+  //       tablet: 768,
+  //       laptop: 1024,
+  //     },
+  //   },
+  // });
 
-  const Root = styled('div')(({ theme }) => ({
-    padding: theme.spacing(1),
-    [theme.breakpoints.down('mobile')]: {
-      width:700,
-      height:0
-    },
-    [theme.breakpoints.up('tablet')]: {
-      width:600,
-      height:0
-    },
-    [theme.breakpoints.up('laptop')]: {
-      width:400,
-      height:0
-    },
-  }));
+  // const Root = styled('div')(({ theme }) => ({
+  //   padding: theme.spacing(1),
+  //   [theme.breakpoints.down('mobile')]: {
+  //     width:700,
+  //     height:0
+  //   },
+  //   [theme.breakpoints.up('tablet')]: {
+  //     width:600,
+  //     height:0
+  //   },
+  //   [theme.breakpoints.up('laptop')]: {
+  //     width:400,
+  //     height:0
+  //   },
+  // }));
 
   
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <ThemeProvider theme={theme}>
-      <Root>
+      {/* <ThemeProvider theme={theme}>
+      <Root> */}
       <Box
         sx={{
           position: 'absolute',
@@ -184,8 +182,8 @@ const ModalChamado = ({ setData, open, handleClose }) => {
           Enviar
         </Button>
       </Box>
-      </Root>
-      </ThemeProvider>
+      {/* </Root>
+      </ThemeProvider> */}
     </Modal>
   );
 };

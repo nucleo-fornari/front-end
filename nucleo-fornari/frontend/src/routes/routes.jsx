@@ -9,7 +9,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Inicio } from "../components/dashboards/Inicio.jsx";
 import NotFound from "../pages/not-found/NotFound.jsx";
 import PublicacoesProfessor from "../components/publicar/professor/PublicacoesProfessor.jsx";
-import PrivateRoute from "./PrivateRoute";
+// import PrivateRoute from "./PrivateRoute";
 import Unauthorized from "../pages/unauthorized/Unauthorized.jsx"
 
 //SECRETARIA
@@ -92,9 +92,9 @@ export const router = createBrowserRouter([
   {
     path: "/responsavel",
     element: (
-      <PrivateRoute allowedRoles={["RESPONSAVEL"]}>
+      // <PrivateRoute allowedRoles={["RESPONSAVEL"]}>
         <ParentsPage />
-      </PrivateRoute>
+      // </PrivateRoute>
     ),
     children: [
       {
@@ -110,9 +110,9 @@ export const router = createBrowserRouter([
   {
     path: "/professor",
     element: (
-      <PrivateRoute allowedRoles={["PROFESSOR"]}>
+      // <PrivateRoute allowedRoles={["PROFESSOR"]}>
         <ProfessorPage />
-      </PrivateRoute>
+      // </PrivateRoute>
     ),
     children: [
       {
@@ -132,9 +132,9 @@ export const router = createBrowserRouter([
   {
     path: "/secretaria",
     element: (
-      <PrivateRoute allowedRoles={["SECRETARIO"]}>
+      // <PrivateRoute allowedRoles={["SECRETARIO"]}>
         <SecretaryPage />
-      </PrivateRoute>
+      // </PrivateRoute>
     ),
     children: [
       {

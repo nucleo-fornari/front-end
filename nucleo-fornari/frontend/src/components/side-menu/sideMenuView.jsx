@@ -5,19 +5,21 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
+// import { useAuth } from "../../AuthProvider";
 
 const SideMenu = ({ menuItens }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const navigate = useNavigate();
+  // const { user, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-    navigate("/login");
-  };
+  const logout = () => {
+        sessionStorage.clear();
+        navigate("/login")
+  }
 
   const location = useLocation();
 
@@ -96,7 +98,7 @@ const SideMenu = ({ menuItens }) => {
       <div className="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
       md:w-full md:justify-around">
         <button
-          onClick={handleLogout}
+          onClick={() => logout()}
           className="flex items-center w-full p-4 hover:bg-red-500"
         >
           <LogoutIcon />
