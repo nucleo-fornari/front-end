@@ -26,6 +26,7 @@ import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-al
 import GerenciarSalas from "../components/gerenciar/gerenciar-salas/GerenciarSalas.jsx";
 import EditarSala from "../components/gerenciar/gerenciar-salas/editar-sala/EditarSala.jsx";
 import CadastroSala from "../components/gerenciar/gerenciar-salas/adicionar-sala/AdicionarSala.jsx";
+import LoadingScreen from "../components/loading/Loading.jsx";
 
 const avisosData = [
   {
@@ -127,6 +128,10 @@ export const router = createBrowserRouter([
         path: "/professor/chamados",
         element: <StickyHeadTable />,
       },
+      {
+        path:"/professor/loading",
+        element: <LoadingScreen />
+      }
     ],
   },
   {

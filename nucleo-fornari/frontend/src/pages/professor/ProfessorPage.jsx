@@ -28,6 +28,11 @@ function ProfessorPage() {
     //   name: 'Relatórios',
     //   route: '/professor/relatorio'
     // },
+    {
+      icon: <InboxIcon />,
+      name: "Loading",
+      route: "/professor/loading",
+    },
   ];
 
   return (
