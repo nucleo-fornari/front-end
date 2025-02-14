@@ -6,6 +6,7 @@ import api from '../../../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 const GerenciarSalas = () => {
 
@@ -56,6 +57,16 @@ const GerenciarSalas = () => {
                 });
         }
 
+    const downloadArchive = (className) => {
+        const fileUrl = process.env.REACT_APP_API_URL + "/files/download/pessoas-autorizadas-" + className + ".csv";
+
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <div className="mt-12 flex flex-col gap-4">
             <div className="flex justify-start h-15 ml-12">
@@ -92,7 +103,8 @@ const GerenciarSalas = () => {
                                             <TableCell align="center">{sala.professores.length}</TableCell>
                                             <TableCell align="center">
                                                 <EditIcon onClick={() => handleEdit(sala)} style={{ color: 'blue', cursor: 'pointer', marginRight: 8 }} />
-                                                <DeleteIcon onClick={() => handleOpenModal(sala)} style={{ color: 'red', cursor: 'pointer' }} />
+                                                <DeleteIcon onClick={() => handleOpenModal(sala)} style={{ color: 'red', cursor: 'pointer', marginRight: 8 }} />
+                                                <ArchiveIcon onClick={() => downloadArchive(sala.nome)} style={{ color: 'green', cursor: 'pointer'}}></ArchiveIcon>
                                             </TableCell>
                                         </TableRow>
                                     ))}

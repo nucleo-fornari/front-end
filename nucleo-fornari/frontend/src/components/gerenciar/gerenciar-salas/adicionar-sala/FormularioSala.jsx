@@ -149,7 +149,7 @@ export default function FormularioSala({ setStep }) {
                                             value={formData.grupo}
                                             onChange={handleInputChange}
                                         >
-                                            {grupos.map((grupo) => (
+                                            {!Array.isArray(grupos) ? null : grupos.map((grupo) => (
                                                 <MenuItem key={grupo.id} value={grupo}>
                                                     {grupo.nome}
                                                 </MenuItem>
