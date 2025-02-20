@@ -95,21 +95,23 @@ export default function FormularioSala({ setStep }) {
         if (!formData.grupo.id) {
             api.post(`/salas/grupos/${formData.grupo.nome}`)
                 .then((response) => {
-                    setFormData((prev) => ({
-                        ...prev,
-                        grupo: { ...prev.grupo, id: response.data.id },
-                    }));
+                    createSala(response.data.id);
                 })
                 .catch((error) => {
                     console.log(error)
                     toast.error("Erro ao cadastrar o grupo de sala")
                 });
-        } // criar tipo de sala
+        } else {
+            createSala(formData.grupo.id);
+        }
+        
+    };
 
+    const createSala = (idGrupo) => {
         api.post("/salas", {
             nome: formData.nome,
             localizacao: formData.localizacao,
-            grupoId: formData.grupo.id,
+            grupoId: idGrupo,
         })
             .then((response) => {
                 if (response.status === 201) {
@@ -126,7 +128,7 @@ export default function FormularioSala({ setStep }) {
                 console.log(error)
                 toast.error("Erro ao cadastrar o grupo de sala");
             });
-    };
+    }
 
     const handleNewGroupToggle = () => {
         setIsCreatingNewGroup(!isCreatingNewGroup);
