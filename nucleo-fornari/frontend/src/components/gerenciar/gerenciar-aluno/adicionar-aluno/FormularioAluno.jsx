@@ -747,6 +747,7 @@ function FormularioAluno({ setStep }) {
           )}
         </form>
       </section>
+      <div className="flex items-center justify-center h-full w-full">
       <section className="flex w-1/2 justify-evenly">
         <Button
           variant="contained"
@@ -769,6 +770,8 @@ function FormularioAluno({ setStep }) {
           {partCadastro === 4 ? "Finalizar" : "Próximo"}
         </Button>
       </section>
+      </div>
+      
     </>
   );
 }
