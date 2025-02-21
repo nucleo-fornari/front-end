@@ -216,9 +216,9 @@ function EscreverAvisos() {
                 </button>
 
                 <div
-                    className={`w-4/5 overflow-hidden shadow-2xl transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
+                    className={`w-4/5 overflow-hidden shadow-2xl ${isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
                 >
-                    <div className="bg-white-main rounded-lg p-5 shadow-2xl ">
+                    <div className="bg-white-gray rounded-lg p-5 shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] absolute z-10">
                         <div className="mb-4">
                             <label className="text-black-main block text-sm font-bold mb-2">
                                 Para
@@ -316,7 +316,8 @@ function EscreverAvisos() {
 
                         <section className="flex items-center justify-between">
                             <button
-                                className="px-4 py-2 bg-gray-500 text-white-ice rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                className="px-4 py-2 bg-gray-500 text-white-ice rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                onClick={clearForm}>
                             Cancelar
                             </button>
                             <button

@@ -82,7 +82,7 @@ const SideMenu = ({ menuItens }) => {
           >
             <button
               key={index}
-              class="flex lg:items-center lg:flex-row lg:w-full pl-8 pr-4 py-6"
+              class="flex lg:items-center lg:flex-row lg:w-full pl-8 pr-4 py-6 md:text-2xl"
             >
               {item.icon}
               {isExpanded && (
