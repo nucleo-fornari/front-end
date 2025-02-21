@@ -5,7 +5,8 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
-// import { useAuth } from "../../AuthProvider";
+import SingleButtonComponent from "./single-button/singleButtonComponent";
+import clipBoardList from "../../assets/imgs/clipBoardList.svg"
 
 const SideMenu = ({ menuItens }) => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -29,34 +30,7 @@ const SideMenu = ({ menuItens }) => {
         ${isExpanded ? "lg:w-64" : "lg:w-20"}
         `}
     >
-      <div
-        className={`flex flex-row w-full justify-center items-center 
-            `}
-      >
-        <button onClick={toggleMenu} className="lg:block h-16 md:hidden">
-          {isExpanded ? (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ ml: 0 }}
-            >
-              <MenuOpenIcon sx={{ color: "white" }} />
-            </IconButton>
-          ) : (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ ml: 0 }}
-            >
-              <MenuIcon sx={{ color: "white" }} />
-            </IconButton>
-          )}
-        </button>
-      </div>
+      
       {isExpanded && (
         <h2 className="lg:block md:hidden text-white my-8">
           Olá,{" "}
@@ -73,6 +47,12 @@ const SideMenu = ({ menuItens }) => {
         class="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
       md:w-full md:justify-around "
       >
+        <SingleButtonComponent
+          btnIcon={clipBoardList}
+          btnText={"Chamados"}
+          activeRoute={"/secretaria"}
+          isCollapsed={true}
+        />
         {menuItens.map((item, index) => (
           <Link
             key={index}
@@ -108,7 +88,43 @@ const SideMenu = ({ menuItens }) => {
             </span>
           )}
         </button>
+
+        <div
+        onClick={toggleMenu}
+        className={`flex flex-row w-full justify-center items-center 
+            `}
+      >
+        <button className="lg:block h-16 md:hidden">
+          {isExpanded ? (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ ml: 0 }}
+            >
+              <MenuOpenIcon sx={{ color: "white" }} />
+            </IconButton>
+          ) : (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ ml: 0 }}
+            >
+              <MenuIcon sx={{ color: "white" }} />
+            </IconButton>
+          )}
+        </button>
+
+        {isExpanded && (
+        <span class="lg:block ml-4 text-lg leading-4 font-semibold md:hidden"> Recolher Menu</span>
+        )}
       </div>
+      </div>
+
+      
 
     </div>
   );
