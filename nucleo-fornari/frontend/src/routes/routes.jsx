@@ -26,7 +26,9 @@ import CadastroAlunos from "../components/gerenciar/gerenciar-aluno/adicionar-al
 import GerenciarSalas from "../components/gerenciar/gerenciar-salas/GerenciarSalas.jsx";
 import EditarSala from "../components/gerenciar/gerenciar-salas/editar-sala/EditarSala.jsx";
 import CadastroSala from "../components/gerenciar/gerenciar-salas/adicionar-sala/AdicionarSala.jsx";
-import LoadingScreen from "../components/loading/Loading.jsx";
+import PasswordRecovery from "../pages/login/PasswordRecovery.jsx";
+import Login from "../pages/login/Login.jsx";
+import Autenticacao from "../pages/login/Autenticacao.jsx";
 
 const avisosData = [
   {
@@ -88,7 +90,24 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Formulario />,
+    element: (
+      <Login />
+  ),
+  children:[
+    {
+      path:"/login",
+      element:<Formulario/>
+      
+    },
+    {
+      path:"/login/recuperacao-senha",
+      element: <PasswordRecovery />
+    },
+    {
+      path:"/login/recuperacao-senha/autenticacao",
+      element: <Autenticacao/>
+    }
+  ]
   },
   {
     path: "/responsavel",
@@ -128,10 +147,6 @@ export const router = createBrowserRouter([
         path: "/professor/chamados",
         element: <StickyHeadTable />,
       },
-      {
-        path:"/professor/loading",
-        element: <LoadingScreen />
-      }
     ],
   },
   {
