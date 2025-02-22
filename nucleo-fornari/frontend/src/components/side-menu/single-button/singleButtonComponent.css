@@ -1,0 +1,39 @@
+.single-button-component__container {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-wrap: nowrap;
+    margin-bottom: 0.4rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.8rem;
+    transition: width 0.2s;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    filter: invert(99%) sepia(0%) saturate(7498%) hue-rotate(239deg) brightness(102%) contrast(103%);
+}
+
+.text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 2rem;
+    white-space: nowrap;
+}
+
+.single-button-component__container:hover,
+.single-button-component__container-active {
+    background-color: #82aae5;
+}

@@ -10,28 +10,31 @@ import clipBoardList from "../../assets/imgs/clipBoardList.svg"
 
 const SideMenu = ({ menuItens }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
   // const { user, logout } = useAuth();
 
   const toggleMenu = () => {
-    setIsExpanded(!isExpanded);
+    setIsCollapsed(!isCollapsed);
+    setIsExpanded(!isExpanded)
   };
 
   const logout = () => {
-        sessionStorage.clear();
-        navigate("/login")
+    sessionStorage.clear();
+    navigate("/login")
   }
 
   const location = useLocation();
 
   return (
-    <div
-      className={` lg:h-full md:h-32 flex flex-col items-center lg:justify-normal md:justify-center sm:justify-center transition-all duration-700 ease-out bg-blue-dash text-white-ice sm:w-full md:w-full 
-        ${isExpanded ? "lg:w-64" : "lg:w-20"}
-        `}
+    <div 
+      className={
+        `side-menu-component__container 
+        ${isCollapsed ? "side-menu-component__container--collapsed" : "side-menu-component__container--expanded"}`
+      }
     >
       
-      {isExpanded && (
+      {!isCollapsed && (
         <h2 className="lg:block md:hidden text-white my-8">
           Olá,{" "}
           {sessionStorage.NOME && sessionStorage.NOME.length > 3
@@ -41,18 +44,23 @@ const SideMenu = ({ menuItens }) => {
         </h2>
       )}
 
-      <hr />
+      <hr className={`side-nav__divider`} />
+
+      <SingleButtonComponent
+        btnIcon={clipBoardList}
+        btnText={"Chamados"}
+        activeRoute={"/secretaria"}
+        isCollapsed={isCollapsed}
+        navigateUrl={"/secretaria"}
+      />
 
       <div
         class="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
       md:w-full md:justify-around "
       >
-        <SingleButtonComponent
-          btnIcon={clipBoardList}
-          btnText={"Chamados"}
-          activeRoute={"/secretaria"}
-          isCollapsed={true}
-        />
+        
+
+        
         {menuItens.map((item, index) => (
           <Link
             key={index}
