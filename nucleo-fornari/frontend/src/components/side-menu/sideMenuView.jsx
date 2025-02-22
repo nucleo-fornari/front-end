@@ -7,6 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
 import SingleButtonComponent from "./single-button/singleButtonComponent";
 import clipBoardList from "../../assets/imgs/clipBoardList.svg"
+import book from "../../assets/imgs/book.svg"
 
 const SideMenu = ({ menuItens }) => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -52,6 +53,14 @@ const SideMenu = ({ menuItens }) => {
         activeRoute={"/secretaria"}
         isCollapsed={isCollapsed}
         navigateUrl={"/secretaria"}
+      />
+
+      <SingleButtonComponent
+        btnIcon={book}
+        btnText={"Publicações"}
+        activeRoute={"/secretaria/publicacao"}
+        isCollapsed={isCollapsed}
+        navigateUrl={"/secretaria/publicacao"}
       />
 
       <div

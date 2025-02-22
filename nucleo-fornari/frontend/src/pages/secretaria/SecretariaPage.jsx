@@ -5,17 +5,11 @@ import {
 } from "react-router-dom";
 import SideMenu from "../../components/side-menu/sideMenuView";
 import {
-  FaBook,
   FaTools,
 } from "react-icons/fa";
 
 function SecretaryPage() {
   const sideMenuItens = [
-    {
-      icon: <FaBook />,
-      name: "Publicações",
-      route: "/secretaria/publicacao",
-    },
     {
       icon: <FaTools />,
       name: "Gerenciar",
