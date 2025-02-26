@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/header/Header.jsx";
-import {Outlet,} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import SideMenu from "../../components/side-menu/sideMenuView";
 
 function SecretaryPage() {

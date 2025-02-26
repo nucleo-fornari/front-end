@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./sideMenuView.css";
-
-// APAGAR QUANDO FINALIZAR AS 3 PERSONAS NA APRESENTAÇÃO DA PAGINA
-import MenuIcon from "@mui/icons-material/Menu";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { IconButton } from "@mui/material";
-// ATÉ AQUI
 
 // COMPONENTS:
 import SingleButtonComponent from "./single-button/singleButtonComponent";
@@ -18,23 +12,17 @@ import publicacoesIcon from "../../assets/imgs/publicacoesIcon.svg";
 import gerenciarIcon from "../../assets/imgs/gerenciarIcon.svg";
 import logoutIcon from "../../assets/imgs/logoutIcon.svg";
 import MenuOpenIcon from "../../assets/imgs/menuOpenIcon.svg";
+import calendarIcon from "../../assets/imgs/calendarIcon.svg";
+import publicationIcon from "../../assets/imgs/publicationIcons.svg"
+import meetingIcon from "../../assets/imgs/meetingIcon.svg"
 
 const SideMenu = ({ secretary, professor, parent, menuItens }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isProfessor, setIsProfessor] = useState(false);
-  const [isParent, setIsParent] = useState(false);
-  
-  const navigate = useNavigate();
   // const { user, logout } = useAuth();
 
   const listenIsCollpased = (listen) => {
     setIsCollapsed(listen)
   }
-  const toggleMenu = () => {
-    setIsCollapsed(!isCollapsed);
-    setIsExpanded(!isExpanded)
-  };
 
   const location = useLocation();
 
@@ -87,8 +75,54 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
           />
         </div>
       )}
-      
 
+      {professor && (
+        <div>
+          <SingleButtonComponent
+            btnIcon={calendarIcon}
+            btnText={"Calendário"}
+            activeRoute={["/professor"]}
+            isCollapsed={isCollapsed}
+            navigateUrl={"/professor"}
+          />
+
+          <SingleButtonComponent
+            btnIcon={publicationIcon}
+            btnText={"Publicações"}
+            activeRoute={["/professor/publicacoes"]}
+            isCollapsed={isCollapsed}
+            navigateUrl={"/professor/publicacoes"}
+          />
+
+          <SingleButtonComponent
+            btnIcon={chamadosIcon}
+            btnText={"Chamados"}
+            activeRoute={["/professor/chamados"]}
+            isCollapsed={isCollapsed}
+            navigateUrl={"/professor/chamados"}
+          />
+        </div>
+      )}
+
+      {parent && (
+        <div>
+          <SingleButtonComponent
+            btnIcon={publicacoesIcon}
+            btnText={"Agenda"}
+            activeRoute={["/responsavel"]}
+            isCollapsed={isCollapsed}
+            navigateUrl={"/responsavel"}
+          />
+
+        <SingleButtonComponent
+            btnIcon={meetingIcon}
+            btnText={"Reuniões"}
+            activeRoute={["/responsavel/reunioes"]}
+            isCollapsed={isCollapsed}
+            navigateUrl={"/responsavel/reunioes"}
+          />
+        </div>
+      )}
       <div className={'side-menu__footer'}>
         <SingleButtonComponent
           btnIcon={logoutIcon}
@@ -105,7 +139,7 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
         />
       </div>
 
-      {professor && parent &&(<div
+      {!parent &&(<div
         class="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
       md:w-full md:justify-around "
       >
@@ -121,66 +155,10 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
               class="flex lg:items-center lg:flex-row lg:w-full pl-8 pr-4 py-6 md:text-2xl"
             >
               {item.icon}
-              {isExpanded && (
-                <span class="lg:block ml-4 text-lg leading-4 font-semibold md:hidden">
-                  {item.name}
-                </span>
-              )}
             </button>
           </Link>
         ))}
       </div>)}
-
-      {isParent && isProfessor &&(<div className="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
-      md:w-full md:justify-around">
-        <button
-          className="flex items-center w-full p-4 hover:bg-red-500"
-        >
-          <LogoutIcon />
-          {isExpanded && (
-            <span className="ml-4 text-lg font-semibold hidden sm:inline">
-              Sair
-            </span>
-          )}
-        </button>
-
-        <div
-        onClick={toggleMenu}
-        className={`flex flex-row w-full justify-center items-center 
-            `}
-      >
-        <button className="lg:block h-16 md:hidden">
-          {isExpanded ? (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ ml: 0 }}
-            >
-              {/* <MenuOpenIcon sx={{ color: "white" }} /> */}
-            </IconButton>
-          ) : (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ ml: 0 }}
-            >
-              <MenuIcon sx={{ color: "white" }} />
-            </IconButton>
-          )}
-        </button>
-
-        {isExpanded && (
-        <span class="lg:block ml-4 text-lg leading-4 font-semibold md:hidden"> Recolher Menu</span>
-        )}
-      </div>
-      </div>)}
-
-      
-
     </div>
   );
 };
