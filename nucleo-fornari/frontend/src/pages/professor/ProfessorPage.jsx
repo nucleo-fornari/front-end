@@ -1,38 +1,33 @@
-import React from "react";
-import Header from "../../components/header/Header.jsx";
-import { Outlet } from "react-router-dom";
-import SideMenu from "../../components/side-menu/sideMenuView.jsx";
-import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
-import InboxIcon from "@mui/icons-material/Inbox";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InboxIcon from '@mui/icons-material/Inbox';
+import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../../components/header/Header.jsx';
+import SideMenu from '../../components/side-menu/sideMenuView.jsx';
 
 function ProfessorPage() {
   const sideMenuItens = [
     {
       icon: <CalendarMonthIcon color="inherit" />,
-      name: "Calendário",
-      route: "/professor",
+      name: 'Calendário',
+      route: '/professor',
     },
     {
       icon: <NewspaperRoundedIcon color="inherit" />,
-      name: "Publicações",
-      route: "/professor/publicacoes",
+      name: 'Publicações',
+      route: '/professor/publicacoes',
     },
     {
       icon: <InboxIcon />,
-      name: "Chamados",
-      route: "/professor/chamados",
+      name: 'Chamados',
+      route: '/professor/chamados',
     },
     // {
     //   icon: <DescriptionIcon />,
     //   name: 'Relatórios',
     //   route: '/professor/relatorio'
     // },
-    {
-      icon: <InboxIcon />,
-      name: "Loading",
-      route: "/professor/loading",
-    },
   ];
 
   return (

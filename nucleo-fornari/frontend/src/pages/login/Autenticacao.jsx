@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import LoadingScreen from "../../components/loading/Loading";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import LoadingScreen from '../../components/loading/Loading';
 
 function Autenticacao() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState({ email: "", senha: "" });
+  const [errors, setErrors] = useState({ email: '', senha: '' });
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -26,11 +28,11 @@ function Autenticacao() {
     const intervalo = setInterval(() => {
       setTempoRestante((tempoAtual) => {
         if (tempoAtual <= 1) {
-          clearInterval(intervalo); // Para o contador quando chega a 0
+          clearInterval(intervalo);
           setDisabled(false);
           return 0;
         }
-        return tempoAtual - 1; // Decrementa o contador
+        return tempoAtual - 1;
       });
     }, 1000);
   };
@@ -47,7 +49,7 @@ function Autenticacao() {
             variant="body1"
             color="#1e2025"
             textAlign="center"
-            padding={"12px"}
+            padding={'12px'}
           >
             Digite o código que enviamos para o seu email. Caso não encontre,
             verifique a caixa de spam ou solicite um novo código.
@@ -56,12 +58,12 @@ function Autenticacao() {
             id="outlined-codigo"
             label="Código"
             variant="outlined"
-            sx={{ width: "50%" }}
+            sx={{ width: '70%' }}
           />
           <div className="flex gap-2 w-full justify-center flex-col items-center">
             <Button
               variant="outlined"
-              sx={{ width: "50%" }}
+              sx={{ width: '70%', textTransform: 'capitalize' }}
               disabled={disabled}
               onClick={handleClick}
             >
@@ -69,14 +71,18 @@ function Autenticacao() {
               {disabled && (
                 <Typography
                   variant="button"
-                  sx={{ paddingLeft: "8px" }}
+                  sx={{ paddingLeft: '8px' }}
                   textTransform="lowercase"
                 >
                   ({tempoRestante}s)
                 </Typography>
               )}
             </Button>
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: '70%', textTransform: 'capitalize' }}
+              onClick={() => navigate('/login/recuperacao-senha/alterar-senha')}
+            >
               Confirmar
             </Button>
           </div>

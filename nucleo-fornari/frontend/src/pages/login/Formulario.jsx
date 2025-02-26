@@ -1,27 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { TextField, IconButton, InputAdornment, Button } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Navigate, useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import { toast } from "react-toastify";
-import Login from "./Login";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../../services/api';
 // import { useAuth } from "../../AuthProvider";
 
 const Formulario = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({ email: "", senha: "" });
+  const [errors, setErrors] = useState({ email: '', senha: '' });
   // const { user, login } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setErrors({ email: "", senha: "" });
+    setErrors({ email: '', senha: '' });
 
     try {
-      const response = await api.post("usuarios/login", {
+      const response = await api.post('usuarios/login', {
         email: email,
         senha: senha,
       });
@@ -41,20 +40,20 @@ const Formulario = () => {
         error.response.data.errors
       ) {
         setErrors({
-          email: " ",
+          email: ' ',
           senha:
-            "Email ou senha incorretos. Verifique os dados e tente novamente.",
+            'Email ou senha incorretos. Verifique os dados e tente novamente.',
         });
       } else {
-        console.error(error.message || "Erro inesperado!");
-        toast.error("Erro inesperado ao fazer login. Tente novamente.");
+        console.error(error.message || 'Erro inesperado!');
+        toast.error('Erro inesperado ao fazer login. Tente novamente.');
       }
     }
   };
 
   useEffect(() => {
-    const id = sessionStorage.getItem("ID");
-    const func = sessionStorage.getItem("FUNC");
+    const id = sessionStorage.getItem('ID');
+    const func = sessionStorage.getItem('FUNC');
 
     if (id && func) {
       redirectByRole(func);
@@ -63,17 +62,17 @@ const Formulario = () => {
 
   const redirectByRole = (role) => {
     switch (role) {
-      case "RESPONSAVEL":
-        navigate("/responsavel");
+      case 'RESPONSAVEL':
+        navigate('/responsavel');
         break;
-      case "PROFESSOR":
-        navigate("/professor");
+      case 'PROFESSOR':
+        navigate('/professor');
         break;
-      case "SECRETARIO":
-        navigate("/secretaria");
+      case 'SECRETARIO':
+        navigate('/secretaria');
         break;
       default:
-        console.log("Erro ao redirecionar para a rota do user");
+        console.log('Erro ao redirecionar para a rota do user');
         break;
     }
   };
@@ -104,7 +103,7 @@ const Formulario = () => {
         id="outlined-password"
         label="Senha"
         variant="outlined"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         fullWidth={true}
         value={senha}
         onChange={(e) => setSenha(e.target.value)}
@@ -121,14 +120,18 @@ const Formulario = () => {
         }}
       />
       <div className="flex gap-1 w-full justify-center flex-col items-center">
-        <Button variant="contained" fullWidth={true}>
+        <Button
+          variant="contained"
+          fullWidth={true}
+          sx={{ textTransform: 'capitalize' }}
+        >
           Entrar
         </Button>
         <Button
           variant="text"
           size="small"
-          onClick={() => navigate("/login/recuperacao-senha")}
-          sx={{textTransform: "initial"}}
+          onClick={() => navigate('/login/recuperacao-senha')}
+          sx={{ textTransform: 'initial' }}
         >
           Esqueceu sua senha?
         </Button>

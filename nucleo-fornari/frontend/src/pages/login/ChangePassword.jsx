@@ -1,11 +1,11 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../components/loading/Loading';
 
-function PasswordRecovery() {
+function ChangePassword() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState({ email: '', senha: '' });
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -14,8 +14,6 @@ function PasswordRecovery() {
     return () => clearTimeout(timer);
   }, []);
 
-  const navigate = useNavigate();
-
   return (
     <>
       {loading ? (
@@ -23,33 +21,32 @@ function PasswordRecovery() {
       ) : (
         <form className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center items-center">
           <h2 className="lg:text-5xl md:text-4xl text-blue-main">
-            Recuperação de senha
+            Redefinir senha
           </h2>
-          <Typography variant="body1" color="#1e2025">
-            Por favor, informe o e-mail associado a sua conta que te enviaremos
-            um link com as intruções para recuperar sua senha.
-          </Typography>
           <TextField
-            id="outlined-email"
-            label="Email"
+            id=""
+            label="Digite a nova senha"
             variant="outlined"
             fullWidth={true}
-            error={!!errors.email}
-            helperText={errors.email}
+          />
+          <TextField
+            id=""
+            label="Confirme a nova senha"
+            variant="outlined"
+            fullWidth={true}
           />
           <Button
-            sx={{ textTransform: 'capitalize' }}
             variant="contained"
             fullWidth={true}
-            onClick={() => navigate('/login/recuperacao-senha/autenticacao')}
+            sx={{ textTransform: 'capitalize' }}
           >
             {' '}
-            Continuar{' '}
+            Confirmar{' '}
           </Button>
+          {/* redirecionar para o login após aparecer o toast confirmando que deu certo a alteração de senha  */}
         </form>
       )}
     </>
   );
 }
-
-export default PasswordRecovery;
+export default ChangePassword;
