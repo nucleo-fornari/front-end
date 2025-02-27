@@ -20,8 +20,8 @@
 }
 
 .btn-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     filter: invert(99%) sepia(0%) saturate(7498%) hue-rotate(239deg) brightness(102%) contrast(103%);
 }
 
@@ -36,4 +36,8 @@
 .single-button-component__container:hover,
 .single-button-component__container-active {
     background-color: #82aae5;
+}
+
+.single-button-component__container-logout-active:hover {
+    background-color: red;
 }

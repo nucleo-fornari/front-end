@@ -35,7 +35,8 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, navi
     return (
         <div className={
             `single-button-component__container
-            ${isActive ? "single-button-component__container-active" : "single-button-component__container"}`
+            ${event === "logout" ? "single-button-component__container-logout-active" : 
+            isActive ? "single-button-component__container-active" : ""}`
             }
             onClick={() => handleClick()}
         >

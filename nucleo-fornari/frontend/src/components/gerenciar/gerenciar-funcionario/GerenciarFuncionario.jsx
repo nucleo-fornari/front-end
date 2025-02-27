@@ -8,6 +8,7 @@ import FuncionarioService from "../../../services/FuncionariosService";
 import {toast} from "react-toastify";
 import TextField from "@mui/material/TextField";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
+import HeaderBar from '../../header-bar/headerBar';
 
 const GerenciarFuncionario = () => {
 
@@ -64,6 +65,8 @@ const GerenciarFuncionario = () => {
     }, [funcionarios]);
 
     return (
+        <div>
+        <HeaderBar  title={"Gerenciar Funcionários"}/>
         <div class='containner-gerencia-funcionarios'>
             <div class='containner-adicionar-funcionario'>
                 <Link
@@ -134,6 +137,8 @@ const GerenciarFuncionario = () => {
                 description={`O usuário será apagado, Após confirmar esta ação não poderá ser desfeita.`}
             />
     </div>
+        </div>
+        
     );
 };
 

@@ -16,6 +16,7 @@ import StepConnector, {
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import FormularioSala from "./FormularioSala";
+import HeaderBar from "../../../header-bar/headerBar";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -220,6 +221,7 @@ export default function CadastroSala() {
 
     return (
         <>
+        <HeaderBar title={"Cadastrar nova Sala"}/>
             <main className="flex items-center justify-center flex-col w-full gap-5 h-full">
                 <CustomizedSteppers step={step} />
                 <FormularioSala setStep={setStep} />

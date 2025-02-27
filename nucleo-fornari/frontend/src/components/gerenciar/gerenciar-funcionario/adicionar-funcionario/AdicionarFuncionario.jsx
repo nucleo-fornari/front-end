@@ -18,6 +18,7 @@ import FormularioAluno from "./FormularioFuncionario";
 import CloseIcon from "@mui/icons-material/Close";
 import "./AdicionarFuncionario.css";
 import { Link } from "react-router-dom";
+import HeaderBar from "../../../header-bar/headerBar";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -243,6 +244,7 @@ function CadastroFuncionario() {
 
   return (
     <>
+    <HeaderBar title={"Cadastrar Funcionário"}/>
       <main className="flex items-center justify-center flex-col w-full gap-5 h-full">
         <CustomizedSteppers step={step}/>
         <FormularioAluno setStep={setStep}/>

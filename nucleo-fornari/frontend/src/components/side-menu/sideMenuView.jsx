@@ -24,8 +24,6 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
     setIsCollapsed(listen)
   }
 
-  const location = useLocation();
-
   return (
     <div className={`side-menu-component__container 
         ${isCollapsed ? "side-menu-component__container--collapsed" : "side-menu-component__container--expanded"}`
@@ -138,27 +136,6 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
           emit={listenIsCollpased}
         />
       </div>
-
-      {!parent &&(<div
-        class="flex lg:flex-col lg:justify-center lg:items-center lg:w-full lg:mb-72
-      md:w-full md:justify-around "
-      >
-        {menuItens.map((item, index) => (
-          <Link
-            key={index}
-            to={item.route}
-            className={`lg:w-full md:w-20 md:h-full ${location.pathname === item.route ? "bg-blue-pastel" : ""
-              } hover:bg-blue-pastel`}
-          >
-            <button
-              key={index}
-              class="flex lg:items-center lg:flex-row lg:w-full pl-8 pr-4 py-6 md:text-2xl"
-            >
-              {item.icon}
-            </button>
-          </Link>
-        ))}
-      </div>)}
     </div>
   );
 };

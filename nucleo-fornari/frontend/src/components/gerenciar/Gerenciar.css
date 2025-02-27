@@ -1,9 +1,10 @@
 .gerencia-usuarios {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 100px;
+    gap: 45px;
 }
 
 .gerencia-alunos-funcionarios {
@@ -14,4 +15,10 @@
 
 .gerencia-text {    
     font-weight: 600;
+}
+
+.container-alunos-funcionarios {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
 }

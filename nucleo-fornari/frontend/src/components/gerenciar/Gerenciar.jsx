@@ -3,6 +3,7 @@ import "./Gerenciar.css";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
+import HeaderBar from '../header-bar/headerBar';
 
 const Gerenciar = () => {
 
@@ -22,22 +23,47 @@ const Gerenciar = () => {
         },
     ]
     return (
-        <div class='gerencia-usuarios'>
-            {usuariosGerenciaveis.map((item, index) => (
+        <>
+        <HeaderBar title={"Gerenciar usuários"}/>
+        <div class='gerencia-usuarios'>            
+            <div>
                 <Link
-                key={index}
-                to={item.route}
+                to={usuariosGerenciaveis[1].route}
                 >
                 <div class='gerencia-alunos-funcionarios'>
-                    {item.name === 'SALAS' ? <SupervisedUserCircleIcon style={{ fontSize: 300, color: '#3285fa' }}/> :
-                     <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />}
-                    <span key={index} class='gerencia-text'>
-                        {item.name}
+                     <SupervisedUserCircleIcon style={{ fontSize: 300, color: '#3285fa' }}/>
+                    <span class='gerencia-text'>
+                        {usuariosGerenciaveis[1].name}
                     </span>
                 </div>
-            </Link> 
-            ))}
+                </Link>
+            </div>
+            <div className={'container-alunos-funcionarios'}>
+                <Link
+                to={usuariosGerenciaveis[0].route}
+                >
+                <div class='gerencia-alunos-funcionarios'>
+                    <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
+                    <span class='gerencia-text'>
+                        {usuariosGerenciaveis[0].name}
+                    </span>
+                </div>
+                </Link>
+
+                <Link
+                to={usuariosGerenciaveis[2].route}
+                >
+                <div class='gerencia-alunos-funcionarios'>
+                    <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
+                    <span class='gerencia-text'>
+                        {usuariosGerenciaveis[2].name}
+                    </span>
+                </div>
+                </Link>
+            </div>
         </div>
+        </>
+        
     );
 };
 

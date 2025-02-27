@@ -8,6 +8,7 @@ import ModalAtrelar from '../../../modals/atrelar/ModalAtrelar';
 import ModalConfirm from '../../../modals/confirmar-acao/ModalConfirm';
 import api from '../../../../services/api';
 import { toast } from "react-toastify";
+import HeaderBar from '../../../header-bar/headerBar';
 
 const EditarSala = () => {
     const navigate = useNavigate();
@@ -87,6 +88,7 @@ const EditarSala = () => {
 
     return (
         <>
+            <HeaderBar/>
             <div className="mt-12 flex flex-col gap-4">
                 <div className="flex justify-between items-center h-15 ml-12">
                     <div className="flex items-center space-x-4 mr-12">

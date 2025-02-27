@@ -144,6 +144,7 @@ export default function PrimarySearchAppBar() {
         <Toolbar>
           <img
             src={logoHorizontal}
+            alt=""
             className="lg:h-45 lg:w-156 md:h-90 md:w-313"
           />
           {/* <Box sx={{ flexGrow: 1 }} />
