@@ -1,8 +1,10 @@
 import logoBranco from "../../assets/imgs/logoBranco.png"
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
+import dayjs from "dayjs";
 
 function Footer(){
+    const anoAtual = dayjs().year();
     return(
         <footer id='contato' className="p-16 bg-blue-dark text-white-main">
             <section className="flex justify-around">
@@ -15,7 +17,7 @@ function Footer(){
             </section>
             
             <div className="flex justify-center pt-10">
-                <p>© 2024 Núcleo Fornari - Todos os direitos reservados.</p>
+                <p>© {anoAtual} Núcleo Fornari - Todos os direitos reservados.</p>
             </div>
 
         </footer>

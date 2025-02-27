@@ -4,7 +4,6 @@ import SideMenu from "../../components/side-menu/sideMenuView.jsx";
 import './ProfessorPage.css'
 
 function ProfessorPage() {
-
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   
     useEffect(() => {

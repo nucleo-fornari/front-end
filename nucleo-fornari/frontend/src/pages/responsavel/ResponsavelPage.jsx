@@ -27,8 +27,6 @@ function ParentsPage() {
       </main>
     </React.StrictMode>
   );
-
-
 }
 
 export default ParentsPage;
