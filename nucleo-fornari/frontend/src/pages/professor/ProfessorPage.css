@@ -1,0 +1,8 @@
+.container-professor-page {
+    height: 100%;
+    display: flex;
+}
+
+.container-professor-page-mobile {    
+    flex-direction: column-reverse;
+}

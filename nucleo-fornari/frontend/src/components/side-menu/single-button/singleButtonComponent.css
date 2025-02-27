@@ -13,10 +13,23 @@
     transition: width 0.2s;
 }
 
+.single-button-component__container-mobile {
+    height: 100%;
+    width: auto;
+    justify-content: center;
+}
+
 .btn {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.btn-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
 }
 
 .btn-icon {

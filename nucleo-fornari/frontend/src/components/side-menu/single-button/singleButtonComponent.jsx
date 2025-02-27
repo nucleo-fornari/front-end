@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import './singleButtonComponent.css'
 
-const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, navigateUrl, event, emit}) => {
+const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, isMobile, navigateUrl, event, emit}) => {
 
     const [isActive, setIsActive] = useState(false);
 
@@ -34,13 +34,13 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, navi
 
     return (
         <div className={
-            `single-button-component__container
+            `single-button-component__container ${isMobile ? 'single-button-component__container-mobile' : ''}
             ${event === "logout" ? "single-button-component__container-logout-active" : 
             isActive ? "single-button-component__container-active" : ""}`
             }
             onClick={() => handleClick()}
         >
-            <div class="btn">
+            <div className={`btn ${isMobile ? 'btn-mobile' : ''}`}>
 
                 <img class="btn-icon" src={btnIcon} alt="" />
 

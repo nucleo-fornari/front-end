@@ -16,7 +16,7 @@ import calendarIcon from "../../assets/imgs/calendarIcon.svg";
 import publicationIcon from "../../assets/imgs/publicationIcons.svg"
 import meetingIcon from "../../assets/imgs/meetingIcon.svg"
 
-const SideMenu = ({ secretary, professor, parent, menuItens }) => {
+const SideMenu = ({ secretary, professor, parent, isMobile }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   // const { user, logout } = useAuth();
 
@@ -25,24 +25,28 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
   }
 
   return (
-    <div className={`side-menu-component__container 
-        ${isCollapsed ? "side-menu-component__container--collapsed" : "side-menu-component__container--expanded"}`
+    <div className={`side-menu-component__container ${isMobile ? 'side-menu-component__container--expanded-mobile' : ''}
+        ${isCollapsed && !isMobile ? "side-menu-component__container--collapsed" : "side-menu-component__container--expanded"}`
       }
-    >      
-      <SideMenuHeaderComponent
-      userName={sessionStorage.NOME}
-      isCollapsed={isCollapsed}
-      />
-
-      <hr className={`side-menu__divider`} />
+    >
+      {!isMobile && (
+        <>
+        <SideMenuHeaderComponent
+        userName={sessionStorage.NOME}
+        isCollapsed={isCollapsed}
+        />
+        <hr className={`side-menu__divider`} />
+        </>
+      )}
 
       {secretary && (
-        <div>
+        <div className={`${isMobile ? 'container-buttons-mobile' : ''}`}>
           <SingleButtonComponent
             btnIcon={chamadosIcon}
             btnText={"Chamados"}
             activeRoute={["/secretaria"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/secretaria"}
           />
 
@@ -51,6 +55,7 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
             btnText={"Publicações"}
             activeRoute={["/secretaria/publicacao"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/secretaria/publicacao"}
           />
 
@@ -69,18 +74,20 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
               "/secretaria/cadastro/sala",
             ]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/secretaria/gerencia"}
           />
         </div>
       )}
 
       {professor && (
-        <div>
+        <div className={`${isMobile ? 'container-buttons-mobile' : ''}`}>
           <SingleButtonComponent
             btnIcon={calendarIcon}
             btnText={"Calendário"}
             activeRoute={["/professor"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/professor"}
           />
 
@@ -89,6 +96,7 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
             btnText={"Publicações"}
             activeRoute={["/professor/publicacoes"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/professor/publicacoes"}
           />
 
@@ -97,18 +105,20 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
             btnText={"Chamados"}
             activeRoute={["/professor/chamados"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/professor/chamados"}
           />
         </div>
       )}
 
       {parent && (
-        <div>
+        <div className={`${isMobile ? 'container-buttons-mobile' : ''}`}>
           <SingleButtonComponent
             btnIcon={publicacoesIcon}
             btnText={"Agenda"}
             activeRoute={["/responsavel"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/responsavel"}
           />
 
@@ -117,11 +127,14 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
             btnText={"Reuniões"}
             activeRoute={["/responsavel/reunioes"]}
             isCollapsed={isCollapsed}
+            isMobile={isMobile}
             navigateUrl={"/responsavel/reunioes"}
           />
         </div>
       )}
-      <div className={'side-menu__footer'}>
+
+      {!isMobile && (
+        <div className={'side-menu__footer'}>
         <SingleButtonComponent
           btnIcon={logoutIcon}
           btnText={"Sair"}
@@ -136,6 +149,8 @@ const SideMenu = ({ secretary, professor, parent, menuItens }) => {
           emit={listenIsCollpased}
         />
       </div>
+      )}
+      
     </div>
   );
 };

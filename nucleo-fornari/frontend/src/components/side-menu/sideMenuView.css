@@ -12,6 +12,11 @@
   width: 16rem;
 }
 
+.side-menu-component__container--expanded-mobile {
+  width: 100%;
+  justify-content: center;
+}
+
 .side-menu-component__container--collapsed {
   width: 5rem;
 }
@@ -22,6 +27,12 @@
   border: 0;
   margin: 2.0rem 0 2.4rem 0;
   border-top: 1px solid
+}
+
+.container-buttons-mobile {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
 }
 
 .side-menu__footer {
