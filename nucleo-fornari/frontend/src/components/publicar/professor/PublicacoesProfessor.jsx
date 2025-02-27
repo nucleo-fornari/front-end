@@ -4,6 +4,7 @@ import AvisosService from "../../../services/AvisosService";
 import { toast } from "react-toastify";
 import Avisos from "../Avisos";
 import Utils from "../../../utils/Utils";
+import HeaderBar from "../../header-bar/headerBar";
 
 const PublicacoesProfessor = () => {
     const [selectedValue, setSelectedValue] = useState(null);
@@ -50,7 +51,10 @@ const PublicacoesProfessor = () => {
     };
 
     return (
+        <>
+        <HeaderBar title={"Publicar evento para turma"}/>
         <div style={{ margin: "3%" }}>
+            
             <FormControl>
                 <InputLabel id="demo-simple-select-label">Tipo de evento</InputLabel>
                 <Select
@@ -67,6 +71,8 @@ const PublicacoesProfessor = () => {
             </FormControl>
             <Avisos setData={setData} data={data} />
         </div>
+        </>
+        
     );
 };
 

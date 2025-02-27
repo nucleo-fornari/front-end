@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../../components/header/Header.jsx";
 import { Outlet } from "react-router-dom";
 import SideMenu from "../../components/side-menu/sideMenuView.jsx";
 
@@ -12,7 +11,6 @@ function ProfessorPage() {
         </aside>
 
         <section className="flex flex-col w-full bg-white-main h-screen">
-          <Header />
           <Outlet />
         </section>
       </main>

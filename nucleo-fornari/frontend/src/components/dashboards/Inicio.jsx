@@ -6,6 +6,7 @@ import { useState } from "react";
 import ModalChamado from "../modals/chamado/ModalChamado";
 import ModalRecadoGeral from "../modals/recado-geral/ModalRecadoGeral";
 import api from "../../services/api.js";
+import HeaderBar from "../header-bar/headerBar.jsx";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
@@ -55,7 +56,10 @@ export function Inicio() {
   
 
   return (
+    <>
+    <HeaderBar title={"Calendario de eventos"}/>
     <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
+      
       <div className="text-white-main flex flex-col gap-20 w-3/4">
         <div className="h-[500px]">
           <Calendar />
@@ -104,5 +108,7 @@ export function Inicio() {
         handleClose={handleCloseRecado}
       />
     </section>
+    </>
+    
   );
 }
