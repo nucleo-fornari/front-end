@@ -7,10 +7,14 @@ const SideMenuHeaderComponent = ({userName, isCollapsed}) => {
 
     return (
         <div>
-            <img className={`${!isCollapsed ? "logo-icon-expanded" : "logo-icon-collapsed"}`} src={logoBrancoIcon} alt="" />
+            <div>
+                <img className={`${!isCollapsed ? "logo-icon-expanded" : "logo-icon-collapsed"}`} src={logoBrancoIcon} alt="" />
+                {!isCollapsed && (
+                    <img className="logo-text" src={logoText} alt="núcleo fornari" />
+                )}                
+            </div>            
             {!isCollapsed &&(
                 <div className="container-info">
-                    <img className="logo-text" src={logoText} alt="núcleo fornari" />
                     <span>Olá, {`${!userName ? "user" : userName}`}</span>
                 </div>
             )}

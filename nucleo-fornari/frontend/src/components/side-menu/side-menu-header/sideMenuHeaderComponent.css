@@ -5,9 +5,7 @@
 }
 
 .container-info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    padding-left: 5px;
 }
 
 .logo-text {
