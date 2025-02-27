@@ -7,6 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 import ArchiveIcon from '@mui/icons-material/Archive';
+import HeaderBar from '../../header-bar/headerBar';
 
 const GerenciarSalas = () => {
 
@@ -68,6 +69,8 @@ const GerenciarSalas = () => {
     }
 
     return (
+        <div>
+        <HeaderBar title={"Gerenciar Salas"}/>
         <div className="mt-12 flex flex-col gap-4">
             <div className="flex justify-start h-15 ml-12">
                 <Link
@@ -124,6 +127,8 @@ const GerenciarSalas = () => {
                 description={`A sala ${salaClicked.nome} será deletada, Após confirmar esta ação não poderá ser desfeita.`}
             />
         </div>
+        </div>
+        
     );
 };
 

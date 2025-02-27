@@ -1,46 +1,28 @@
-import React from "react";
-import Header from "../../components/header/Header.jsx";
-import {
-  Outlet,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import SideMenu from "../../components/side-menu/sideMenuView";
-import {
-  FaClipboardList,
-  FaBook,
-  FaTools,
-} from "react-icons/fa";
+import './SecretariaPage.css'
 
 function SecretaryPage() {
-  const sideMenuItens = [
-    {
-      icon: <FaClipboardList />,
-      name: "Chamados",
-      route: "/secretaria",
-    },
-    {
-      icon: <FaBook />,
-      name: "Publicações",
-      route: "/secretaria/publicacao",
-    },
-    {
-      icon: <FaTools />,
-      name: "Gerenciar",
-      route: "/secretaria/gerencia",
-    },
-  ];
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
   return (
     <React.StrictMode>
-      <main className="flex">
-        <aside className="lg:block md:hidden">
-          <SideMenu menuItens={sideMenuItens} />
+      <main className={`container-secretary-page ${isMobile ? 'container-secretary-page-mobile' : ''}`}>
+        <aside className="lg:block">
+          <SideMenu isMobile={isMobile} secretary={true}/>
         </aside>
         <section className="flex flex-col w-full h-screen">
-          <Header />
           <Outlet />
-          <aside className="lg:hidden md:block fixed bottom-0 left-0 right-0 z-50">
-            <SideMenu menuItens={sideMenuItens} />
-          </aside>
         </section>
       </main>
     </React.StrictMode>

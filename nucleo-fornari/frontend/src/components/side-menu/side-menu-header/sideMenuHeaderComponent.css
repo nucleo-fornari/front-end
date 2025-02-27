@@ -1,0 +1,16 @@
+.logo-icon-expanded, .logo-icon-collapsed {
+    height: 27px;
+    width: 48px;
+    margin-bottom: 5px;
+}
+
+.container-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logo-text {
+    height: 21px;
+    width: 168px;
+}

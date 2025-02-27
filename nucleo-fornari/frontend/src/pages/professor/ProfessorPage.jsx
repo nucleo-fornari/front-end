@@ -1,48 +1,28 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import InboxIcon from '@mui/icons-material/Inbox';
-import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from '../../components/header/Header.jsx';
-import SideMenu from '../../components/side-menu/sideMenuView.jsx';
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import SideMenu from "../../components/side-menu/sideMenuView.jsx";
+import './ProfessorPage.css'
 
 function ProfessorPage() {
-  const sideMenuItens = [
-    {
-      icon: <CalendarMonthIcon color="inherit" />,
-      name: 'Calendário',
-      route: '/professor',
-    },
-    {
-      icon: <NewspaperRoundedIcon color="inherit" />,
-      name: 'Publicações',
-      route: '/professor/publicacoes',
-    },
-    {
-      icon: <InboxIcon />,
-      name: 'Chamados',
-      route: '/professor/chamados',
-    },
-    // {
-    //   icon: <DescriptionIcon />,
-    //   name: 'Relatórios',
-    //   route: '/professor/relatorio'
-    // },
-  ];
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 1024);
+      };
+  
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
   return (
     <React.StrictMode>
-      <main className="flex">
-        <aside className="lg:block md:hidden">
-          <SideMenu menuItens={sideMenuItens} />
+      <main className={`container-professor-page ${isMobile ? 'container-professor-page-mobile' : ''}`}>
+        <aside className="lg:block">
+          <SideMenu isMobile={isMobile} professor={true} />
         </aside>
 
         <section className="flex flex-col w-full bg-white-main h-screen">
-          <Header />
           <Outlet />
-          <aside className="lg:hidden md:block fixed bottom-0 left-0 right-0 z-50">
-            <SideMenu menuItens={sideMenuItens} />
-          </aside>
         </section>
       </main>
     </React.StrictMode>

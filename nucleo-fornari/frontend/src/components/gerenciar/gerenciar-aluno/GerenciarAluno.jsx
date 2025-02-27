@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
+import HeaderBar from '../../header-bar/headerBar';
 
 const GerenciarAluno = () => {
   const [alunos, setAlunos] = useState([]);
@@ -84,8 +85,10 @@ const GerenciarAluno = () => {
   }, [alunos]);
 
   return (
-
+    <div>
+    <HeaderBar title={"Gerenciar alunos"}/>
     <div class='containner-gerencia-alunos'>
+      
       <div class='containner-adicionar-aluno'>
         <Link
           to={'/secretaria/cadastro/aluno'}
@@ -167,6 +170,8 @@ const GerenciarAluno = () => {
         description={`O aluno será apagado, Após confirmar esta ação não poderá ser desfeita.`}
       />
     </div>
+    </div>
+    
   );
 };
 

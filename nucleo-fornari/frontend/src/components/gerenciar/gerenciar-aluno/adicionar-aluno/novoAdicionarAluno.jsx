@@ -16,6 +16,7 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 import FormularioAluno from "./FormularioAluno";
 import CloseIcon from "@mui/icons-material/Close";
+import HeaderBar from "../../../header-bar/headerBar";
 
 import { Link } from "react-router-dom";
 
@@ -245,6 +246,7 @@ function CadastroAlunos() {
 
   return (
     <>
+      <HeaderBar title={"Cadastrar novo aluno"}/>
       <main className="flex items-center justify-center flex-col w-full gap-5 h-full">
         <CustomizedSteppers step={step}/>
         <FormularioAluno setStep={setStep}/>

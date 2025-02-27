@@ -10,6 +10,7 @@ import {DateTimePicker} from "@mui/x-date-pickers";
 import Utils from "../../../utils/Utils";
 import {useMemo} from "react";
 import dayjs from "dayjs";
+import HeaderBar from '../../header-bar/headerBar';
 
 function EscreverAvisos() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -207,6 +208,7 @@ function EscreverAvisos() {
 
     return (
         <div>
+            <HeaderBar title={"Publicações para Salas"}/>
             <section className="w-full flex items-center flex-col px-20 pt-10">
                 <button
                     className="bg-blue-main p-0 mb-3 rounded-lg w-4/5 flex flex-col gap-2"

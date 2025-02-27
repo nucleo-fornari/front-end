@@ -17,6 +17,7 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
+import HeaderBar from '../header-bar/headerBar';
 import {Cancel as CloseIcon, CheckCircle as CheckIcon, Save as SaveIcon} from "@mui/icons-material";
 import {Queue} from "../../utils/classes/Queue";
 import {Stack} from "../../utils/classes/Stack";
@@ -198,6 +199,8 @@ const ChamadosSecretaria = () => {
 
 
   return (
+    <div>
+    <HeaderBar title={"Chamados Abertos"}/>
     <Box sx={{ p: 5 }}>
       <TimerModal
           open={isTimerModalOpen}
@@ -336,6 +339,8 @@ const ChamadosSecretaria = () => {
         Salvar Alterações
       </Button>
     </Box>
+    </div>
+    
   );
 };
 

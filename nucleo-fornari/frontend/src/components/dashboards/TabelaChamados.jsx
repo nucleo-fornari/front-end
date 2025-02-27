@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material';
 import api from '../../services/api'; // Importe sua instância de API
 import ModalChamado from '../modals/chamado/ModalChamado'; // Componente de modal
+import HeaderBar from '../header-bar/headerBar';
 
 const columns = [
   { id: 'id', label: 'Código', minWidth: 100 },
@@ -38,6 +39,7 @@ export default function StickyHeadTable() {
 
   return (
     <>
+    <HeaderBar title={"Abertura de chamado"}/>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: '30px', paddingTop: '60px' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
