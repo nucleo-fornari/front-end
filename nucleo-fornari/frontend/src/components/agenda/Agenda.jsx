@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import api from "../../services/api";
 import Utils from "../../utils/Utils";
+import HeaderBar from "../header-bar/headerBar";
 
 function Agenda() {
   const [afilhados, setAfilhados] = useState([]);
@@ -71,6 +72,7 @@ useEffect(() => {
 
   return (
     <>
+    <HeaderBar title={"Agenda do aluno"}/>
       <div className="flex p-12 items-center justify-around">
         {/* Seleção de Aluno */}
         <div className="flex items-center">

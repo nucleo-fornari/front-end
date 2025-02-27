@@ -19,6 +19,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import HeaderBar from "../header-bar/headerBar";
 
 
 function Reuniao(props){
@@ -69,7 +70,10 @@ function Reuniao(props){
       ];
 
     return(
-        <div className="flex flex-col p-12">
+      <>
+      <HeaderBar title={"Reuniões solicitadas"}/>
+      <div className="flex flex-col p-12">
+          
         
           <div className="tabela">
             <h1><b>Reuniões Solicitadas</b></h1><br />
@@ -193,6 +197,8 @@ function Reuniao(props){
           </div>
   
         </div>
+      </>
+        
 
     )
 }
