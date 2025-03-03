@@ -121,6 +121,7 @@ const Formulario = () => {
       />
       <div className="flex gap-1 w-full justify-center flex-col items-center">
         <Button
+          type="submit"
           variant="contained"
           fullWidth={true}
           sx={{ textTransform: 'capitalize' }}

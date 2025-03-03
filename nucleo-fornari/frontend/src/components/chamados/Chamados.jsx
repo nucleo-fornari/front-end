@@ -4,10 +4,11 @@ import api from "../../services/api";
 import {
   Box,
   Button,
-  FormControl,
+  FormControl, FormControlLabel,
   IconButton,
   InputLabel,
   MenuItem,
+  Modal,
   Paper,
   Select,
   Table,
@@ -15,7 +16,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow, TextField
 } from "@mui/material";
 import HeaderBar from '../header-bar/headerBar';
 import {Cancel as CloseIcon, CheckCircle as CheckIcon, Save as SaveIcon} from "@mui/icons-material";
@@ -23,6 +24,10 @@ import {Queue} from "../../utils/classes/Queue";
 import {Stack} from "../../utils/classes/Stack";
 import {toast} from "react-toastify";
 import TimerModal from "../modals/chamado/TimerModal";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from "@mui/icons-material/Delete";
+import Checkbox from "@mui/material/Checkbox";
+import ChamadosService from "../../services/ChamadosService";
 
 const ChamadosSecretaria = () => {
   const [data, setData] = useState([]);
@@ -31,13 +36,34 @@ const ChamadosSecretaria = () => {
   const [modifiedChamados, setModifiedChamados] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
+  const [isModalGerenciarTiposOpen, setIsModalGerenciarTiposOpen] = useState(false);
   const queue = useRef(new Queue());
   const stack = useRef(new Stack());
   const [undoing , setUndoing] = useState(false);
+  const [formTipoChamado, setFormTipoChamado] = useState({
+    tipo: null,
+    prioridade: null,
+  });
+  const [tiposChamados, setTiposChamados] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
   };
+
+  const loadTiposChamados = () => {
+    ChamadosService.getChamadosTipo().then((res) => {
+      console.log(res)
+      setTiposChamados(res.data ? res.data : [])
+    });
+  }
+
+  const openGerenciarTiposModal = () => {
+    setIsModalGerenciarTiposOpen(true);
+  }
+
+  const closeGerenciarTiposModal = () => {
+    setIsModalGerenciarTiposOpen(false);
+  }
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -52,6 +78,11 @@ const ChamadosSecretaria = () => {
   useEffect(() => {
     callOrdenator(parseInt(selectValue));
   }, [selectValue]);
+
+  useEffect(() => {
+    if (isModalGerenciarTiposOpen)
+      loadTiposChamados();
+  }, [isModalGerenciarTiposOpen])
 
   const fetchChamados = () => {
     api.get(`/chamados/abertos`)
@@ -197,6 +228,46 @@ const ChamadosSecretaria = () => {
     } else setUndoing(false);
   };
 
+  const handleDeleteTipoChamado = (id) => {
+
+    ChamadosService.deleteChamadoTipo(id).then((res) => {
+      if (res.status === 204) {
+        toast.success('Deletado com sucesso');
+        loadTiposChamados();
+      }
+    }).catch((error) => {
+      toast.error(error.response.data.message);
+    })
+  }
+
+  const handleCheckboxChange = (value) => {
+    setFormTipoChamado({
+      ...formTipoChamado,
+      prioridade: formTipoChamado.prioridade === value ? null : value,
+    });
+  };
+
+  const setTipo = (value) => {
+    setFormTipoChamado({
+      ...formTipoChamado,
+      tipo: value
+    });
+  }
+
+  const createChamadoTipo = () => {
+    ChamadosService.postChamadoTipo(formTipoChamado).then(
+        (res) => {
+          toast.success('Criado com sucesso!');
+          console.log(res);
+          setTiposChamados([
+              ...tiposChamados,
+              res.data
+          ]);
+        }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
 
   return (
     <div>
@@ -209,6 +280,115 @@ const ChamadosSecretaria = () => {
           mainText={"Os chamados serão finalizados em %s segundos. Realmente deseja finaliza-los?"}
           initialTimer={15}
       ></TimerModal>
+
+      <Modal open={isModalGerenciarTiposOpen} onClose={() => closeGerenciarTiposModal()}>
+        <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: 2,
+              textAlign: "center",
+              width: "90%",
+              maxWidth: "600px",
+            }}
+        >
+          <IconButton
+              onClick={closeGerenciarTiposModal}
+              color="white"
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+              }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <TableContainer
+              sx={{
+                maxHeight: 250,
+                overflowY: 'auto',
+              }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell><strong>Tipo</strong></TableCell>
+                  <TableCell><strong>Prioridade</strong></TableCell>
+                  <TableCell><strong>Ações</strong></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tiposChamados?.map((row) => (
+                    <TableRow>
+                      <TableCell>{row.tipo}</TableCell>
+                      <TableCell>{row.prioridade}</TableCell>
+                      <TableCell>
+                        <IconButton onClick={() => handleDeleteTipoChamado(row.id)} color="error">
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <div style={{ marginTop: '20px' }}>
+            <TextField
+                label="Tipo"
+                onChange={(e) => setTipo(e.target.value)}
+                fullWidth
+                variant="outlined"
+            />
+
+            <div style={{ marginTop: '10px' }}>
+              <FormControlLabel
+                  control={
+                    <Checkbox
+                        checked={formTipoChamado.prioridade === 3}
+                        onChange={() => handleCheckboxChange(3)}
+                        name="alta"
+                    />
+                  }
+                  label="3 - Alta"
+              />
+              <FormControlLabel
+                  control={
+                    <Checkbox
+                        checked={formTipoChamado.prioridade === 2}
+                        onChange={() => handleCheckboxChange(2)}
+                        name="media"
+                    />
+                  }
+                  label="2 - Média"
+              />
+              <FormControlLabel
+                  control={
+                    <Checkbox
+                        checked={formTipoChamado.prioridade === 1}
+                        onChange={() => handleCheckboxChange(1)}
+                        name="baixa"
+                    />
+                  }
+                  label="1 - Baixa"
+              />
+            </div>
+
+            <Button
+                onClick={() => createChamadoTipo()}
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '20px' }}
+            >
+              Criar novo tipo de chamado
+            </Button>
+          </div>
+        </Box>
+      </Modal>
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel id="order-label">Ordenar por:</InputLabel>
         <Select
@@ -338,6 +518,24 @@ const ChamadosSecretaria = () => {
       >
         Salvar Alterações
       </Button>
+      <IconButton
+          onClick={() => openGerenciarTiposModal()}
+          sx={{
+            height: '35px',
+            width: '35px',
+            backgroundColor: '#fff',
+            borderRadius: '50%',
+            border: 'solid 2px #4169e1',
+            padding: '10px',
+            '&:hover': {
+              backgroundColor: 'rgba(97, 219, 92, 0.5)',
+            },
+            mt: 2,
+            ml: 2,
+          }}
+      >
+        <AddIcon sx={{ color: '#4169e1' }} />
+      </IconButton>
     </Box>
     </div>
     
