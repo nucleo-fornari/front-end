@@ -11,6 +11,12 @@
 .container-header-mobile {
     display: flex;
     height: 110px;
+    justify-content: space-between;
+}
+
+.container-logout {
+    display: flex;
+    gap: 150px;
 }
 
 .title {
@@ -20,5 +26,10 @@
 }
 
 .title-mobile {
-    font-size: 36px
+    font-size: 36px;
+    width: auto;    
+}
+
+.icon-logo-mobile {
+    height: 50px;
 }
