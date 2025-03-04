@@ -80,7 +80,7 @@ export default function ModalAtrelar({ setDataState, role, setOpenModal, openMod
                 toast.success(`O ${role.toLowerCase()} foi atrelado à sala com sucesso!`);
             } catch (error) {
                 console.error("Erro ao atrelar:", error);
-                toast.error(`Erro ao atrelar o ${role.toLowerCase()}. Tente novamente.`);
+                toast.error(error.response?.data?.message || error.text || `Erro ao atrelar o ${role.toLowerCase()}. Tente novamente.`);
             }
         } else {
             toast.error("Selecione um item antes de confirmar.");

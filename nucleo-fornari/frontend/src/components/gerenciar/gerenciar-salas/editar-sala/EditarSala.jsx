@@ -63,7 +63,7 @@ const EditarSala = () => {
                         }
                 })
                 .catch((error) => {
-                    toast.error('Erro ao deletar a sala: ' + data.nome);
+                    toast.error(error.response?.data?.message || error.text || 'Erro ao deletar a sala: ' + data.nome);
                 });
         } else {
             api.patch("/usuarios/professor/" + roleClicked.id + "/sala/remover")
@@ -81,7 +81,7 @@ const EditarSala = () => {
                     }
                 })
                 .catch((error) => {
-                    toast.error('Erro ao deletar o aluno: ' + roleClicked.nome);
+                    toast.error(error.response?.data?.message || error.text || 'Erro ao deletar o aluno: ' + roleClicked.nome);
                 });
         }
     }

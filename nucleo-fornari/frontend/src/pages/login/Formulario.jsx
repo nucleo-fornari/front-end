@@ -46,7 +46,7 @@ const Formulario = () => {
         });
       } else {
         console.error(error.message || 'Erro inesperado!');
-        toast.error('Erro inesperado ao fazer login. Tente novamente.');
+        toast.error(error.response?.data?.message ||'Erro inesperado ao fazer login. Tente novamente.');
       }
     }
   };

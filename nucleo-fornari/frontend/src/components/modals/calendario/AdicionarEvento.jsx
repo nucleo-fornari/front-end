@@ -45,10 +45,10 @@ function AdicionarEvento({ setEvent, setEvents, open, handleClose, selectedDate 
                 console.log(error);
 
                 if(error.response.data.status === 409) {
-                    toast.error("Você ainda não está em uma sala. Informe a secretaria!")
+                    toast.error(error.response?.data?.message || error.text || "Você ainda não está em uma sala. Informe a secretaria!")
                 } else {
 
-                    toast.error(error.response?.data?.text ?? 'Erro inesperado!');
+                    toast.error(error.response?.data?.message || error.text || 'Erro inesperado!');
                 }
             });
     };

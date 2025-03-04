@@ -7,6 +7,7 @@ import InputLabel from "@mui/material/InputLabel";
 import api from "../../services/api";
 import Utils from "../../utils/Utils";
 import HeaderBar from "../header-bar/headerBar";
+import { toast } from "react-toastify";
 
 function Agenda() {
   const [afilhados, setAfilhados] = useState([]);
@@ -28,7 +29,7 @@ function Agenda() {
           setAluno(fetchedAfilhados[0].nome);
         }
       } catch (error) {
-        console.error("Erro ao buscar afilhados:", error);
+        toast.error(error.response?.data?.message || error.text || "Erro ao buscar afilhados");
       }
     };
 
@@ -60,7 +61,7 @@ useEffect(() => {
         setData(eventos);
       }
     } catch (error) {
-      console.error("Erro ao buscar eventos:", error);
+      toast.error(error.response?.data?.message || error.text || "Erro ao buscar eventos");
     }
   };
   

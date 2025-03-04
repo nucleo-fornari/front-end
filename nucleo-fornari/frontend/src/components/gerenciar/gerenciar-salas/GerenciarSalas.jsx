@@ -54,7 +54,7 @@ const GerenciarSalas = () => {
                 })
                 .catch((error) => {
                     console.error(error);
-                    toast.error('Erro ao deletar a sala: ' + salaClicked.nome);
+                    toast.error(error.response?.data?.message || error.text || 'Erro ao deletar a sala: ' + salaClicked.nome);
                 });
         }
 

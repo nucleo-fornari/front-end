@@ -62,7 +62,7 @@ const GerenciarAluno = () => {
       }
     }).catch((error) => {
       console.log(error);
-      toast.error('Erro ao deletar!');
+      toast.error(error.response?.data?.message || error.text || 'Erro ao deletar!');
     })
   }
 

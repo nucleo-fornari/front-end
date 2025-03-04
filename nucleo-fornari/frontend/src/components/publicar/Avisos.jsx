@@ -12,7 +12,6 @@ function Avisos({setData, data , editHandler}) {
     useEffect(() => {
         if (data && Array.isArray(data)) {
             setCurrentData(data);
-            console.log(data);
         }
     }, [data]);
 
@@ -24,13 +23,10 @@ function Avisos({setData, data , editHandler}) {
                     const aux = currentData.filter((aviso) => aviso.id !== id);
                     setCurrentData(aux);
                     setData(aux);
-                } else {
-                    toast.error('Erro ao deletar!');
                 }
             })
             .catch((error) => {
-                console.error(error);
-                toast.error('Erro ao deletar!');
+                toast.error(error.response?.data?.message || error.text || 'Erro ao deletar!');
             });
     };
 

@@ -46,7 +46,7 @@ export default function ModalAluno({ open, handleClose, aluno }) {
         }
     }).catch((error) => {
         console.log(error);
-        toast.error('Erro ao criar observação!');
+        toast.error(error.response?.data?.message || error.text || 'Erro ao criar observação!');
     });
   }
 

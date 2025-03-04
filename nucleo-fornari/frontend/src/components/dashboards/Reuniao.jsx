@@ -1,206 +1,239 @@
-import React, { useState } from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
-import TextField from "@mui/material/TextField";
-import Modal from "@mui/material/Modal";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import HeaderBar from "../header-bar/headerBar";
+import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
+import { Modal, Box, Button, Select, MenuItem, FormControl, InputLabel, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import utc from 'dayjs-plugin-utc';
+import HeaderBar from '../header-bar/headerBar';
 
+function Reuniao(props) {
+  dayjs.extend(utc);
 
-function Reuniao(props){
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+  };
 
-    const style = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-      };
-    
-      const [open, setOpen] = React.useState(false);
-      const handleOpen = () => {
-        setOpen(true);
-      };
-      const handleClose = () => {
-        setOpen(false);
-      };    
-    
-      const handleChangeSelect = (event) => {
-        setMotivo(event.target.value);
-        setErrors((prev) => ({ ...prev, motivo: "" }));
-      };
-    
-      const handleChangeRadio = (event) => {
-        setTurno(event.target.value);
-        setErrors((prev) => ({ ...prev, turno: "" }));
-      };
+  const [rows, setRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [filhosComSala, setFilhosComSala] = useState([]);
+  const [selectedAlunoId, setSelectedAlunoId] = useState("");
+  const [agendamento, setAgendamento] = useState({
+    responsavelId: sessionStorage.ID,
+    salaId: "",
+    motivo: "",
+    aceito: false,
+    descricao: "",
+    data: "",
+  });
 
-      const [motivo, setMotivo] = useState("");
-      const [turno, setTurno] = useState("");
-      const [descricao, setDescricao] = useState("");
-      const [errors, setErrors] = useState({ motivo: "", turno: "", descricao: "" });
-    
-      function createData(tipo, data, sitacao, resposta) {
-        return { tipo, data, sitacao, resposta };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSelectAluno = (event) => {
+    const alunoId = event.target.value;
+    setSelectedAlunoId(alunoId);
+
+    const alunoSelecionado = filhosComSala.find(filho => filho.id === alunoId);
+    if (alunoSelecionado) {
+      setAgendamento((prev) => ({
+        ...prev,
+        salaId: alunoSelecionado.idSala,
+      }));
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setAgendamento((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Submit the form
+  const handleSubmit = async () => {
+    const selectedAluno = filhosComSala.find(filho => filho.id === selectedAlunoId);
+    if (selectedAluno) {
+      const agendamentoData = {
+        responsavelId: sessionStorage.ID,
+        salaId: selectedAluno.idSala,
+        motivo: agendamento.motivo,
+        descricao: agendamento.descricao,
+        data: agendamento.data,
+      };
+      try {
+        const response = await api.post("agendamento/proposta", agendamentoData);
+        console.log("Proposta criada com sucesso:", response.data);
+        setRows((prevAgendamentos) => [...prevAgendamentos, response.data]);
+        handleClose();
+      } catch (error) {
+        console.error("Erro ao criar a proposta:", error.response?.data || error.message);
       }
-    
-      const rows = [
-        createData("Documentação", "24/05/2024", "Respondida", "Reunião Marcada"),
-        createData(
-          "Administrativo",
-          "29/09/2024",
-          "Não Respondida",
-          "Sem Resposta"
-        ),
-      ];
+    }
+  };
 
-    return(
-      <>
-      <HeaderBar title={"Reuniões solicitadas"}/>
+  // Load agendamentos and filhos e salas when component mounts
+  useEffect(() => {
+    const usuarioId = sessionStorage.ID;
+    if (usuarioId) {
+      api.get(`agendamento?usuarioId=${usuarioId}`)
+        .then(response => {
+          if (response.status === 204) {
+            setRows([]);
+          } else {
+            setRows(response.data);
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao buscar agendamentos:", error);
+        });
+
+      api.get(`/usuarios/aluno-e-sala/${usuarioId}`)
+        .then((response) => {
+          setFilhosComSala(response.data);
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar filhos e salas:", error);
+        });
+    }
+  }, []);
+
+  return (
+    <>
+      <HeaderBar title={"Reunião"} />
       <div className="flex flex-col p-12">
-          
-        
-          <div className="tabela">
-            <h1><b>Reuniões Solicitadas</b></h1><br />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow className="bg-blue-main">
-                    <TableCell sx={{color: "white", fontSize: 20}}>Tipo</TableCell>
-                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Data</TableCell>
-                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Situação</TableCell>
-                    <TableCell sx={{color: "white", fontSize: 20}} align="center">Resposta</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow hover role="checkbox"
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.tipo}
-                      </TableCell>
-                      <TableCell align="center">{row.data}</TableCell>
-                      <TableCell align="center">{row.sitacao}</TableCell>
-                      <TableCell align="center">{row.resposta}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-  
-  
-          <div className="w-full flex justify-center p-5">
-            <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="parent-modal-title"
-              aria-describedby="parent-modal-description"
-            >
-              <Box sx={{ ...style, width: 700 }}>
-                  <div className="flex flex-col w-full justify-center items-center bg-white-ice p-5 rounded-3xl shadow-2xl">
-                    <div className="flex flex-col justify-center items-center">
-                      <label className="text-3xl mt-5">Motivo da Solicitação</label>
-                      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                        <InputLabel id="demo-select-small-label">
-                          Motivo
-                        </InputLabel>
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={motivo}
-                          label="Motivo"
-                          onChange={handleChangeSelect}
-                        >
-                          <MenuItem value="">
-                            <em>Selecione</em>
-                          </MenuItem>
-                          <MenuItem value={"administrativo"}>
-                            Administrativo
-                          </MenuItem>
-                          <MenuItem value={"documentacao"}>Documentação</MenuItem>
-                          <MenuItem value={"denuncia"}>Denúncia</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <div className="flex flex-col justify-center items-center">
-                      <label className="text-3xl mt-5">Turno</label>
-  
-                      <FormControl>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={turno}
-                          onChange={handleChangeRadio}
-                        >
-                          <FormControlLabel
-                            value="manha"
-                            control={<Radio />}
-                            label="Manhã"
-                          />
-                          <FormControlLabel
-                            value="tarde"
-                            control={<Radio />}
-                            label="Tarde"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </div>
-  
-                    <div className="flex flex-col justify-center items-center">
-                      <Box
-                        component="form"
-                        sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-                        noValidate
-                        autoComplete="off"
-                      >
-                        <div className="mt-5">
-                          <TextField
-                            id="outlined-multiline-static"
-                            label="Descreva"
-                            multiline
-                            rows={4}
-                          />
-                        </div>
-                      </Box>
-                    </div>
-  
-                    <div className="flex flex-col justify-center items-center mt-5">
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained" endIcon={<SendIcon />}>
-                          Solicitar
-                        </Button>
-                      </Stack>
-                    </div>
-                  </div>
-              </Box>
-            </Modal>
-          </div>
-  
-        </div>
-      </>
-        
 
-    )
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="customized table">
+            <TableHead>
+              <TableRow className="bg-blue-main">
+                <TableCell sx={{ color: "white", fontSize: 20 }}>Motivo</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Data</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Aceito</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Descrição</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow hover key={row.id}>
+                  <TableCell>{row.motivo}</TableCell>
+                  <TableCell align="center">
+                    {dayjs(row.data).utc().local().format('DD-MM-YYYY HH:mm:ss')}
+                  </TableCell>
+                  <TableCell align="center">{row.aceito ? "Sim" : "Não"}</TableCell>
+                  <TableCell align="center">{row.descricao}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <div className="w-full flex justify-center p-5">
+          <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+          >
+            <Box sx={{ ...style, width: 700 }}>
+              <div className="flex flex-col w-full justify-center items-center bg-white-ice p-5 rounded-3xl shadow-2xl">
+                {/* Campo: Motivo da Solicitação */}
+                <div className="flex flex-col justify-center items-center">
+                  <label className="text-3xl mt-5">Motivo da Solicitação</label>
+                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                    <InputLabel id="motivo-label">Motivo</InputLabel>
+                    <Select
+                      labelId="motivo-label"
+                      id="motivo"
+                      value={agendamento.motivo}
+                      onChange={handleChange}
+                      name="motivo"
+                    >
+                      <MenuItem value="">
+                        <em>Selecione</em>
+                      </MenuItem>
+                      <MenuItem value="administrativo">Administrativo</MenuItem>
+                      <MenuItem value="documentacao">Documentação</MenuItem>
+                      <MenuItem value="denuncia">Denúncia</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+
+                {/* Campo: Seleção de Filho */}
+                <div className="flex flex-col justify-center items-center">
+                  <label className="text-3xl mt-5">Selecione o Filho</label>
+                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                    <InputLabel id="aluno-label">Filho</InputLabel>
+                    <Select
+                      labelId="aluno-label"
+                      id="aluno"
+                      value={selectedAlunoId}
+                      onChange={handleSelectAluno}
+                    >
+                      <MenuItem value="">
+                        <em>Selecione</em>
+                      </MenuItem>
+                      {filhosComSala.map(filho => (
+                        <MenuItem key={filho.id} value={filho.id}>
+                          {filho.nome}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+
+                {/* Campo: Data e Hora */}
+                <div className="flex flex-col justify-center items-center">
+                  <label className="text-3xl mt-5">Data e Hora</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+                    <DateTimePicker
+                      value={dayjs(agendamento.data)}
+                      onChange={(newValue) => setAgendamento({ ...agendamento, data: newValue.toISOString() })}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+
+                {/* Campo: Descrição */}
+                <div className="flex flex-col justify-center items-center">
+                  <Box
+                    component="form"
+                    sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <div className="mt-5">
+                      <TextField
+                        id="descricao"
+                        label="Descreva"
+                        multiline
+                        rows={4}
+                        value={agendamento.descricao}
+                        onChange={handleChange}
+                        name="descricao"
+                      />
+                    </div>
+                  </Box>
+                </div>
+
+                {/* Botão para enviar */}
+                <div className="mt-5">
+                  <Button variant="contained" onClick={handleSubmit}>
+                    Enviar
+                  </Button>
+                </div>
+              </div>
+            </Box>
+          </Modal>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Reuniao;

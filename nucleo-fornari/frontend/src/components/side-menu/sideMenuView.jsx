@@ -27,15 +27,15 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
   return (
     <div className={`side-menu-component__container ${isMobile ? 'side-menu-component__container--expanded-mobile' : ''}
         ${isCollapsed && !isMobile ? "side-menu-component__container--collapsed" : "side-menu-component__container--expanded"}`
-      }
+    }
     >
       {!isMobile && (
         <>
-        <SideMenuHeaderComponent
-        userName={sessionStorage.NOME}
-        isCollapsed={isCollapsed}
-        />
-        <hr className={`side-menu__divider`} />
+          <SideMenuHeaderComponent
+            userName={sessionStorage.NOME}
+            isCollapsed={isCollapsed}
+          />
+          <hr className={`side-menu__divider`} />
         </>
       )}
 
@@ -64,7 +64,7 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
             btnText={"Gerenciar"}
             activeRoute=
             {[
-              "/secretaria/gerencia", 
+              "/secretaria/gerencia",
               "/secretaria/gerencia/aluno",
               "/secretaria/cadastro/aluno",
               "/secretaria/gerencia/funcionario",
@@ -108,6 +108,15 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
             isMobile={isMobile}
             navigateUrl={"/professor/chamados"}
           />
+
+          <SingleButtonComponent
+            btnIcon={meetingIcon}
+            btnText={"Reuniões"}
+            activeRoute={["/professor/reunioes"]}
+            isCollapsed={isCollapsed}
+            isMobile={isMobile}
+            navigateUrl={"/professor/reunioes"}
+          />
         </div>
       )}
 
@@ -122,7 +131,7 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
             navigateUrl={"/responsavel"}
           />
 
-        <SingleButtonComponent
+          <SingleButtonComponent
             btnIcon={meetingIcon}
             btnText={"Reuniões"}
             activeRoute={["/responsavel/reunioes"]}
@@ -135,22 +144,22 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
 
       {!isMobile && (
         <div className={'side-menu__footer'}>
-        <SingleButtonComponent
-          btnIcon={logoutIcon}
-          btnText={"Sair"}
-          isCollapsed={isCollapsed}
-          event={"logout"}
-        />
-        <SingleButtonComponent
-          btnIcon={MenuOpenIcon}
-          btnText={"Recolher Menu"}
-          isCollapsed={isCollapsed}
-          event={"toggleMenu"}
-          emit={listenIsCollpased}
-        />
-      </div>
+          <SingleButtonComponent
+            btnIcon={logoutIcon}
+            btnText={"Sair"}
+            isCollapsed={isCollapsed}
+            event={"logout"}
+          />
+          <SingleButtonComponent
+            btnIcon={MenuOpenIcon}
+            btnText={"Recolher Menu"}
+            isCollapsed={isCollapsed}
+            event={"toggleMenu"}
+            emit={listenIsCollpased}
+          />
+        </div>
       )}
-      
+
     </div>
   );
 };

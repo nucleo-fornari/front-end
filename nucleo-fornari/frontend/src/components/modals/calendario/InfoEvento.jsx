@@ -39,9 +39,9 @@ function InfoEvento({ open, handleClose, event }) {
                     {event.descricao || 'Sem descrição disponível.'}
                 </Typography>
                 <Typography sx={{ mt: 1, fontWeight: 'bold' }}>
-                    {event.data instanceof Date
+                    {/* {event.data instanceof Date
                         ? `${event.data.getHours().toString().padStart(2, '0')}:${event.data.getMinutes().toString().padStart(2, '0')}`
-                        : 'Erro na Hora do evento'}
+                        : 'Erro na Hora do evento'} */}
                 </Typography>
             </Box>
         </Modal>

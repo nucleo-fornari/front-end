@@ -64,7 +64,7 @@ const ModalChamado = ({ setData, open, handleClose }) => {
       }
     } catch (error) {
       if (error.response && error.response.data.text) {
-        toast.error('Erro ao criar chamado');
+        toast.error(error.response?.data?.message || error.text || 'Erro ao criar chamado');
       }
     }
   

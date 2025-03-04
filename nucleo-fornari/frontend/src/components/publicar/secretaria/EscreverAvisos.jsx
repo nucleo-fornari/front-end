@@ -37,7 +37,7 @@ function EscreverAvisos() {
             })
             .catch((error) => {
                 console.error(error);
-                toast.error('Erro ao buscar salas!');
+                toast.error(error.response?.data?.message || error.text || 'Erro ao buscar salas!');
             });
     }, []);
 
@@ -170,7 +170,7 @@ function EscreverAvisos() {
             }
         }).catch((error) => {
             console.error(error);
-            toast.error('Erro ao criar!');
+            toast.error(error.response?.data?.message || error.text || 'Erro ao criar!');
         });
     }
 
@@ -186,12 +186,10 @@ function EscreverAvisos() {
                 toast.success('Editado com sucesso!');
                 findUserPublications();
                 setIsEdition(false);
-            } else {
-                toast.error('Erro ao editar!');
             }
         }).catch((error) => {
             console.error(error);
-            toast.error('Erro ao editar!');
+            toast.error(error.response?.data?.message || error.text || 'Erro ao editar!');
         });
     }
 

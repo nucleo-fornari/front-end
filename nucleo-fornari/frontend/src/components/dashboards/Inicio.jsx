@@ -57,11 +57,11 @@ export function Inicio() {
 
   return (
     <>
-    <HeaderBar title={"Calendario de eventos"}/>
-    <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
-      
-      <div className="text-white-main flex flex-col gap-20 w-3/4">
-        <div className="h-[500px]">
+      <HeaderBar title={"Calendario de eventos"}/>
+      <section className="flex lg:justify-evenly p-16 md:justify-center md:flex-col lg:flex-row">
+        
+        <div className="text-white-main flex flex-col gap-20 w-3/4">
+          <div className="h-[500px]">
           <Calendar />
         </div>
         <div className="lg:h-11 md:text-4xl">

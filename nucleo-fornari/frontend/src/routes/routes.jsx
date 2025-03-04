@@ -29,6 +29,7 @@ import ChangePassword from '../pages/login/ChangePassword.jsx';
 import Login from '../pages/login/Login.jsx';
 import PasswordRecovery from '../pages/login/PasswordRecovery.jsx';
 import SecretaryPage from '../pages/secretaria/SecretariaPage.jsx';
+import PedidosReuniaoPorSala from '../components/dashboards/PedidosReuniaoPorSala.jsx';
 
 const avisosData = [
   {
@@ -147,6 +148,10 @@ export const router = createBrowserRouter([
       {
         path: '/professor/chamados',
         element: <StickyHeadTable />,
+      },
+      {
+        path: '/professor/reunioes',
+        element: <PedidosReuniaoPorSala />,
       },
     ],
   },
