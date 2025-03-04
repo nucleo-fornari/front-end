@@ -26,6 +26,7 @@ const HeaderBar = ({ title }) => {
                     btnIcon={logoutIcon}
                     btnText={"Sair"}
                     event={"logout"}
+                    isMobile={isMobile}
                 />
                 </div>
             )}

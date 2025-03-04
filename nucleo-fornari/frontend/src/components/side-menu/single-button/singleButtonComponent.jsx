@@ -34,18 +34,18 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, isMo
 
     return (
         <div className={
-            `single-button-component__container ${isMobile && event !== "logout" ? 'single-button-component__container-mobile' : ''}
-            ${event === "logout" ? "single-button-component__container-logout-active" : 
-            isActive ? "single-button-component__container-active" : ""}`
+            `single-button-component__container ${isMobile && event === "logout" ? 'single-button-component__container-logout-mobile' : ''} 
+            ${isMobile && !event ? 'single-button-component__container-mobile' : ''}
+            ${event === "logout" ? "single-button-component__container-logout-active" : isActive ? "single-button-component__container-active" : ""}`
             }
             onClick={() => handleClick()}
         >
-            <div className={`btn ${isMobile ? 'btn-mobile' : ''}`}>
+            <div className={`btn ${isMobile && !event ? 'btn-mobile' : ''}`}>
 
-                <img className={`btn-icon ${isMobile ? 'btn-icon-mobile' : ''}`} src={btnIcon} alt="" />
+                <img className={`btn-icon ${isMobile && event === "logout" ? 'btn-icon-logout-mobile' : ''} ${isMobile && !event ? 'btn-icon-mobile' : ''}`} src={btnIcon} alt="" />
 
                 {!isCollapsed && (
-                    <span className={`text ${isMobile ? 'text-mobile' : ''}`}>{btnText}</span>
+                    <span className={`text ${isMobile && event === "logout" ? 'text-logout-mobile' : ''} ${isMobile && !event ? 'text-mobile' : ''}`}>{btnText}</span>
                 )}            
             </div>
         </div>
