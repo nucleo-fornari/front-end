@@ -5,7 +5,7 @@ import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 
 function ProjetoSection() {
     return (
-        <section id='projeto' className="p-28 flex m-28 items-center justify-evenly">
+        <section id='projeto' className="p-28 flex m-28 items-center justify-evenly max-lg:p-0 m-0 my-12 max-w-full">
             <ProjetoColumn image={<Diversity2RoundedIcon fontSize="inherit"/> }
             title="Comunicação"
             text= "A comunicação é essencial para manter pais, professores, coordenadores e funcionários informados sobre o desenvolvimento e as atividades das crianças. Uma plataforma digital que permita mensagens diretas e atualizações de agenda pode ser uma ferramenta valiosa para essa comunicação."
