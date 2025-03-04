@@ -19,7 +19,7 @@ const HeaderBar = ({ title }) => {
 
     return (
         <div className={`container-header ${isMobile ? 'container-header-mobile' : ''}` }>
-            <span className={'title'}>{title}</span>
+            <span className={`title ${isMobile ? 'title-mobile' : 'title'}`}>{title}</span>
             {isMobile && (
                 <div>
                 <SingleButtonComponent

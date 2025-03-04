@@ -34,7 +34,7 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, isMo
 
     return (
         <div className={
-            `single-button-component__container ${isMobile ? 'single-button-component__container-mobile' : ''}
+            `single-button-component__container ${isMobile && event !== "logout" ? 'single-button-component__container-mobile' : ''}
             ${event === "logout" ? "single-button-component__container-logout-active" : 
             isActive ? "single-button-component__container-active" : ""}`
             }
@@ -42,10 +42,10 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, isMo
         >
             <div className={`btn ${isMobile ? 'btn-mobile' : ''}`}>
 
-                <img class="btn-icon" src={btnIcon} alt="" />
+                <img className={`btn-icon ${isMobile ? 'btn-icon-mobile' : ''}`} src={btnIcon} alt="" />
 
                 {!isCollapsed && (
-                    <span class="text">{btnText}</span>
+                    <span className={`text ${isMobile ? 'text-mobile' : ''}`}>{btnText}</span>
                 )}            
             </div>
         </div>

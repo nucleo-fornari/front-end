@@ -14,6 +14,7 @@
 
 .side-menu-component__container--expanded-mobile {
   width: 100%;
+  height: 200px;
   justify-content: center;
 }
 
@@ -31,8 +32,7 @@
 
 .container-buttons-mobile {
   display: flex;
-  justify-content: center;
-  gap: 100px;
+  justify-content: space-evenly;
 }
 
 .side-menu__footer {

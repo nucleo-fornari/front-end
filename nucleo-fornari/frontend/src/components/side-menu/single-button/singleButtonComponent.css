@@ -29,7 +29,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    gap: 15px;
 }
 
 .btn-icon {
@@ -38,12 +38,21 @@
     filter: invert(99%) sepia(0%) saturate(7498%) hue-rotate(239deg) brightness(102%) contrast(103%);
 }
 
+.btn-icon-mobile {
+    width: 55px;
+    height: 55px;
+}
+
 .text {
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     line-height: 2rem;
     white-space: nowrap;
+}
+
+.text-mobile {
+    font-size: xx-large;
 }
 
 .single-button-component__container:hover,
