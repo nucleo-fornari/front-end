@@ -178,7 +178,7 @@ const Calendario = ({
             data-month={month}
             data-day={day}
             onClick={() => handleDayClick(day, month, year)}
-            className={`relative z-10 m-[-0.5px] aspect-square w-full grow cursor-pointer rounded-xl border font-medium transition-all hover:z-20 hover:border-cyan-400 sm:-m-px sm:size-20 sm:rounded-2xl sm:border-2 lg:size-28 lg:rounded-3xl 2xl:size-40 text-center flex flex-col items-start justify-between px-2 py-2 ${
+            className={`relative z-10 m-[-0.5px] aspect-square w-full grow cursor-pointer rounded-xl border font-medium transition-all hover:z-20 hover:border-cyan-400 sm:-m-px sm:rounded-2xl sm:border-2 h-full w-full lg:rounded-3xl text-center flex flex-col items-start justify-between px-2 py-2 ${
               isPlaceholder ? "bg-gray-100 cursor-not-allowed" : ""
             }`}
           >
