@@ -30,6 +30,7 @@ import Login from '../pages/login/Login.jsx';
 import PasswordRecovery from '../pages/login/PasswordRecovery.jsx';
 import SecretaryPage from '../pages/secretaria/SecretariaPage.jsx';
 import PedidosReuniaoPorSala from '../components/dashboards/PedidosReuniaoPorSala.jsx';
+import CadastroResponsavel from '../components/gerenciar/adicionar-responsavel/AdicionarResponsavel.jsx';
 
 const avisosData = [
   {
@@ -191,7 +192,10 @@ export const router = createBrowserRouter([
         path: '/secretaria/cadastro/aluno',
         element: <CadastroAlunos />,
       },
-
+      {
+        path: '/secretaria/cadastro/responsavel/:idAluno',
+        element: <CadastroResponsavel />
+      },
       {
         path: '/secretaria/cadastro/funcionario',
         element: <CadastroFuncionario />,

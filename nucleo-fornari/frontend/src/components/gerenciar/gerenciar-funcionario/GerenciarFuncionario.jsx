@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './GerenciarFuncionario.css';
 import { Link } from 'react-router-dom';
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FuncionarioService from "../../../services/FuncionariosService";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 import HeaderBar from '../../header-bar/headerBar';
+import ModalEdit from '../../modals/editar-personas/ModalEdit';
 
 const GerenciarFuncionario = () => {
 
@@ -16,6 +17,15 @@ const GerenciarFuncionario = () => {
     const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
     const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
     const [id, setId] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [user, setUser] = useState({})
+
+    const handleEdit = (user) => {
+        setUser(user)
+        console.log(user)
+        setOpen(true)
+    }
+    const handleClose = () => setOpen(false)
 
     const handleCloseModal = () => setModalConfirmOpen(false);
 
@@ -66,79 +76,74 @@ const GerenciarFuncionario = () => {
 
     return (
         <div>
-        <HeaderBar  title={"Gerenciar Funcionários"}/>
-        <div class='containner-gerencia-funcionarios'>
-            <div class='containner-adicionar-funcionario'>
-                <Link
-                to={'/secretaria/cadastro/funcionario'}
-                >                
-                    <span class='redireciona-adicionar-funcionario'>
-                        Novo funcionário
-                    </span>
-                </Link>
-                
-                <FormControl fullWidth sx={{ mb: 3 }}>
-                    <TextField
-                        label="Buscar por nome:"
-                        variant="outlined"
-                        onChange={(e) => handleSelectChange(e.target.value)}
-                        placeholder=""
-                    />
-                </FormControl>
-            </div>
-            <Box sx={{ p: 5 }}>
+            <HeaderBar title={"Gerenciar Funcionários"} />
+            <div class='containner-gerencia-funcionarios'>
+                <div class='containner-adicionar-funcionario'>
+                    <Link
+                        to={'/secretaria/cadastro/funcionario'}
+                    >
+                        <span class='redireciona-adicionar-funcionario'>
+                            Novo funcionário
+                        </span>
+                    </Link>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: '#e0e0e0' }}>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Funcionario</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Funcão</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Email</TableCell>              
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { !filteredFuncionarios || !Array.isArray(filteredFuncionarios) ? null :
-                filteredFuncionarios.map((func) => (
-                    <TableRow hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
-                        <TableCell align="center">
-                            <Box sx={{ p: 1, borderRadius: 1 }}>{func.nome}</Box>
-                        </TableCell>
-                        <TableCell align="center">
-                            <Box sx={{ p: 1, borderRadius: 1 }}>{func.funcao}</Box>
-                        </TableCell>
-                        <TableCell align="center">
-                            <Box sx={{ p: 1, borderRadius: 1 }}>{func.email}</Box>
-                        </TableCell>
-                        <TableCell align="center">
-                            {/* <EditIcon style={{ color: 'blue' }}
-                                onClick={() => handleMudarChamado(chamado.id)}
-                                color={chamado.finalizado ? "success" : "error"}
-                                      aria-label="Concluir chamado"
-                            >
-                                {chamado.finalizado ? <CheckIcon /> : <CloseIcon sx={{ color: 'red' }} />}
-                            </EditIcon> */}
-                            <DeleteIcon
-                                onClick={() => handleOpenConfirmModal(func.id)}
-                                style={{ color: 'red', cursor: 'pointer', marginRight: 8 }} />
-                        </TableCell>
-                    </TableRow>
-                    ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
-    <ModalConfirm
-                open={modalConfirmOpen}
-                onClose={handleCloseModal}
-                onConfirm={handleConfirmAction}
-                title={`Deseja apagar o usuário?`}
-                description={`O usuário será apagado, Após confirmar esta ação não poderá ser desfeita.`}
-            />
-    </div>
+                    <FormControl fullWidth sx={{ mb: 3 }}>
+                        <TextField
+                            label="Buscar por nome:"
+                            variant="outlined"
+                            onChange={(e) => handleSelectChange(e.target.value)}
+                            placeholder=""
+                        />
+                    </FormControl>
+                </div>
+                <Box sx={{ p: 5 }}>
+
+                    <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow sx={{ backgroundColor: '#e0e0e0' }}>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Funcionario</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Funcão</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Email</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Ações</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {!filteredFuncionarios || !Array.isArray(filteredFuncionarios) ? null :
+                                    filteredFuncionarios.map((func) => (
+                                        <TableRow hover sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f7f7f7' } }}>
+                                            <TableCell align="center">
+                                                <Box sx={{ p: 1, borderRadius: 1 }}>{func.nome}</Box>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Box sx={{ p: 1, borderRadius: 1 }}>{func.funcao}</Box>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Box sx={{ p: 1, borderRadius: 1 }}>{func.email}</Box>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <EditIcon onClick={() => handleEdit(func)} style={{ color: 'blue', cursor: 'pointer', marginRight: 8 }} />
+                                                <DeleteIcon
+                                                    onClick={() => handleOpenConfirmModal(func.id)}
+                                                    style={{ color: 'red', cursor: 'pointer', marginRight: 8 }} />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+                <ModalConfirm
+                    open={modalConfirmOpen}
+                    onClose={handleCloseModal}
+                    onConfirm={handleConfirmAction}
+                    title={`Deseja apagar o usuário?`}
+                    description={`O usuário será apagado, Após confirmar esta ação não poderá ser desfeita.`}
+                />
+            </div>
+            <ModalEdit open={open} handleClose={handleClose} usuario={user} />
         </div>
-        
+
     );
 };
 

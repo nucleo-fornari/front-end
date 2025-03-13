@@ -38,7 +38,7 @@ const getNotificationIcon = (type) => {
 };
 
 const HeaderBar = ({ title }) => {
-
+    
     const { notificacoes } = useSocket(sessionStorage.ID);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
     const [open, setOpen] = useState(false);
@@ -53,10 +53,6 @@ const HeaderBar = ({ title }) => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
-    useEffect(() => {
-        console.log("Notificações recebidas:", notificacoes);
-    }, [notificacoes]);
 
     return (
         <div className={`container-header ${isMobile ? 'container-header-mobile' : ''}`}>
