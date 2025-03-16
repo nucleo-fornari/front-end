@@ -29,6 +29,7 @@ import ChangePassword from '../pages/login/ChangePassword.jsx';
 import Login from '../pages/login/Login.jsx';
 import PasswordRecovery from '../pages/login/PasswordRecovery.jsx';
 import SecretaryPage from '../pages/secretaria/SecretariaPage.jsx';
+import Avaliacoes from "../pages/avaliacoes/Avaliacoes";
 import PedidosReuniaoPorSala from '../components/dashboards/PedidosReuniaoPorSala.jsx';
 import CadastroResponsavel from '../components/gerenciar/adicionar-responsavel/AdicionarResponsavel.jsx';
 
@@ -115,9 +116,9 @@ export const router = createBrowserRouter([
   {
     path: '/responsavel',
     element: (
-      // <PrivateRoute allowedRoles={["RESPONSAVEL"]}>
-      <ParentsPage />
-      // </PrivateRoute>
+        // <PrivateRoute allowedRoles={["RESPONSAVEL"]}>
+        <ParentsPage />
+        // </PrivateRoute>
     ),
     children: [
       {
@@ -133,9 +134,9 @@ export const router = createBrowserRouter([
   {
     path: '/professor',
     element: (
-      // <PrivateRoute allowedRoles={["PROFESSOR"]}>
-      <ProfessorPage />
-      // </PrivateRoute>
+        // <PrivateRoute allowedRoles={["PROFESSOR"]}>
+        <ProfessorPage />
+        // </PrivateRoute>
     ),
     children: [
       {
@@ -154,14 +155,18 @@ export const router = createBrowserRouter([
         path: '/professor/reunioes',
         element: <PedidosReuniaoPorSala />,
       },
+      {
+        path: '/professor/avaliacoes',
+        element: <Avaliacoes/>
+      }
     ],
   },
   {
     path: '/secretaria',
     element: (
-      // <PrivateRoute allowedRoles={["SECRETARIO"]}>
-      <SecretaryPage />
-      // </PrivateRoute>
+        // <PrivateRoute allowedRoles={["SECRETARIO"]}>
+        <SecretaryPage />
+        // </PrivateRoute>
     ),
     children: [
       {
