@@ -2,10 +2,13 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../components/loading/Loading';
+import UsuarioService from "../../services/UsuarioService";
+import {toast} from "react-toastify";
 
 function PasswordRecovery() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({ email: '', senha: '' });
+  const [email, setEmail] = useState('');
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -13,6 +16,18 @@ function PasswordRecovery() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleSubmit = () => {
+    if (email) {
+      UsuarioService.esqueciSenha(email).then(res => {
+        if (res.status === 204) {
+          navigate('/login/recuperacao-senha/autenticacao', {
+            state: {email: email}
+          });
+        }
+      }).catch(error => toast.error(error.response?.data?.message || error.text || "Erro inesperado"))
+    }
+  }
 
   const navigate = useNavigate();
 
@@ -34,6 +49,8 @@ function PasswordRecovery() {
             label="Email"
             variant="outlined"
             fullWidth={true}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             error={!!errors.email}
             helperText={errors.email}
           />
@@ -41,7 +58,7 @@ function PasswordRecovery() {
             sx={{ textTransform: 'capitalize' }}
             variant="contained"
             fullWidth={true}
-            onClick={() => navigate('/login/recuperacao-senha/autenticacao')}
+            onClick={() => handleSubmit()}
           >
             {' '}
             Continuar{' '}
