@@ -24,13 +24,13 @@ import { useSocket } from "../../context/webSocketContext";
 
 const getNotificationIcon = (type) => {
     switch (type) {
-        case "NOVO USUARIO":
+        case "RECADO":
             return <MessageIcon style={{ color: "#1976d2" }} />; // Azul para mensagens
         case "CHAMADO":
             return <WarningIcon style={{ color: "#d32f2f" }} />; // Vermelho para alertas
-        case "event":
+        case "EVENTO":
             return <EventIcon style={{ color: "#388e3c" }} />; // Verde para eventos
-        case "update":
+        case "..":
             return <UpdateIcon style={{ color: "#f57c00" }} />; // Laranja para atualizações
         default:
             return <NotificationsIcon />;
@@ -105,7 +105,8 @@ const HeaderBar = ({ title }) => {
                                         >
                                             <ListItemIcon>{getNotificationIcon(notification.titulo)}</ListItemIcon>
                                             <ListItemText
-                                                primary={`${notification.titulo} - ${notification.mensagem}`}
+                                                // primary={`${notification.titulo} - ${notification.mensagem}`}
+                                                primary={`${notification.mensagem}`}
                                                 secondary={new Date(
                                                     notification.dataCriacao[0], // Ano
                                                     notification.dataCriacao[1] - 1, // Mês (ajustado porque no JS começa do 0)
