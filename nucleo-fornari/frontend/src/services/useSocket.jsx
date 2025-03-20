@@ -6,6 +6,7 @@ export const WebSocketProvider = ({ children }) => {
   const usuarioId = sessionStorage.getItem("ID");
   const [ws, setWs] = useState(null);
   const [notificacoes, setNotificacoes] = useState([]);
+  const notificacoesRef = useRef([]);
 
   useEffect(() => {
     if (!usuarioId) return; // Se não houver usuário, não conecta
@@ -15,12 +16,9 @@ export const WebSocketProvider = ({ children }) => {
     socket.onopen = () => console.log("🔗 Conectado ao WebSocket!");
 
     socket.onmessage = (event) => {
-      try {
-        const notificacao = JSON.parse(event.data);
-        setNotificacoes((prev) => [...prev, notificacao]);
-      } catch (error) {
-        console.error("Erro ao processar mensagem WebSocket:", error);
-      }
+      const novaNotificacao = JSON.parse(event.data);
+      notificacoesRef.current = [...notificacoesRef.current, novaNotificacao];
+      setNotificacoes([...notificacoesRef.current]);
     };
 
     socket.onerror = (error) => console.error("Erro no WebSocket:", error);
