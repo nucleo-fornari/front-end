@@ -20,7 +20,7 @@ import {
     ListItemIcon,
     ListItemText,
 } from "@mui/material";
-import useSocket from "../../services/useSocket";
+import { useSocket } from "../../context/webSocketContext";
 
 const getNotificationIcon = (type) => {
     switch (type) {
@@ -38,8 +38,7 @@ const getNotificationIcon = (type) => {
 };
 
 const HeaderBar = ({ title }) => {
-    
-    const { notificacoes } = useSocket(sessionStorage.ID);
+    const { notificacoes } = useSocket();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
     const [open, setOpen] = useState(false);
 
@@ -74,7 +73,7 @@ const HeaderBar = ({ title }) => {
                             backgroundColor: "#fff",
                             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                             borderRadius: "8px",
-                            zIndex: 10,
+                            zIndex: 100,
                         }}
                     >
                         <CardContent>

@@ -29,7 +29,6 @@ const ModalRecadoGeral = ({ open, handleClose }) => {
             alert("Por favor, preencha todos os campos!");
             return;
         }
-        console.log({ title, message});
 
         Api.post('/eventos', {
             titulo: title,

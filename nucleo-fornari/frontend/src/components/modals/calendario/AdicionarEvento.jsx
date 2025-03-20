@@ -29,7 +29,7 @@ function AdicionarEvento({ setEvent, setEvents, open, handleClose, selectedDate 
             titulo: title,
             descricao: description,
             data: formattedLocalDateTime,
-            tipo: 'AVISO_GERAL',
+            tipo: 'PUBLICACAO',
             usuarioId: parseInt(sessionStorage.getItem('ID'), 10),
             salas: [parseInt(sessionStorage.getItem('ID_SALA'), 10)],
           })
