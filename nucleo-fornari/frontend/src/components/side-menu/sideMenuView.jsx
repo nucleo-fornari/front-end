@@ -15,7 +15,7 @@ import MenuOpenIcon from "../../assets/imgs/menuOpenIcon.svg";
 import calendarIcon from "../../assets/imgs/calendarIcon.svg";
 import publicationIcon from "../../assets/imgs/publicationIcons.svg";
 import meetingIcon from "../../assets/imgs/meetingIcon.svg";
-import avaliacoesIcon from "../../assets/imgs/avaliacoesIcon.jpeg"
+import avaliacaoIcon from "../../assets/imgs/avaliacaoIcon.svg"
 
 const SideMenu = ({ secretary, professor, parent, isMobile }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -119,8 +119,8 @@ const SideMenu = ({ secretary, professor, parent, isMobile }) => {
                     navigateUrl={"/professor/reunioes"}
                 />
                 <SingleButtonComponent
-                  btnIcon={avaliacoesIcon}
-                  btnText={"Avaliacoes"}
+                  btnIcon={avaliacaoIcon}
+                  btnText={"Avaliações"}
                   activeRoute={["/professor/avaliacoes"]}
                   isCollapsed={isCollapsed}
                   isMobile={isMobile}
