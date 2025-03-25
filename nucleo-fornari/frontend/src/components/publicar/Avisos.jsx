@@ -1,38 +1,88 @@
-import { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import api from '../../services/api';
+import { Delete } from '@mui/icons-material';
+import AvisosService from "../../services/AvisosService";
+import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { Edit } from "@mui/icons-material";
 
-const Avisos = () => {
-    const [data, setData] = useState([]);
+function Avisos({setData, data , editHandler}) {
+    const [currentData, setCurrentData] = useState([]);
 
     useEffect(() => {
-        const fetchEventos = async () => {
-            try {
-                const res = await api.get('/eventos/publicacoes');
-                setData(res.data);
-            } catch (error) {
-                console.error("Erro ao buscar eventos:", error);
-            }
-        };
+        if (data && Array.isArray(data)) {
+            setCurrentData(data);
+        }
+    }, [data]);
 
-        fetchEventos();
-    }, []);
+    const handleDelete = (id, deleteHandler) => {
+        deleteHandler(id)
+            .then((res) => {
+                if (res.status === 204) {
+                    toast.success('Deletado com sucesso!');
+                    const aux = currentData.filter((aviso) => aviso.id !== id);
+                    setCurrentData(aux);
+                    setData(aux);
+                }
+            })
+            .catch((error) => {
+                toast.error(error.response?.data?.message || error.text || 'Erro ao deletar!');
+            });
+    };
+
+    const handleEdit = () => {
+        toast.error('Funcionalidade ainda não implementada!');
+    }
 
     return (
-        <section className="w-full flex items-center flex-col px-20 py-4 overflow-y-scroll h-full">
-            {data.map((aviso, index) => (
-                <div key={index} className="bg-white-ice shadow-2xl p-10 mb-3 rounded-lg w-4/5 flex flex-col gap-2">
-                    <h1 className="text-4xl font-semibold text-blue-main">{aviso.titulo}</h1>
-                    <p className="text-2xl py-5 text-black-light">{aviso.descricao}</p>
-                    <h3 className="italic font-semibold text-black-light">Por {aviso.usuarioId},</h3>
-                    <p className="italic text-black-light">
-                    {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM", { locale: ptBR })}
-                        </p>
-                </div>
-            ))}
+        <section className="w-full flex items-center flex-col px-20 py-4 overflow-y-scroll h-77vh">
+            {currentData.length > 0 ? (
+                currentData.map((aviso) => (
+                    <div
+                        key={aviso.id}
+                        className="bg-white-ice shadow-2xl p-10 mb-3 rounded-lg w-4/5 flex flex-col gap-2 relative"
+                    >
+                        {!aviso.userIsOwner ? null : (
+                            <>
+                            {
+                                editHandler ? (
+                                    <button
+                                        onClick={() => editHandler(aviso)}
+                                        className="absolute top-4 right-16 text-blue-500 hover:text-blue-700"
+                                    >
+                                        <Edit fontSize="large"/>
+                                    </button>
+                                ) : null
+                            }
+                                <button
+                                    onClick={() => handleDelete(aviso.id, aviso.deleteHandler)}
+                                    className="absolute top-4 right-4 text-red-500 hover:text-red-700"
+                                >
+                                <Delete fontSize="large" />
+                                </button>
+                            </>
+                        )}
+                        <h1 className="text-4xl font-semibold text-blue-main">{aviso.titulo} </h1>
+                        <p className="text-2xl py-5 text-black-light">{aviso.descricao}</p>
+                        {!aviso.alunoNome ? null : (
+                            <h3 className="italic font-semibold text-black-light">
+                                Para: <span className="text-blue-main">{aviso.alunoNome}</span>
+                            </h3>
+                        )}
+                        <h3 className="italic font-semibold text-black-light">Por: {aviso.autor}</h3>
+                        {!aviso.data ? null : (
+                            <p className="italic text-black-light">
+                                {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
+                            </p>
+                        )}
+                    </div>
+                ))
+            ) : (
+                <p className="text-2xl text-gray-500">Nenhum aviso encontrado.</p>
+            )}
         </section>
     );
-};
+
+}
 
 export default Avisos;

@@ -1,60 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect, Outlet, Link } from 'react-router-dom';
-import Header from "../../components/header/Header.jsx";
+import React, { useState, useEffect } from "react";
+import { Outlet } from 'react-router-dom';
 import SideMenu from "../../components/side-menu/sideMenuView.jsx";
-import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-import StickyNote2RoundedIcon from '@mui/icons-material/StickyNote2Rounded';
-import NewspaperRoundedIcon from '@mui/icons-material/NewspaperRounded';
-
-
+import './ResponsavelPage.css'
 
 function ParentsPage() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
-  const sideMenuItens = [
-    {
-      icon: <NewspaperRoundedIcon />,
-      name: 'Publicações',
-      route: '/responsavel'
-    },
-    {
-      icon: <PeopleRoundedIcon />,
-      name: 'Reuniões',
-      route: '/responsavel/reunioes'
-    },
-    {
-      icon: <StickyNote2RoundedIcon />,
-      name: 'Agenda',
-      route: '/responsavel/agenda'
-    },
-  ]
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <React.StrictMode>
-
-      <main className='flex'>
-
-
-        <aside >
-
-          <SideMenu menuItens={sideMenuItens} usuario="Flávia"/>
-
-
+      <main className={`container-parent-page ${isMobile ? 'container-parent-page-mobile' : ''}`}>
+        <aside className="lg:block">
+          <SideMenu isMobile={isMobile} parent={true}/>
         </aside>
-
-        <section className='flex flex-col w-full h-screen'>
-
-          <Header />
+        <section className="flex flex-col w-full h-screen">
           <Outlet />
         </section>
-
       </main>
-
-
-
     </React.StrictMode>
   );
-
-
 }
 
 export default ParentsPage;

@@ -1,0 +1,14 @@
+.logo-icon-expanded, .logo-icon-collapsed {
+    height: 27px;
+    width: 48px;
+    margin-bottom: 5px;
+}
+
+.container-info {
+    padding-left: 5px;
+}
+
+.logo-text {
+    height: 21px;
+    width: 168px;
+}

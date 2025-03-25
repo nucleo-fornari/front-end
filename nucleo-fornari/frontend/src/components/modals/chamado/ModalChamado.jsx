@@ -10,16 +10,18 @@ import {
   FormControlLabel,
   TextField,
   Button,
-  IconButton
+  IconButton,
+  createTheme,
+  styled,
+  ThemeProvider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
 
-const ModalChamado = ({ open, handleClose }) => {
+const ModalChamado = ({ setData, open, handleClose }) => {
   const [category, setCategory] = useState('');
   const [tipos, setTipos] = useState([]);
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isAtipic, setIsAtipic] = useState(false);
   const [descriptionError, setDescriptionError] = useState('');
@@ -28,16 +30,13 @@ const ModalChamado = ({ open, handleClose }) => {
     setCategory(event.target.value);
   };
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+    const newDescription = event.target.value;
+    setDescription(newDescription); 
+  
     if (descriptionError) {
       setDescriptionError('');
-  }
+    }
   };
 
   const handleAtipicChange = (event) => {
@@ -49,23 +48,26 @@ const ModalChamado = ({ open, handleClose }) => {
       setDescriptionError('O campo "Descrição" deve ser preenchido.');
       return;
     }
-    await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
-      descricao: description,
-      criancaAtipica: isAtipic,
-      tipo: {
-        id: category
-      }
-    }).then((res) => {
-      if (res.status === 201) {
+
+    try {
+      const response = await api.post(`/chamados?idUsuario=${sessionStorage.ID}`, {
+        descricao: description,
+        criancaAtipica: isAtipic,
+        tipo: {
+          id: category,
+        },
+      });
+  
+      if (response.status === 201) {
         toast.success('Chamado criado com sucesso!');
+        setData((dataPrev) => [...dataPrev, response.data]);
       }
-    }).catch((error) => {
+    } catch (error) {
       if (error.response && error.response.data.text) {
-            setDescriptionError(error.response.data.text);
-        } else {
-            toast.error('Erro inesperado!');
-        }
-    })
+        toast.error(error.response?.data?.message || error.text || 'Erro ao criar chamado');
+      }
+    }
+  
     handleClose();
   };
 
@@ -76,15 +78,50 @@ const ModalChamado = ({ open, handleClose }) => {
         }).catch((error) => console.log(error))
   }, []);
 
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       mobile: 767,
+  //       tablet: 768,
+  //       laptop: 1024,
+  //     },
+  //   },
+  // });
+
+  // const Root = styled('div')(({ theme }) => ({
+  //   padding: theme.spacing(1),
+  //   [theme.breakpoints.down('mobile')]: {
+  //     width:700,
+  //     height:0
+  //   },
+  //   [theme.breakpoints.up('tablet')]: {
+  //     width:600,
+  //     height:0
+  //   },
+  //   [theme.breakpoints.up('laptop')]: {
+  //     width:400,
+  //     height:0
+  //   },
+  // }));
+
+  
+
   return (
     <Modal open={open} onClose={handleClose}>
+      {/* <ThemeProvider theme={theme}>
+      <Root> */}
       <Box
         sx={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 400,
+          width: {
+            mobile: '800px', // Largura dinâmica para telas pequenas
+            tablet: '600px', // Largura fixa para tablet
+            laptop: '400px', // Largura fixa para laptop
+          },
+         
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -104,7 +141,12 @@ const ModalChamado = ({ open, handleClose }) => {
         >
           <CloseIcon />
         </IconButton>
-        <Typography variant="h6" component="h2">
+        <Typography variant="h6" component="h2" sx={{
+          fontSize:{
+            tablet:18,
+            laptop:16,
+          }
+        }}>
           Categoria:
         </Typography>
 
@@ -140,6 +182,8 @@ const ModalChamado = ({ open, handleClose }) => {
           Enviar
         </Button>
       </Box>
+      {/* </Root>
+      </ThemeProvider> */}
     </Modal>
   );
 };

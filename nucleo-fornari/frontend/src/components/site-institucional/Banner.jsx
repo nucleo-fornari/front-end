@@ -14,7 +14,7 @@ function Banner () {
     return(
         <section className="items-center justify-center flex flex-col relative">
             
-        <img src={imgBanner} alt="Professora com seus alunos estudando" className=""/>
+        <img src={imgBanner} alt="Professora com seus alunos estudando" className="w-full"/>
         <div className="absolute flex items-center justify-center flex-col">
            <p className="text-white-main text-center font-bold text-6xl text-wrap p-20 leading-loose drop-shadow-lg">
             Integração de tecnologia com educação de qualidade

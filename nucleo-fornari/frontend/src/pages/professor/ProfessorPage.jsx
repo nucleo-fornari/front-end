@@ -1,44 +1,27 @@
-import React from "react";
-import Header from "../../components/header/Header.jsx";
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import SideMenu from "../../components/side-menu/sideMenuView.jsx";
-import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
-import InboxIcon from "@mui/icons-material/Inbox";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import './ProfessorPage.css'
 
 function ProfessorPage() {
-  const sideMenuItens = [
-    {
-      icon: <CalendarMonthIcon color="inherit" />,
-      name: "Calendário",
-      route: "/professor",
-    },
-    {
-      icon: <NewspaperRoundedIcon color="inherit" />,
-      name: "Publicações",
-      route: "/professor/publicacoes",
-    },
-    {
-      icon: <InboxIcon />,
-      name: "Chamados",
-      route: "/professor/chamados",
-    },
-    // {
-    //   icon: <DescriptionIcon />,
-    //   name: 'Relatórios',
-    //   route: '/professor/relatorio'
-    // },
-  ];
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 1024);
+      };
+  
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
   return (
     <React.StrictMode>
-      <main className="flex">
-        <aside>
-          <SideMenu menuItens={sideMenuItens} />
+      <main className={`container-professor-page ${isMobile ? 'container-professor-page-mobile' : ''}`}>
+        <aside className="lg:block">
+          <SideMenu isMobile={isMobile} professor={true} />
         </aside>
 
-        <section className="flex flex-col w-full bg-white-main">
-          <Header />
+        <section className="flex flex-col w-full bg-white-main h-screen">
           <Outlet />
         </section>
       </main>

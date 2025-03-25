@@ -1,0 +1,8 @@
+.container-parent-page {
+    height: 100%;
+    display: flex;
+}
+
+.container-parent-page-mobile {    
+    flex-direction: column-reverse;
+}

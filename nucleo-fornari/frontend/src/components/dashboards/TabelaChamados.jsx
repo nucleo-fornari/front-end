@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material';
 import api from '../../services/api'; // Importe sua instância de API
 import ModalChamado from '../modals/chamado/ModalChamado'; // Componente de modal
+import HeaderBar from '../header-bar/headerBar';
 
 const columns = [
   { id: 'id', label: 'Código', minWidth: 100 },
@@ -38,6 +39,7 @@ export default function StickyHeadTable() {
 
   return (
     <>
+    <HeaderBar title={"Abertura de chamado"}/>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: '30px', paddingTop: '60px' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -99,9 +101,15 @@ export default function StickyHeadTable() {
         />
       </Paper>
       <div className="flex w-52 py-10 justify-center">
-        <Button variant="contained" size="medium" onClick={openModal}>Novo chamado</Button>
+        <Button
+        variant="contained"
+        size="large"
+        className='lg:h-11 md:h-14 sm:h-16'
+        onClick={openModal}>
+          Novo chamado
+          </Button>
       </div>
-      <ModalChamado open={isModalOpen} handleClose={closeModal} />
+      <ModalChamado setData={setData} open={isModalOpen} handleClose={closeModal} />
     </>
   );
 }

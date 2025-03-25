@@ -3,8 +3,9 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import AdicionarEvento from './AdicionarEvento';
 import InfoEvento from './InfoEvento';
+import { format } from 'date-fns';
 
-function CustomModal({ open, handleClose, value, events }) {
+function CustomModal({ open, handleClose, value, events, setEvents, setEvent }) {
     const [openAddEvento, setOpenAddEvento] = useState(false);
     const [openInfoEvento, setOpenInfoEvento] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -63,18 +64,19 @@ function CustomModal({ open, handleClose, value, events }) {
                         </IconButton>
                     </Box>
 
-                    {/* Display the event list */}
                     <Paper elevation={1} sx={{ mt: 3, p: 2 }}>
                         <List>
-                            {events.map((event, index) => (
+                            {events.length > 0 ? events.map((event, index) => (
                                 <ListItem key={index} onClick={() => handleClickInfoEvento(event)} style={{ cursor: 'pointer' }}>
                                     <Chip
-                                        label={`${event.time} - ${event.title}`}
-                                        color={event.color}
+                                        label={`${format(event.data, 'HH:mm')} - ${event.titulo}`}
+                                        color="success"
                                         sx={{ mr: 1 }}
                                     />
                                 </ListItem>
-                            ))}
+                            )) :
+                                "Sem eventos"
+                            }
                         </List>
                     </Paper>
 
@@ -94,13 +96,13 @@ function CustomModal({ open, handleClose, value, events }) {
                         </Button>
 
                         <Typography id="modal-description" sx={{ mt: 2, fontSize: '1.2rem', textAlign: 'center' }}>
-                            {value ? value.format('DD/MM/YYYY') : 'Nenhuma data selecionada'}
+                            {value ? `${value.getDate().toString().padStart(2, '0')}/${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getFullYear()}` : 'Nenhuma data selecionada'}
                         </Typography>
                     </Box>
                 </Box>
             </Modal>
-            
-            <AdicionarEvento open={openAddEvento} handleClose={handleCloseAddEvento} selectedDate={value} />
+
+            <AdicionarEvento setEvent={setEvent} setEvents={setEvents} open={openAddEvento} handleClose={handleCloseAddEvento} selectedDate={value} />
             <InfoEvento open={openInfoEvento} handleClose={handleCloseInfoEvento} event={selectedEvent} />
         </>
     );

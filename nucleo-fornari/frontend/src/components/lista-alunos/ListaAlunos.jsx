@@ -11,6 +11,7 @@ import api from '../../services/api'
 
 export default function AlignItemsList() {
   const [alunos, setAlunos] = useState([]);
+  const [nomeSala, setNomeSala] = useState('');
   const [open, setOpen] = useState(false);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
 
@@ -28,9 +29,11 @@ export default function AlignItemsList() {
     const fetchSalas = async () => {
         try {
           // Precisa buscar pelo id da sala
-          const res = await api.get('/salas');
-          const alunos = res.data.flatMap(sala => sala.alunos);
+          const salaId = parseInt(sessionStorage.ID_SALA);
+          const res = await api.get(`salas/${salaId}`);
+          const alunos = res.data.alunos;
           setAlunos(alunos);
+          setNomeSala(res.data.nome);
         } catch (error) {
             console.error("Erro ao buscar Salas:", error);
         }
@@ -49,9 +52,9 @@ export default function AlignItemsList() {
 
   return (
     <>
-      <h1 className="text-blue-main font-semibold text-xl mb-4">Turma: G1A</h1>
+      <div className="text-base text-blue-main font-semibold md:text-3xl lg:text-2xl md:py-8 lg:pt-0">Turma: {nomeSala.toUpperCase()}</div>
       <div className="overflow-y-auto max-h-96 rounded-lg shadow-lg bg-white">
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper'  }}>
           {alunos.map((aluno, index) => (
             <React.Fragment key={index}>
               <ListItem
