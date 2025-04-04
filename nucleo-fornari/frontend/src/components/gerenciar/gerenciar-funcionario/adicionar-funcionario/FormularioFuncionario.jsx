@@ -18,7 +18,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Typography,
 } from "@mui/material";
 import api from "../../../../services/api";
 

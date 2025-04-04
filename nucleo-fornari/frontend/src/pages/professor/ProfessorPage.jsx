@@ -21,7 +21,7 @@ function ProfessorPage() {
           <SideMenu isMobile={isMobile} professor={true} />
         </aside>
 
-        <section className="flex flex-col w-full bg-white-main h-screen">
+        <section className="overflow-y-auto flex flex-col w-full bg-white-main h-screen">
           <Outlet />
         </section>
       </main>

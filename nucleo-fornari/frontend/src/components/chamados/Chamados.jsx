@@ -46,10 +46,6 @@ const ChamadosSecretaria = () => {
   });
   const [tiposChamados, setTiposChamados] = useState([]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
   const loadTiposChamados = () => {
     ChamadosService.getChamadosTipo().then((res) => {
       console.log(res)
@@ -389,7 +385,7 @@ const ChamadosSecretaria = () => {
           </div>
         </Box>
       </Modal>
-      <FormControl fullWidth sx={{ mb: 3 }}>
+      <FormControl sx={{ mb: 3, width: '25%' }}>
         <InputLabel id="order-label">Ordenar por:</InputLabel>
         <Select
           labelId="order-label"

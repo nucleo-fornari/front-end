@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material';
-import api from '../../services/api'; // Importe sua instância de API
-import ModalChamado from '../modals/chamado/ModalChamado'; // Componente de modal
+import api from '../../services/api';
+import ModalChamado from '../modals/chamado/ModalChamado';
 import HeaderBar from '../header-bar/headerBar';
 
 const columns = [

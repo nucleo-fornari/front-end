@@ -15,7 +15,7 @@ const SideMenuHeaderComponent = ({userName, isCollapsed}) => {
             </div>            
             {!isCollapsed &&(
                 <div className="container-info">
-                    <span>Olá, {`${!userName ? "user" : userName}`}</span>
+                    <span className="whitespace-nowrap text-nowrap">Olá, {`${!userName ? "user" : userName}`}</span>
                 </div>
             )}
         </div>

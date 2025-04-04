@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import Calendar from "../calendario/FetchData.jsx";
 import AlignItemsList from "../lista-alunos/ListaAlunos";
-import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import { useState } from "react";
 import ModalChamado from "../modals/chamado/ModalChamado";
 import ModalRecadoGeral from "../modals/recado-geral/ModalRecadoGeral";
@@ -68,7 +67,6 @@ export function Inicio() {
           <Button
             className="lg:h-11 md:h-14 sm:h-16"
             variant="contained"
-            // startIcon={<SupportAgentRoundedIcon />}
             color="primary"
             fullWidth={true}
             size="large"

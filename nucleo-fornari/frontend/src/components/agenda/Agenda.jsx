@@ -13,7 +13,7 @@ function Agenda() {
   const [afilhados, setAfilhados] = useState([]);
   const [aluno, setAluno] = useState(""); 
   const tipos = ["Secretaria", "Professora"];
-  const [tipo, setTipo] = useState(tipos[0]); // Estado para o tipo selecionado
+  const [tipo, setTipo] = useState(tipos[0]);
 
 
   useEffect(() => {
@@ -24,7 +24,6 @@ function Agenda() {
         const fetchedAfilhados = data.afiliados || [];
         setAfilhados(fetchedAfilhados);
 
-        // Define o primeiro afilhado como selecionado (se existir)
         if (fetchedAfilhados.length > 0) {
           setAluno(fetchedAfilhados[0].nome);
         }

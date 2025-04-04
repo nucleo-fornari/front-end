@@ -21,7 +21,7 @@ function ParentsPage() {
         <aside className="lg:block">
           <SideMenu isMobile={isMobile} parent={true}/>
         </aside>
-        <section className="flex flex-col w-full h-screen">
+        <section className="overflow-y-auto flex flex-col w-full h-screen">
           <Outlet />
         </section>
       </main>

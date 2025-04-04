@@ -1,5 +1,3 @@
-const { paste } = require('@testing-library/user-event/dist/paste');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -38,7 +36,6 @@ module.exports = {
         '67':'67px',
         '90vh':'90vh',
         '77vh':'77vh',
-        '67': '67px',
         '400':'400px',
         'hbanner': '2127px',
         '40': '40px',
@@ -51,8 +48,7 @@ module.exports = {
         'wbanner': '3191px',
         '156':'156px',
         '313':'313px',
-        '80' : '80%'
-
+        '80' : '80%',
       }
     },
   },

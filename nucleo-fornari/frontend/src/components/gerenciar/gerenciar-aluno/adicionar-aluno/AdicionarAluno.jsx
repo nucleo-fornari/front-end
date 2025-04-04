@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import './AdicionarAluno.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { CheckBox } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
 
 const Publication = () => {
 
-    const location = useLocation();
     const navigate = useNavigate();
 
     const [partCadastro, setPartCadastro] = useState(0);

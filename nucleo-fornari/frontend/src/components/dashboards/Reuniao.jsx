@@ -54,7 +54,6 @@ function Reuniao(props) {
     setAgendamento((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit the form
   const handleSubmit = async () => {
     const selectedAluno = filhosComSala.find(filho => filho.id === selectedAlunoId);
     if (selectedAluno) {
@@ -76,7 +75,6 @@ function Reuniao(props) {
     }
   };
 
-  // Load agendamentos and filhos e salas when component mounts
   useEffect(() => {
     const usuarioId = sessionStorage.ID;
     if (usuarioId) {

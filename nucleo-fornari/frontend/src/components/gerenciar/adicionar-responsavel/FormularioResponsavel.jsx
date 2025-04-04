@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-    Box,
     Button,
     capitalize,
     Checkbox,
@@ -18,7 +17,6 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Typography,
 } from "@mui/material";
 import api from "../../../services/api";
 

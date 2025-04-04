@@ -49,7 +49,7 @@ const GerenciarFuncionario = () => {
 
     const loadFuncionarios = () => {
         FuncionarioService.getFuncionarios().then((res) => {
-            setFuncionarios(res.data.filter(func => func.funcao !== 'RESPONSAVEL' && func.id !== parseInt(sessionStorage.ID)));
+            setFuncionarios(res.data.filter(func => func.funcao !== 'RESPONSAVEL'));
         }).catch((error) => console.log(error));
     }
 

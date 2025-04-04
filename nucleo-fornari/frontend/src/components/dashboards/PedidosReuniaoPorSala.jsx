@@ -72,7 +72,7 @@ function PedidosReuniaoPorSala(props) {
     return (
         <>
             <HeaderBar title={"Reunião"} />
-            <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3, maxWidth: "90%", margin: "auto" }}>
+            <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3, maxWidth: "90%", marginTop: 2, marginLeft: "auto", marginRight: "auto" }}>
                 <Table>
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#1a73e8" }}>
