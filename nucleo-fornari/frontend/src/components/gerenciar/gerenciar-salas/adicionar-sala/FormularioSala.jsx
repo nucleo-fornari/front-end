@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Paper, Typography, Box, FormControl, InputLabel, Select, MenuItem, capitalize, TextField, Button, FormHelperText } from "@mui/material";
-import api from "../../../../services/api";
+import useApi from "../../../../hooks/ApiHook";
 
 export default function FormularioSala({ setStep }) {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function FormularioSala({ setStep }) {
     });
     const [errors, setErrors] = useState({});
     const [grupos, setGrupos] = useState([]);
+    const api = useApi();
 
     useEffect(() => {
         api.get("/salas/grupos")

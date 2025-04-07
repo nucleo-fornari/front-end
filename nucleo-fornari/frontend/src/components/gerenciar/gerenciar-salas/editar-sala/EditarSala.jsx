@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ModalAtrelar from '../../../modals/atrelar/ModalAtrelar';
 import ModalConfirm from '../../../modals/confirmar-acao/ModalConfirm';
-import api from '../../../../services/api';
 import { toast } from "react-toastify";
 import HeaderBar from '../../../header-bar/headerBar';
 import ModalEdit from '../../../modals/editar-personas/ModalEdit';
 import ModalEditAluno from '../../../modals/editar-personas/ModalEditAluno';
+import useApi from "../../../../hooks/ApiHook";
 
 const EditarSala = () => {
     const navigate = useNavigate();
@@ -27,6 +27,7 @@ const EditarSala = () => {
     const [openModalEditAluno, setOpenModalEditAluno] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
+    const api = useApi();
 
     const handleEditResponsavel = (user) => {
         handleCloseModalEditAluno();

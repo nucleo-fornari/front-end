@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, TextField, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
-import api from '../../../services/api';
+import useApi from "../../../hooks/ApiHook";
 
 function AdicionarEvento({ setEvent, setEvents, open, handleClose, selectedDate }) {
     const [title, setTitle] = useState('');
     const [time, setTime] = useState('00:00');
     const [description, setDescription] = useState('');
+    const api = useApi();
 
     const handleSave = () => {
         if (!title || !time || !description) {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import api from "../../../services/api";
 import { toast } from "react-toastify";
 import {
     Paper,
@@ -13,11 +12,13 @@ import {
     Button,
     CircularProgress
 } from "@mui/material";
+import useApi from "../../../hooks/ApiHook";
 
 export default function ModalAtrelar({ setDataState, role, setOpenModal, openModal, idSala }) {
     const [data, setData] = useState([]);
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(true);
+    const api = useApi();
 
     // Carrega os dados ao abrir o modal
     useEffect(() => {

@@ -7,13 +7,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { useState, useEffect } from 'react';
 import ModalAluno from '../modals/aluno/ModalAluno';
-import api from '../../services/api'
+import useApi from "../../hooks/ApiHook";
 
 export default function AlignItemsList() {
   const [alunos, setAlunos] = useState([]);
   const [nomeSala, setNomeSala] = useState('');
   const [open, setOpen] = useState(false);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
+  const api = useApi();
 
   const handleClose = () => {
     setOpen(false);

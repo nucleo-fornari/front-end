@@ -14,17 +14,17 @@ import {
 } from "@mui/material";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import api from "../../services/api";
 import AddIcon from "@mui/icons-material/Add";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import DimensoesModal from "../../components/modals/dimensoes/Dimensoes"
-import AvaliacaoService from "../../services/AvaliacaoService"
 import {toast} from "react-toastify";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DeleteIcon from "@mui/icons-material/Delete";
+import useApi from "../../hooks/ApiHook";
+import Api from "../../services/api";
 
 const Avaliacoes = () => {
 
@@ -38,6 +38,7 @@ const Avaliacoes = () => {
     const [dimensaoFisicoMotora, setDimensaoFisicoMotora] = useState('');
     const [dimensaoCognitiva, setDimensaoCognitiva] = useState('');
     const [ano, setAno] = useState('');
+    const api = useApi();
 
     const fetchSalas = async () => {
         try {
@@ -114,7 +115,7 @@ const Avaliacoes = () => {
             alunoId: alunoData.id
         }
 
-        AvaliacaoService.createAvaliacao(formData).then(res => {
+        api.post('/avaliacao', formData).then(res => {
             toast.success('Criado com sucesso!');
             setAlunoData({...alunoData, avaliacoes: [...alunoData.avaliacoes, res.data]});
             fetchSalas();
@@ -178,7 +179,7 @@ const Avaliacoes = () => {
     }
 
     const handleDeleteAvaliacao = (id) => {
-        AvaliacaoService.deleteAvaliacao(id).then(res => {
+        api.delete('/avaliacao/' + id).then(res => {
             toast.success('Deletado com sucesso!');
             const newData = {...alunoData, avaliacoes: alunoData.avaliacoes.filter(x => x.id !== id)};
             setAlunoData(newData);
@@ -189,7 +190,7 @@ const Avaliacoes = () => {
     }
 
     const handleDownloadFile = (id) => {
-        AvaliacaoService.downloadPdf(id).then(response => {
+        api.get('/avaliacao/pdf/' + id, { responseType: 'blob' }).then(response => {
             const blob = response.data;
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');

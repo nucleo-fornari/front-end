@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, TextField, Button, Typography, Grid } from "@mui/material";
-import api from "../../../services/api";
 import { toast } from "react-toastify";
+import useApi from "../../../hooks/ApiHook";
 
 const ModalEdit = ({ open, handleClose, usuario }) => {
   const defaultFormData = {
@@ -22,6 +22,7 @@ const ModalEdit = ({ open, handleClose, usuario }) => {
     },
   };
 
+  const api = useApi();
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {

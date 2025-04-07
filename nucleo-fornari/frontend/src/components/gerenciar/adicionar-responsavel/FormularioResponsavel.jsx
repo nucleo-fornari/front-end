@@ -18,7 +18,7 @@ import {
     TableRow,
     TableCell,
 } from "@mui/material";
-import api from "../../../services/api";
+import useApi from "../../../hooks/ApiHook";
 
 function FormularioResponsavel({ setStep, idAluno }) {
     const navigate = useNavigate();
@@ -42,6 +42,7 @@ function FormularioResponsavel({ setStep, idAluno }) {
     
     const [errors, setErrors] = useState({});
     const [hideInput, setInput] = useState(true);
+    const api = useApi();
 
     const validateStep = (step) => {
         const currentErrors = {};

@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import 'dayjs/locale/pt-br';
-import Api from "../../../services/api";
 import { toast } from 'react-toastify';
+import useApi from "../../../hooks/ApiHook";
 
 const ModalRecadoGeral = ({ open, handleClose }) => {
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
+    const Api = useApi();
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);

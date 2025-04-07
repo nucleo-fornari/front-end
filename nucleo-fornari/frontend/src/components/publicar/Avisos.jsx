@@ -1,13 +1,14 @@
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Delete } from '@mui/icons-material';
-import AvisosService from "../../services/AvisosService";
 import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { Edit } from "@mui/icons-material";
+import useApi from "../../hooks/ApiHook";
 
 function Avisos({setData, data , editHandler}) {
     const [currentData, setCurrentData] = useState([]);
+    const Api = useApi();
 
     useEffect(() => {
         if (data && Array.isArray(data)) {

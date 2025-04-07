@@ -4,8 +4,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import api from '../../services/api';
 // import { useAuth } from "../../AuthProvider";
+import useApi from '../../hooks/ApiHook';
 
 const Formulario = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const Formulario = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: '', senha: '' });
   // const { user, login } = useAuth();
+  const api = useApi();
 
   const handleLogin = async (event) => {
     event.preventDefault();

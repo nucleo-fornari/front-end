@@ -17,8 +17,9 @@ import React, {useEffect, useState} from "react";
 import { Cancel as CloseIcon } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import AvaliacaoService from "../../../services/AvaliacaoService";
 import {toast} from "react-toastify";
+import useApi from "../../../hooks/ApiHook";
+import Api from "../../../services/api";
 
 const Dimensoes = ({
                        open,
@@ -33,9 +34,10 @@ const Dimensoes = ({
     const [selectedDescription, setSelectedDescription] = useState('');
     const [newDimensao, setNewDimensao] = useState({ tituloPreset: '', textoDimensao: '' });
     const [isAddingDimensao, setIsAddingDimensao] = useState(false);
+    const Api = useApi();
 
     useEffect(() => {
-        AvaliacaoService.getDimensoesCadastradas(userId, tipoDimensao).then((res) => {
+        Api.get(`/avaliacao/dimensao/${userId}/${tipoDimensao}`).then((res) => {
             setData(res.data ? res.data : []);
         }).catch((error) => console.log(error))
     }, [tipoDimensao]);
@@ -53,7 +55,7 @@ const Dimensoes = ({
     };
 
     const handleDelete = (id) => {
-        AvaliacaoService.deleteDimensao(id).then(res => {
+        Api.delete('/avaliacao/dimensao/' + id).then(res => {
             toast.success("Deletado com sucesso!");
             setData(data.filter(item => item.id !== id));
         }).catch(error => {
@@ -72,7 +74,7 @@ const Dimensoes = ({
     const handleAddDimensao = () => {
         if (newDimensao.tituloPreset && newDimensao.textoDimensao) {
             const body = {...newDimensao, userId: parseInt(userId), tipoDimensao: tipoDimensao};
-            AvaliacaoService.createDimensao(body).then((res) => {
+            Api.post('/avaliacao/dimensao', body).then((res) => {
                 const newData = [...data, { ...res.data }];
                 setData(newData);
                 setNewDimensao({ tituloPreset: '', descricao: '' });

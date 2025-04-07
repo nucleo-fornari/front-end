@@ -16,8 +16,8 @@ import {
   ThemeProvider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import api from '../../../services/api';
 import { toast } from 'react-toastify';
+import useApi from '../../../hooks/ApiHook';
 
 const ModalChamado = ({ setData, open, handleClose }) => {
   const [category, setCategory] = useState('');
@@ -25,6 +25,7 @@ const ModalChamado = ({ setData, open, handleClose }) => {
   const [description, setDescription] = useState('');
   const [isAtipic, setIsAtipic] = useState(false);
   const [descriptionError, setDescriptionError] = useState('');
+  const api = useApi();
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);

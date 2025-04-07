@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import Calendario from "./Calendario";
 import CustomModal from "../modals/calendario/CustomModal"
-import api from "../../services/api"
+import useApi from "../../hooks/ApiHook";
 
 export default function FetchData() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [date, setDate] = useState("");
     const [event, setEvent] = useState([]);
     const [events, setEvents] = useState();
+    const api = useApi();
 
     const handleClose = () => {
         setIsModalOpen(false);

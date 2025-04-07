@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
 import { Modal, Box, Button, Select, MenuItem, FormControl, InputLabel, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
@@ -8,10 +7,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import utc from 'dayjs-plugin-utc';
 import HeaderBar from '../header-bar/headerBar';
+import useApi from "../../hooks/ApiHook";
 
 function Reuniao(props) {
   dayjs.extend(utc);
 
+  const api = useApi();
   const style = {
     position: "absolute",
     top: "50%",

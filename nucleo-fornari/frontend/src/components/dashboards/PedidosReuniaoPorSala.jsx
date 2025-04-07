@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
-import api from "../../services/api";
 import dayjs from "dayjs";
 import HeaderBar from "../header-bar/headerBar";
 import { toast } from "react-toastify";
+import useApi from "../../hooks/ApiHook";
 
 function PedidosReuniaoPorSala(props) {
     const [agendamentos, setAgendamentos] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedAgendamento, setSelectedAgendamento] = useState(null);
     const [newData, setNewData] = useState("");
+    const api = useApi();
 
 
     useEffect(() => {

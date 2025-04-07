@@ -15,16 +15,17 @@ import {
   Paper,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material"
-import api from "../../../services/api";
 import { toast } from "react-toastify";
 import ModalConfirm from "../confirmar-acao/ModalConfirm";
 import { Link } from 'react-router-dom'
+import useApi from "../../../hooks/ApiHook";
 
 const ModalEditAluno = ({ open, handleClose, aluno, handleEditResponsavel }) => {
   const [formData, setFormData] = useState({ id: 0, nome: "", ra: "", dtNasc: "" });
   const [responsaveis, setResponsaveis] = useState([]);
   const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
   const [id, setId] = useState(0);
+  const api = useApi();
 
   useEffect(() => {
     if (aluno) {

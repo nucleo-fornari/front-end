@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material';
-import api from '../../services/api';
-import ModalChamado from '../modals/chamado/ModalChamado';
+import ModalChamado from '../modals/chamado/ModalChamado'; // Componente de modal
 import HeaderBar from '../header-bar/headerBar';
+import useApi from "../../hooks/ApiHook";
 
 const columns = [
   { id: 'id', label: 'Código', minWidth: 100 },
@@ -17,6 +17,7 @@ export default function StickyHeadTable() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
+  const api = useApi();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

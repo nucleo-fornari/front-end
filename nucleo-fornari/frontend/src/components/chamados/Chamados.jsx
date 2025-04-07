@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import "./Chamados.css";
-import api from "../../services/api";
 import {
   Box,
   Button,
@@ -27,7 +26,7 @@ import TimerModal from "../modals/chamado/TimerModal";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
-import ChamadosService from "../../services/ChamadosService";
+import useApi from "../../hooks/ApiHook";
 
 const ChamadosSecretaria = () => {
   const [data, setData] = useState([]);
@@ -45,9 +44,10 @@ const ChamadosSecretaria = () => {
     prioridade: null,
   });
   const [tiposChamados, setTiposChamados] = useState([]);
+  const api = useApi();
 
   const loadTiposChamados = () => {
-    ChamadosService.getChamadosTipo().then((res) => {
+    api.get('/tipos-chamado').then((res) => {
       console.log(res)
       setTiposChamados(res.data ? res.data : [])
     });
@@ -226,7 +226,7 @@ const ChamadosSecretaria = () => {
 
   const handleDeleteTipoChamado = (id) => {
 
-    ChamadosService.deleteChamadoTipo(id).then((res) => {
+    api.delete('tipos-chamado/' + id).then((res) => {
       if (res.status === 204) {
         toast.success('Deletado com sucesso');
         loadTiposChamados();
@@ -251,7 +251,7 @@ const ChamadosSecretaria = () => {
   }
 
   const createChamadoTipo = () => {
-    ChamadosService.postChamadoTipo(formTipoChamado).then(
+    api.post('/tipos-chamado', formTipoChamado).then(
         (res) => {
           toast.success('Criado com sucesso!');
           console.log(res);

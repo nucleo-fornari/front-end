@@ -4,13 +4,12 @@ import Checkbox from '@mui/material/Checkbox';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {toast} from 'react-toastify';
-import AvisosService from "../../../services/AvisosService";
-import SalaService from "../../../services/SalaService";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import Utils from "../../../utils/Utils";
 import {useMemo} from "react";
 import dayjs from "dayjs";
 import HeaderBar from '../../header-bar/headerBar';
+import useApi from "../../../hooks/ApiHook";
 
 function EscreverAvisos() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,9 +28,10 @@ function EscreverAvisos() {
     const [content, setContent] = useState('');
     const [title, setTitle] = useState('');
     const [date, setDate] = useState();
+    const api = useApi();
 
     useEffect(() => {
-        SalaService.getSalas()
+        api.get('/salas')
             .then((res) => {
                 setTodasAsSalas(res.data);
             })
@@ -61,7 +61,7 @@ function EscreverAvisos() {
     }, []);
 
     function findUserPublications() {
-        AvisosService.getPublicacaoById(sessionStorage.ID)
+        api.get('/eventos/publicacoes/usuario/' + sessionStorage.ID)
             .then((res) => {
                 setData(res.data);
             })
@@ -155,12 +155,13 @@ function EscreverAvisos() {
     }
 
     const createPublication = () => {
-        AvisosService.createPublicacao({
+        api.post('/eventos',{
             titulo: title,
             descricao: content,
             data: date.format('YYYY-MM-DDTHH:mm:ss'),
             salas: salasSelecionadas,
-            usuarioId: parseInt(sessionStorage.ID)
+            usuarioId: parseInt(sessionStorage.ID),
+            tipo: "PUBLICACAO"
         }).then((res) => {
             if (res.status === 201) {
                 toast.success('Criado com sucesso!');
@@ -175,7 +176,7 @@ function EscreverAvisos() {
     }
 
     const updatePublication = () => {
-        AvisosService.updatePublicacao(currentId, {
+        api.put('/eventos/' + currentId, {
             titulo: title,
             descricao: content,
             data: date.format('YYYY-MM-DDTHH:mm:ss'),
@@ -332,7 +333,7 @@ function EscreverAvisos() {
             <Avisos
                 setData={setData}
                 editHandler={handleEdit}
-                data={Utils.mapEventoToAviso(data)}></Avisos>
+                data={Utils.mapEventoToAviso(data, api)}></Avisos>
         </div>
     );
 }

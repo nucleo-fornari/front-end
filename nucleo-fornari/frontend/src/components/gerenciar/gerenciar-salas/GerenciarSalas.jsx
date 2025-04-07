@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit'; 
 import DeleteIcon from '@mui/icons-material/Delete';
-import api from '../../../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import HeaderBar from '../../header-bar/headerBar';
+import useApi from "../../../hooks/ApiHook";
 
 const GerenciarSalas = () => {
 
@@ -15,6 +15,7 @@ const GerenciarSalas = () => {
     const [data, setData] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [salaClicked, setSalaClicked] = useState("");
+    const api = useApi();
 
     const handleOpenModal = (sala) => {
         setSalaClicked(sala)

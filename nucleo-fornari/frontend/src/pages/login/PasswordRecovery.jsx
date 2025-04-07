@@ -2,8 +2,8 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../components/loading/Loading';
-import UsuarioService from "../../services/UsuarioService";
 import {toast} from "react-toastify";
+import useApi from "../../hooks/ApiHook";
 
 function PasswordRecovery() {
   const [loading, setLoading] = useState(true);
@@ -16,10 +16,13 @@ function PasswordRecovery() {
 
     return () => clearTimeout(timer);
   }, []);
+  const Api = useApi();
 
   const handleSubmit = () => {
     if (email) {
-      UsuarioService.esqueciSenha(email).then(res => {
+      const data = new FormData();
+      data.append('email', email);
+      Api.patch("usuarios/esqueci-senha", data).then(res => {
         if (res.status === 204) {
           navigate('/login/recuperacao-senha/autenticacao', {
             state: {email: email}

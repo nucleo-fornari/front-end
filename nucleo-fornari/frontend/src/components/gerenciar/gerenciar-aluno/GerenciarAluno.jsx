@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import AlunoService from "../../../services/AlunosService";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -23,6 +22,7 @@ import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 import HeaderBar from '../../header-bar/headerBar';
 import ModalEditAluno from '../../modals/editar-personas/ModalEditAluno';
 import ModalEdit from '../../modals/editar-personas/ModalEdit';
+import useApi from "../../../hooks/ApiHook";
 
 const GerenciarAluno = () => {
   const [alunos, setAlunos] = useState([]);
@@ -33,6 +33,7 @@ const GerenciarAluno = () => {
   const [aluno, setAluno] = useState({});
   const [selectedResponsavel, setSelectedResponsavel] = useState({});
   const [openEditModal, setOpenEditModal] = useState(false);
+  const api = useApi();
 
   const handleEditResponsavel = (responsavel) => {
     setSelectedResponsavel(responsavel);
@@ -75,13 +76,13 @@ const GerenciarAluno = () => {
   }
 
   const loadAlunos = () => {
-    AlunoService.getAlunos().then((res) => {
+    api.get('/alunos').then((res) => {
       setAlunos(res.data);
     }).catch((error) => console.log(error));
   }
 
   const handleDelete = () => {
-    AlunoService.deleteAluno(id).then((res) => {
+    api.delete('/alunos/' + id).then((res) => {
       if (res.status === 204) {
         toast.success('Deletado com sucesso!');
         const aux = alunos.filter((aluno) => aluno.id !== id);

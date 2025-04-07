@@ -24,10 +24,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import api from "../../../../services/api";
+import useApi from "../../../../hooks/ApiHook";
 
 function FormularioAluno({ setStep }) {
   const navigate = useNavigate();
+  const api = useApi();
 
   const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});

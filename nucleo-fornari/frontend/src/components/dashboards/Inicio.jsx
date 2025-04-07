@@ -4,12 +4,13 @@ import AlignItemsList from "../lista-alunos/ListaAlunos";
 import { useState } from "react";
 import ModalChamado from "../modals/chamado/ModalChamado";
 import ModalRecadoGeral from "../modals/recado-geral/ModalRecadoGeral";
-import api from "../../services/api.js";
 import HeaderBar from "../header-bar/headerBar.jsx";
+import useApi from "../../hooks/ApiHook";
 
 export function Inicio() {
   const [openChamado, setOpenChamado] = useState(false);
   const [openRecadoGeral, setOpenRecadoGeral] = useState(false);
+  const api = useApi();
 
   const handleCloseRecado = () => {
     setOpenRecadoGeral(false);

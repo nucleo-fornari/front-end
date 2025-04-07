@@ -4,16 +4,17 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import api from "../../services/api";
 import Utils from "../../utils/Utils";
 import HeaderBar from "../header-bar/headerBar";
 import { toast } from "react-toastify";
+import useApi from "../../hooks/ApiHook";
 
 function Agenda() {
   const [afilhados, setAfilhados] = useState([]);
   const [aluno, setAluno] = useState(""); 
   const tipos = ["Secretaria", "Professora"];
-  const [tipo, setTipo] = useState(tipos[0]);
+  const [tipo, setTipo] = useState(tipos[0]); // Estado para o tipo selecionado
+  const api = useApi();
 
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function Agenda() {
         const fetchedAfilhados = data.afiliados || [];
         setAfilhados(fetchedAfilhados);
 
+        // Define o primeiro afilhado como selecionado (se existir)
         if (fetchedAfilhados.length > 0) {
           setAluno(fetchedAfilhados[0].nome);
         }
@@ -48,14 +50,14 @@ useEffect(() => {
         let eventos = [];
         if (tipo === "Secretaria") {
           const res = await api.get(`eventos/sala/${afilhadoSelecionado.sala.id}`);
-          eventos = Utils.mapEventoToAviso(res.data.filter((evento) => evento.tipo === "PUBLICACAO"));
+          eventos = Utils.mapEventoToAviso(res.data.filter((evento) => evento.tipo === "PUBLICACAO"), api);
         } else if (tipo === "Professora") {
           const [eventosRes, recadosRes] = await Promise.all([
             api.get(`eventos/sala/${afilhadoSelecionado.sala.id}`),
             api.get(`recados/aluno/${afilhadoSelecionado.id}`)
           ]);
           const avisosGerais = eventosRes.data.filter((evento) => evento.tipo === "AVISO_GERAL");
-          eventos = [...Utils.mapEventoToAviso(avisosGerais), ...Utils.mapRecadoToAviso(recadosRes.data)];
+          eventos = [...Utils.mapEventoToAviso(avisosGerais, api), ...Utils.mapRecadoToAviso(recadosRes.data, api)];
         }
         setData(eventos);
       }

@@ -19,7 +19,7 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import api from "../../../../services/api";
+import useApi from "../../../../hooks/ApiHook";
 
 function FormularioFuncionario({ setStep }) {
   const navigate = useNavigate();
@@ -41,6 +41,7 @@ function FormularioFuncionario({ setStep }) {
   });
   const [errors, setErrors] = useState({});
   const [hideInput, setInput] = useState(true);
+  const api = useApi();
 
   const validateStep = (step) => {
     const currentErrors = {};

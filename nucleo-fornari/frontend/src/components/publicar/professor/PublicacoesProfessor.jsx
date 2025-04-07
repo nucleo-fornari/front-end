@@ -5,21 +5,23 @@ import { toast } from "react-toastify";
 import Avisos from "../Avisos";
 import Utils from "../../../utils/Utils";
 import HeaderBar from "../../header-bar/headerBar";
+import useApi from "../../../hooks/ApiHook";
 
 const PublicacoesProfessor = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     const [data, setData] = useState([]);
     const [avisosGerais, setAvisosGerais] = useState([]);
     const [recados, setRecados] = useState([]);
+    const Api = useApi();
 
     useEffect(() => {
         Promise.all([
-            AvisosService.getPublicacaoById(sessionStorage.ID),
-            AvisosService.getRecadosByResponsavelId(sessionStorage.ID)
+            Api.get('/eventos/publicacoes/usuario/' + sessionStorage.ID),
+            Api.get('/recados/responsavel/' + sessionStorage.ID)
         ])
         .then(([avisosRes, recadosRes]) => {
-            const avisosMapeados = Utils.mapEventoToAviso(avisosRes.data);
-            const recadosMapeados = Utils.mapRecadoToAviso(recadosRes.data);
+            const avisosMapeados = Utils.mapEventoToAviso(avisosRes.data, Api);
+            const recadosMapeados = Utils.mapRecadoToAviso(recadosRes.data, Api);
 
             setAvisosGerais(avisosMapeados);
             setRecados(recadosMapeados);

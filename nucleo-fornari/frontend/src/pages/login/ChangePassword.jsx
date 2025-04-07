@@ -2,8 +2,8 @@ import { Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import LoadingScreen from '../../components/loading/Loading';
-import UsuarioService from "../../services/UsuarioService";
 import {toast} from "react-toastify";
+import useApi from "../../hooks/ApiHook";
 
 function ChangePassword() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function ChangePassword() {
 
     return () => clearTimeout(timer);
   }, []);
+  const Api = useApi();
 
   const handleSubmit = () => {
       if(senha !== senha2) {
@@ -26,7 +27,11 @@ function ChangePassword() {
         return;
       }
 
-      UsuarioService.redefinicaoSenha(email, senha, token).then(res => {
+      const data = new FormData();
+      data.append('token', token);
+      data.append('senha', senha);
+      data.append('email', email);
+      Api.put("usuarios/redefinir-senha", data).then(res => {
         if(res.status === 204) {
           toast.success("Senha redefinida com sucesso!");
           setTimeout(() => navigate('/login'), 3000);

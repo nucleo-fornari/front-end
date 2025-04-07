@@ -2,9 +2,8 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import LoadingScreen from '../../components/loading/Loading';
-import UsuarioService from "../../services/UsuarioService";
 import {toast} from "react-toastify";
-
+import useApi from "../../hooks/ApiHook";
 function Autenticacao() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -22,9 +21,12 @@ function Autenticacao() {
   const [disabled, setDisabled] = useState(false);
   const [tempoRestante, setTempoRestante] = useState(0);
   const [codigo, setCodigo] = useState('');
+  const Api = useApi();
 
   const handleClick = () => {
-    UsuarioService.esqueciSenha(email).then(res => {
+    const data = new FormData();
+    data.append('email', email);
+    Api.patch("usuarios/esqueci-senha", data).then(res => {
       if (res.status === 204) {
         toast.success('Novo código gerado com sucesso!')
         setDisabled(true);
@@ -50,7 +52,9 @@ function Autenticacao() {
   const handleSubmit = () => {
 
     if(codigo) {
-      UsuarioService.tokenRedefinicaoSenha(codigo).then(res => {
+      const data = new FormData();
+      data.append('token', codigo);
+      Api.patch("usuarios/token-redefinicao-senha", data).then(res => {
         if(res.status === 204)
           navigate('/login/recuperacao-senha/alterar-senha', {state: {email: email, token: codigo}});
       }).catch(error => toast.error(error.response?.data?.message || error.text || "Erro inesperado"))

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, IconButton, TextField, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AvisosService from "../../../services/AvisosService";
 import {toast} from "react-toastify";
+import useApi from "../../../hooks/ApiHook";
 
 export default function ModalAluno({ open, handleClose, aluno }) {
   const [openObservacao, setOpenObservacao] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const Api = useApi();
 
   const handleOpenObservacao = () => {
     setOpenObservacao(true);
@@ -32,13 +33,12 @@ export default function ModalAluno({ open, handleClose, aluno }) {
           return;
       }
 
-    AvisosService.createRecado(
+      Api.put('/recados/create/aluno/' + aluno.id,
     {
                 titulo: title,
                 conteudo: description,
                 usuarioId: sessionStorage.ID
-            },
-        aluno.id
+            }
     ).then((res) => {
         if (res.status === 201) {
             toast.success('Observação criada com sucesso!');

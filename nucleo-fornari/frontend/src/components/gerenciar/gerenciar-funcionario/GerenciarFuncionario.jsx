@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FuncionarioService from "../../../services/FuncionariosService";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import ModalConfirm from '../../modals/confirmar-acao/ModalConfirm';
 import HeaderBar from '../../header-bar/headerBar';
 import ModalEdit from '../../modals/editar-personas/ModalEdit';
+import useApi from "../../../hooks/ApiHook";
 
 const GerenciarFuncionario = () => {
 
@@ -19,6 +19,7 @@ const GerenciarFuncionario = () => {
     const [id, setId] = useState(null);
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState({})
+    const api = useApi();
 
     const handleEdit = (user) => {
         setUser(user)
@@ -48,13 +49,13 @@ const GerenciarFuncionario = () => {
     }
 
     const loadFuncionarios = () => {
-        FuncionarioService.getFuncionarios().then((res) => {
+        api.get('/usuarios').then((res) => {
             setFuncionarios(res.data.filter(func => func.funcao !== 'RESPONSAVEL'));
         }).catch((error) => console.log(error));
     }
 
     const handleDelete = () => {
-        FuncionarioService.deleteFuncionario(id).then((res) => {
+        api.delete('/usuarios/' + id).then((res) => {
             if (res.status === 204) {
                 toast.success('Deletado com sucesso!');
                 const aux = funcionarios.filter((funcionario) => funcionario.id !== id);
