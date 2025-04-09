@@ -32,6 +32,7 @@ import SecretaryPage from '../pages/secretaria/SecretariaPage.jsx';
 import Avaliacoes from "../pages/avaliacoes/Avaliacoes";
 import PedidosReuniaoPorSala from '../components/dashboards/PedidosReuniaoPorSala.jsx';
 import CadastroResponsavel from '../components/gerenciar/adicionar-responsavel/AdicionarResponsavel.jsx';
+import CadastroFuncionarios from '../pages/secretaria/gerenciar-funcionario/cadastrar-funcionario/CadastroFuncionario.jsx';
 
 const avisosData = [
   {
@@ -172,6 +173,10 @@ export const router = createBrowserRouter([
       {
         path: '/secretaria',
         element: <ChamadosSecretaria />,
+      },
+      {
+        path: '/secretaria/funcionario/cadastro',
+        element: <CadastroFuncionarios />,
       },
       {
         path: '/secretaria/publicacao',
