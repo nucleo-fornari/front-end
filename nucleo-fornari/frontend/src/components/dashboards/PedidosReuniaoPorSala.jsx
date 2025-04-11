@@ -111,6 +111,12 @@ function PedidosReuniaoPorSala(props) {
                 </Table>
             </TableContainer>
 
+            {agendamentos.length === 0 && (
+                      <div className="w-full flex justify-center p-5">
+                        <p>Nenhuma reunião solicitada.</p>
+                      </div>
+                    )}
+
             <Modal open={open} onClose={handleClose}>
                 <Box sx={{ width: 400, padding: 3, backgroundColor: "white", margin: "auto", marginTop: "10%", borderRadius: 2, boxShadow: 5 }}>
                     <Typography variant="h6" gutterBottom sx={{ textAlign: "center", fontWeight: "bold" }}>

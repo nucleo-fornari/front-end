@@ -27,12 +27,20 @@ const Formulario = () => {
       });
 
       if (response.status === 200) {
-        sessionStorage.TOKEN = response.data.token;
-        sessionStorage.FUNC = response.data.funcao;
-        sessionStorage.ID = response.data.userId;
-        sessionStorage.NOME = response.data.nome;
-        sessionStorage.ID_SALA = response.data.salaId;
-        redirectByRole(response.data.funcao);
+        if (response.data.funcao === 'PROFESSOR' && response.data.salaId === null) {
+          setErrors({
+            email: ' ',
+            senha:'Não atrelado a nenhuma sala, entre em contato com a secretaria.',
+          })
+        } else {
+          sessionStorage.TOKEN = response.data.token;
+          sessionStorage.FUNC = response.data.funcao;
+          sessionStorage.ID = response.data.userId;
+          sessionStorage.NOME = response.data.nome;
+          sessionStorage.ID_SALA = response.data.salaId;
+          redirectByRole(response.data.funcao);
+        }
+        
       }
     } catch (error) {
       if (
