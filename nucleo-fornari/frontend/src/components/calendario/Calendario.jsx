@@ -92,6 +92,11 @@ const Calendario = ({
     setYear(today.getFullYear());
     scrollToDay(today.getMonth(), today.getDate());
   };
+
+  useEffect(() => {
+    handleTodayClick();
+  });
+
   const handleDayClick = (day, month, year) => {
     const date = new Date(year, month, day).setHours(0, 0, 0, 0);
     setDate(new Date(year, month, day));
