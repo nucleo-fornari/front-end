@@ -1,0 +1,24 @@
+.box-inputs-container {
+    width: 800px;
+    background-color: #edebeb;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.box-inputs-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 0 20px;
+}
+
+.box-inputs-content {
+    background-color: white;
+    padding: 25px 20px;
+    border-radius: 10px;
+    display: flex;
+    gap: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

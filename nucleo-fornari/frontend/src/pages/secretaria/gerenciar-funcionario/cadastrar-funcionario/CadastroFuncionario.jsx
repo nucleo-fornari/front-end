@@ -11,14 +11,34 @@ const CadastroFuncionario = () => {
 
             <div className="flex flex-column justify-center mt-20">
                 <BoxInputs title="Dados do Funcionario">
-                    <TextField
-                        margin="normal"
+                    <TextField                    
+                        slotProps={{ 
+                            inputLabel: { shrink: true }
+                        }}
                         id="outlined-basic"
                         label="Nome completo"
                         name="nomeCompleto"
                         variant="outlined"
                         type="text"
-                        fullWidth={true}
+                        sx={{
+                            width: "50%",
+                            backgroundColor: "white"
+                        }}
+                    />
+
+                    <TextField
+                        slotProps={{ 
+                            inputLabel: { shrink: true }
+                        }}
+                        id="outlined-basic"
+                        label="Data de Nascimento"
+                        name="dtNascimento"
+                        type="date"
+                        sx={{
+                            width: "50%",
+                            backgroundColor: "white"
+                        }}
+                        variant="outlined"
                     />
 
                 </BoxInputs>
