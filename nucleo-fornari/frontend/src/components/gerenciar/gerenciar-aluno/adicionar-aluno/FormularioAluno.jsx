@@ -33,26 +33,26 @@ function FormularioAluno({ setStep }) {
   const [partCadastro, setPartCadastro] = useState(0);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    nomeCompleto: "Felipe Villa do Conde",
-    ra: "0123123",
-    dtNascimento: "2020-08-06",
-    restricaoAlimentar: true,
-    tipoRestricao: ["1", "2"],
-    laudoPsicologo: true,
-    Observacao: "Aspectro autista",
-    nomeResponsavel: "Juliana Villa do Conde",
-    cpf: "91048265072",
-    email: "julianna@gmail.com",
-    dtNascimentoResponsavel: "2000-12-12",
-    telefone: "(11) 94988-8888",
-    parentesco: "GENITOR",
-    cep: "04724-003",
-    cidade: "São Paulo",
-    uf: "SP",
-    bairro: "Santo Amaro",
-    logradouro: "Avenida João Dias",
-    numero: "447",
-    complemento: "casa",
+    nomeCompleto: "",
+    ra: "",
+    dtNascimento: "",
+    Observacao: "",
+    restricaoAlimentar: false,
+    tipoRestricao: [],
+    laudoPsicologo: false,
+    nomeResponsavel: "",
+    cpf: "",
+    email: "",
+    dtNascimentoResponsavel: "",
+    telefone: "",
+    parentesco: "",
+    cep: "",
+    cidade: "",
+    uf: "",
+    bairro: "",
+    logradouro: "",
+    numero: "",
+    complemento: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [restricaoData, setRestricaoData] = useState([])
@@ -60,11 +60,13 @@ function FormularioAluno({ setStep }) {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
   const loadRestricoes = () => {
     api.get("/restricoes").then((res) => {
       setRestricaoData(res.data)
     }).catch((error) => console.log(error));
   }
+  
   useEffect(() => {
     loadRestricoes();
   }, []);

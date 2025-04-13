@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import AvisosService from "../../../services/AvisosService";
-import { toast } from "react-toastify";
 import Avisos from "../Avisos";
 import Utils from "../../../utils/Utils";
 import HeaderBar from "../../header-bar/headerBar";
