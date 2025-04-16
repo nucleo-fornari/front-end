@@ -27,6 +27,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import useApi from "../../hooks/ApiHook";
+import ChamadosService from "../../services/ChamadosService";
+
 
 const ChamadosSecretaria = () => {
   const [data, setData] = useState([]);
