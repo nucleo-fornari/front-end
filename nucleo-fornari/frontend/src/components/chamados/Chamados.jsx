@@ -251,19 +251,30 @@ const ChamadosSecretaria = () => {
   }
 
   const createChamadoTipo = () => {
-    api.post('/tipos-chamado', formTipoChamado).then(
+    // verificações
+    if (!formTipoChamado.tipo || formTipoChamado.tipo.trim() === "") {
+        toast.error('O campo "Tipo" não pode estar vazio!');
+        return;
+    }
+    if (formTipoChamado.prioridade === null) {
+        toast.error('A prioridade deve ser selecionada!');
+        return; 
+    }
+
+    ChamadosService.postChamadoTipo(formTipoChamado).then(
         (res) => {
-          toast.success('Criado com sucesso!');
-          console.log(res);
-          setTiposChamados([
-              ...tiposChamados,
-              res.data
-          ]);
+            toast.success('Criado com sucesso!');
+            console.log(res);
+            setTiposChamados([
+                ...tiposChamados,
+                res.data
+            ]);
         }
     ).catch((error) => {
-      console.log(error)
-    })
-  }
+        console.log(error);
+        toast.error('Ocorreu um erro ao criar o tipo de chamado.');
+    });
+}
 
   return (
     <div>
