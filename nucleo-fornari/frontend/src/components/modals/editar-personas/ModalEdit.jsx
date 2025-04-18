@@ -79,6 +79,7 @@ const ModalEdit = ({ open, handleClose, usuario }) => {
     api.put("/usuarios/" + usuario.id, formData).then((response) => {
       toast.success("Dados do usuário atualizados!")
       handleClose();
+      window.location.reload();
     }).catch((error) => {
       toast.error(error.response?.data?.message || error.text || "Erro ao atualizar os dados do usuário");
     });
