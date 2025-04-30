@@ -96,6 +96,7 @@ export function Inicio() {
           size="large"
           fullWidth={true}
           onClick={handleRelatorio}
+          title="Nomes dos Responsáveis autorizados a retirar cada aluno"
         >
           Pessoas Autorizadas
         </Button>
