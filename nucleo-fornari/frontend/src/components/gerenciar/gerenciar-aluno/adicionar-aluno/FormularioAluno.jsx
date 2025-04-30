@@ -214,9 +214,9 @@ function FormularioAluno({ setStep }) {
     setStep(partCadastro - 1)
   };
 
-  const [showTable, setShowTable] = useState(true);
+  const [showTable, setShowTable] = useState(false);
   const [hideInput, setInput] = useState(false);
-  const [showUpload, setUpload] = useState(true);
+  const [showUpload, setUpload] = useState(false);
 
   const handleCheckChange = (event) => {
     setInput(event.target.checked);
