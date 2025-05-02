@@ -3,7 +3,7 @@ import { Modal, Box, TextField, Button, Typography, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/ApiHook";
 
-const ModalEdit = ({ open, handleClose, usuario }) => {
+const ModalEdit = ({ open, handleClose, usuario, atualizar }) => {
   const defaultFormData = {
     nome: "",
     cpf: "",
@@ -77,7 +77,6 @@ const ModalEdit = ({ open, handleClose, usuario }) => {
 
   const handleSave = () => {
     api.put("/usuarios/" + usuario.id, formData).then((response) => {
-      toast.success("Dados do usuário atualizados!")
       handleClose();
       window.location.reload();
     }).catch((error) => {

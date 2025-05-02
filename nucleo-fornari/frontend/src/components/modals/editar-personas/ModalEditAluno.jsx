@@ -68,8 +68,8 @@ const ModalEditAluno = ({ open, handleClose, aluno, handleEditResponsavel }) => 
 
   const handleSave = () => {
     api.put("/alunos", formData).then((response) => {
-      toast.success("Dados do aluno atualizados!")
-      handleClose();
+      handleClose();      
+      window.location.reload();
     }).catch((error) => {
       toast.error(error.response?.data?.message || error.text || "Erro ao atualizar os dados do aluno");
     });

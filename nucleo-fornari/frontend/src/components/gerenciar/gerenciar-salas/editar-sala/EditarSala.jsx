@@ -3,7 +3,7 @@ import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalAtrelar from '../../../modals/atrelar/ModalAtrelar';
 import ModalConfirm from '../../../modals/confirmar-acao/ModalConfirm';
 import { toast } from "react-toastify";
@@ -28,6 +28,18 @@ const EditarSala = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
     const api = useApi();
+
+    const getSalaData = (data) => {
+        api.get(`/salas/${data.id}`).then((res) => {
+            setDataState(res.data);
+        }).catch((error) => {
+            console.error('Erro ao buscar salas:', error);
+        });
+    };
+
+    useEffect(() => {
+        getSalaData(data);
+    }, []);
 
     const handleEditResponsavel = (user) => {
         handleCloseModalEditAluno();
