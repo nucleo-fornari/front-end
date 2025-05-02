@@ -27,7 +27,6 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import useApi from "../../hooks/ApiHook";
-import ChamadosService from "../../services/ChamadosService";
 
 
 const ChamadosSecretaria = () => {
@@ -263,7 +262,7 @@ const ChamadosSecretaria = () => {
         return; 
     }
 
-    ChamadosService.postChamadoTipo(formTipoChamado).then(
+    api.post('/tipos-chamado', formTipoChamado).then(
         (res) => {
             toast.success('Criado com sucesso!');
             console.log(res);
