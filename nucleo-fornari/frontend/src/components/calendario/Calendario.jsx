@@ -95,7 +95,7 @@ const Calendario = ({
 
   useEffect(() => {
     handleTodayClick();
-  });
+  }, []);
 
   const handleDayClick = (day, month, year) => {
     const date = new Date(year, month, day).setHours(0, 0, 0, 0);
