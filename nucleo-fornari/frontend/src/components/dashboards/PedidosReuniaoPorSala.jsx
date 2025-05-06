@@ -78,6 +78,7 @@ function PedidosReuniaoPorSala(props) {
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#1a73e8" }}>
                             <TableCell sx={{ color: "white", fontWeight: "bold" }}>Motivo</TableCell>
+                            <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Responsavel</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Data</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Aceito</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Descrição</TableCell>
@@ -88,6 +89,7 @@ function PedidosReuniaoPorSala(props) {
                         {agendamentos.map((agendamento) => (
                             <TableRow key={agendamento.id} hover sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}>
                                 <TableCell>{agendamento.motivo}</TableCell>
+                                <TableCell align="center">{agendamento.responsavelNome}</TableCell>
                                 <TableCell align="center">{dayjs(agendamento.data).format('DD/MM/YYYY HH:mm')}</TableCell>
                                 <TableCell align="center">{agendamento.aceito ? "Sim" : "Não"}</TableCell>
                                 <TableCell align="center">{agendamento.descricao}</TableCell>
