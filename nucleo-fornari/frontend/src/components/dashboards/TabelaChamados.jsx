@@ -46,7 +46,7 @@ export default function StickyHeadTable() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
+                {!Array.isArray(columns) ? null : columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}

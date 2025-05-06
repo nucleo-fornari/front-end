@@ -201,7 +201,7 @@ const Calendario = ({
                   {day}
                 </p>
                 <div className="w-full flex flex-col gap-1 relative">
-                  {eventsForDay.map((event) => (
+                  {!Array.isArray(eventsForDay) ? null : eventsForDay.map((event) => (
                     <Event key={event.id} event={event} titulo={event.titulo} />
                   ))}
                 </div>

@@ -331,7 +331,7 @@ const ChamadosSecretaria = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tiposChamados?.map((row) => (
+                {!Array.isArray(tiposChamados) ? null : tiposChamados?.map((row) => (
                     <TableRow>
                       <TableCell>{row.tipo}</TableCell>
                       <TableCell>{row.prioridade}</TableCell>

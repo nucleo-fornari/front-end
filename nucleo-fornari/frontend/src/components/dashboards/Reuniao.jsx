@@ -41,7 +41,7 @@ function Reuniao(props) {
     const alunoId = event.target.value;
     setSelectedAlunoId(alunoId);
 
-    const alunoSelecionado = filhosComSala.find(filho => filho.id === alunoId);
+    const alunoSelecionado = (filhosComSala ? filhosComSala : []).find(filho => filho.id === alunoId);
     if (alunoSelecionado) {
       setAgendamento((prev) => ({
         ...prev,
@@ -56,7 +56,7 @@ function Reuniao(props) {
   };
 
   const handleSubmit = async () => {
-    const selectedAluno = filhosComSala.find(filho => filho.id === selectedAlunoId);
+    const selectedAluno = (filhosComSala ? filhosComSala : []).find(filho => filho.id === selectedAlunoId);
     if (selectedAluno) {
       const agendamentoData = {
         responsavelId: sessionStorage.ID,
@@ -117,7 +117,7 @@ function Reuniao(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {!Array.isArray(rows) ? null : rows.map((row) => (
                 <TableRow hover key={row.id}>
                   <TableCell>{row.motivo}</TableCell>
                   <TableCell align="center">
@@ -177,7 +177,7 @@ function Reuniao(props) {
                       <MenuItem value="">
                         <em>Selecione</em>
                       </MenuItem>
-                      {filhosComSala.map(filho => (
+                      {!Array.isArray(filhosComSala) ? null : filhosComSala.map(filho => (
                         <MenuItem key={filho.id} value={filho.id}>
                           {filho.nome}
                         </MenuItem>
