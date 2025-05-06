@@ -86,7 +86,7 @@ function PedidosReuniaoPorSala(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {agendamentos.map((agendamento) => (
+                        {!Array.isArray(agendamentos) ? null : agendamentos.map((agendamento) => (
                             <TableRow key={agendamento.id} hover sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}>
                                 <TableCell>{agendamento.motivo}</TableCell>
                                 <TableCell align="center">{agendamento.responsavelNome}</TableCell>

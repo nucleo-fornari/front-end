@@ -220,7 +220,7 @@ function CustomizedSteppers({ step }) {
                     activeStep={step}
                     connector={<ColorlibConnector />}
                 >
-                    {steps.map((label) => (
+                    {!Array.isArray(steps) ? null : steps.map((label) => (
                         <Step key={label}>
                             <StepLabel StepIconComponent={ColorlibStepIcon}>
                                 {label}

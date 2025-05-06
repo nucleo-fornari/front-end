@@ -117,7 +117,7 @@ useEffect(() => {
               label="Tipo"
               onChange={handleChangeSelectTipo}
             >
-              {tipos.map((nomeTipo) => (
+              {!Array.isArray(tipos) ? null : tipos.map((nomeTipo) => (
                 <MenuItem key={nomeTipo} value={nomeTipo}>
                   {nomeTipo}
                 </MenuItem>
