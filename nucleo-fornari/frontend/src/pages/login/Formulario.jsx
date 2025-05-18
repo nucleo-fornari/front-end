@@ -45,8 +45,7 @@ const Formulario = () => {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === 400 &&
-        error.response.data.errors
+        error.response.status === 403
       ) {
         setErrors({
           email: ' ',
