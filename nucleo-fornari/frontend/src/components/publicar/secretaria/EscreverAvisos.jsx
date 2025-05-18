@@ -187,7 +187,7 @@ function EscreverAvisos() {
 
                                 {/* Renderizar todas as salas */}
 
-                                {todasAsSalas.map((sala) => (
+                                {!Array.isArray(todasAsSalas) ? null : todasAsSalas.map((sala) => (
 
                                     <div key={sala.id}>
 
