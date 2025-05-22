@@ -174,11 +174,8 @@ function Reuniao(props) {
                       value={selectedAlunoId}
                       onChange={handleSelectAluno}
                     >
-                      <MenuItem value="">
-                        <em>Selecione</em>
-                      </MenuItem>
                       {!Array.isArray(filhosComSala) ? null : filhosComSala.map(filho => (
-                        <MenuItem key={filho.id} value={filho.id}>
+                        <MenuItem key={filho.idSala} value={filho.idSala}>
                           {filho.nome}
                         </MenuItem>
                       ))}
