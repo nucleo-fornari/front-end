@@ -95,13 +95,18 @@ const GerenciarAluno = () => {
   }
 
   const handleDownload = (fileName) => {
-    const fileUrl = process.env.REACT_APP_API_URL + "/files/download/" + fileName;
 
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    api.get('/files/download/' + fileName, { responseType: 'blob' }).then(response => {
+      const blob = response.data;
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+    }).catch(error => console.error('Erro ao baixar arquivo:', error));
   };
 
 
