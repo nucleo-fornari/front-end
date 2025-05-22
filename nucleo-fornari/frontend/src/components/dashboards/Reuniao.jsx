@@ -106,32 +106,7 @@ function Reuniao(props) {
       <HeaderBar title={"Reunião"} />
       <div className="flex flex-col p-12">
 
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="customized table">
-            <TableHead>
-              <TableRow className="bg-blue-main">
-                <TableCell sx={{ color: "white", fontSize: 20 }}>Motivo</TableCell>
-                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Data</TableCell>
-                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Aceito</TableCell>
-                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Descrição</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!Array.isArray(rows) ? null : rows.map((row) => (
-                <TableRow hover key={row.id}>
-                  <TableCell>{row.motivo}</TableCell>
-                  <TableCell align="center">
-                    {dayjs(row.data).utc().local().format('DD-MM-YYYY HH:mm:ss')}
-                  </TableCell>
-                  <TableCell align="center">{row.aceito ? "Sim" : "Não"}</TableCell>
-                  <TableCell align="center">{row.descricao}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <div className="w-full flex justify-center p-5">
+        <div className="w-full flex justify-end p-5">
           <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
           <Modal
             open={open}
@@ -153,9 +128,6 @@ function Reuniao(props) {
                       onChange={handleChange}
                       name="motivo"
                     >
-                      <MenuItem value="">
-                        <em>Selecione</em>
-                      </MenuItem>
                       <MenuItem value="administrativo">Administrativo</MenuItem>
                       <MenuItem value="documentacao">Documentação</MenuItem>
                       <MenuItem value="denuncia">Denúncia</MenuItem>
@@ -227,6 +199,42 @@ function Reuniao(props) {
             </Box>
           </Modal>
         </div>
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="customized table">
+            <TableHead>
+              <TableRow className="bg-blue-main">
+                <TableCell sx={{ color: "white", fontSize: 20 }}>Motivo</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Data</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Aceito</TableCell>
+                <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Descrição</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!Array.isArray(rows) ? null : rows.map((row) => (
+                <TableRow hover key={row.id}>
+                  <TableCell>{row.motivo}</TableCell>
+                  <TableCell align="center">
+                    {dayjs(row.data).utc().local().format('DD-MM-YYYY HH:mm:ss')}
+                  </TableCell>
+                  <TableCell align="center">{row.aceito ? "Sim" : "Não"}</TableCell>
+                  <TableCell align="center">{row.descricao}</TableCell>
+                </TableRow>
+              ))}
+
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        {rows && (
+          <>
+            <div className='w-full flex justify-center mt-5 text-2xl'>
+              Nenhuma reunião agendada
+            </div>
+          </>
+        )}
+
+
       </div>
     </>
   );
