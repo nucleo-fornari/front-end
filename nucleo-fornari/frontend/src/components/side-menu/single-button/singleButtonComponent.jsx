@@ -49,8 +49,6 @@ const SingleButtonComponent = ({btnIcon, btnText, activeRoute, isCollapsed, isMo
                 )}            
             </div>
         </div>
-        
-    
     )
 }
 

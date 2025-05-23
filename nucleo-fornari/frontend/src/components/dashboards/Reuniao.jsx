@@ -8,6 +8,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import utc from 'dayjs-plugin-utc';
 import HeaderBar from '../header-bar/headerBar';
 import useApi from "../../hooks/ApiHook";
+import ModalSolicitarReuniaoComponent from '../modal-solicitar-reuniao/ModalSolicitarReuniao';
 
 function Reuniao(props) {
   dayjs.extend(utc);
@@ -104,10 +105,15 @@ function Reuniao(props) {
   return (
     <>
       <HeaderBar title={"Reunião"} />
-      <div className="flex flex-col p-12">
+      <div className="flex flex-col pr-12 pl-12 pb-12">
 
         <div className="w-full flex justify-end p-5">
           <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
+          
+          {open && (
+            <ModalSolicitarReuniaoComponent/>
+          )}
+{/*           
           <Modal
             open={open}
             onClose={handleClose}
@@ -116,7 +122,7 @@ function Reuniao(props) {
           >
             <Box sx={{ ...style, width: 700 }}>
               <div className="flex flex-col w-full justify-center items-center bg-white-ice p-5 rounded-3xl shadow-2xl">
-                {/* Campo: Motivo da Solicitação */}
+                
                 <div className="flex flex-col justify-center items-center">
                   <label className="text-3xl mt-5">Motivo da Solicitação</label>
                   <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -135,7 +141,7 @@ function Reuniao(props) {
                   </FormControl>
                 </div>
 
-                {/* Campo: Seleção de Filho */}
+                
                 <div className="flex flex-col justify-center items-center">
                   <label className="text-3xl mt-5">Selecione o Filho</label>
                   <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -155,7 +161,7 @@ function Reuniao(props) {
                   </FormControl>
                 </div>
 
-                {/* Campo: Data e Hora */}
+                
                 <div className="flex flex-col justify-center items-center">
                   <label className="text-3xl mt-5">Data e Hora</label>
                   <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -167,7 +173,7 @@ function Reuniao(props) {
                   </LocalizationProvider>
                 </div>
 
-                {/* Campo: Descrição */}
+                
                 <div className="flex flex-col justify-center items-center">
                   <Box
                     component="form"
@@ -189,7 +195,7 @@ function Reuniao(props) {
                   </Box>
                 </div>
 
-                {/* Botão para enviar */}
+                
                 <div className="mt-5">
                   <Button variant="contained" onClick={handleSubmit}>
                     Enviar
@@ -198,6 +204,7 @@ function Reuniao(props) {
               </div>
             </Box>
           </Modal>
+           */}
         </div>
 
         <TableContainer component={Paper}>
