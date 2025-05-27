@@ -78,7 +78,7 @@ function PedidosReuniaoPorSala(props) {
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#1a73e8" }}>
                             <TableCell sx={{ color: "white", fontWeight: "bold" }}>Motivo</TableCell>
-                            <TableCell sx={{ color: "white", fontSize: 20 }} align="center">Responsavel</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }} align="center">Responsavel</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Data</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Aceito</TableCell>
                             <TableCell align="center" sx={{ color: "white", fontWeight: "bold" }}>Descrição</TableCell>
