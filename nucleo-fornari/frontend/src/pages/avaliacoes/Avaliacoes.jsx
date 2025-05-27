@@ -434,7 +434,7 @@ const Avaliacoes = () => {
                                             variant="outlined"
                                             fullWidth
                                             value={dimensaoCognitiva}
-                                            onChange={handleDimensaoCognitivaChange}
+                                            onChange={(e) => handleDimensaoCognitivaChange(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={2} sx={{ display: 'flex', alignItems: 'flex-end' }}>

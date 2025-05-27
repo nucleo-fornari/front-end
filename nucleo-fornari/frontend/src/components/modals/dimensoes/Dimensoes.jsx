@@ -51,6 +51,8 @@ const Dimensoes = ({
 
     const handleConfirm = () => {
         output(selectedOption);
+        setSelectedDescription('');
+        setSelectedOption('');
         handleClose();
     };
 
