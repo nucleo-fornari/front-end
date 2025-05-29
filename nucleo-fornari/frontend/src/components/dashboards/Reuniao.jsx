@@ -110,10 +110,10 @@ function Reuniao(props) {
         <div className="w-full flex justify-end p-5">
           <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
           
-          {open && (
+          {/* {open && (
             <ModalSolicitarReuniaoComponent/>
-          )}
-{/*           
+          )} */}
+          
           <Modal
             open={open}
             onClose={handleClose}
@@ -204,7 +204,7 @@ function Reuniao(props) {
               </div>
             </Box>
           </Modal>
-           */}
+          
         </div>
 
         <TableContainer component={Paper}>
