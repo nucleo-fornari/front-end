@@ -110,11 +110,11 @@ function Reuniao(props) {
         <div className="w-full flex justify-end p-5">
           <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
           
-          {/* {open && (
-            <ModalSolicitarReuniaoComponent/>
-          )} */}
+          {open && (
+            <ModalSolicitarReuniaoComponent onClose={handleClose} filhosComSala={filhosComSala} />
+          )}
           
-          <Modal
+          {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="parent-modal-title"
@@ -203,7 +203,7 @@ function Reuniao(props) {
                 </div>
               </div>
             </Box>
-          </Modal>
+          </Modal> */}
           
         </div>
 
