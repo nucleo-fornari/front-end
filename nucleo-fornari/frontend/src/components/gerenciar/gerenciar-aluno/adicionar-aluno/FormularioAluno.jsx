@@ -81,7 +81,7 @@ function FormularioAluno({ setStep }) {
     ];
 
     stepFields[step].forEach((field) => {
-      if (!formData[field] || formData[field] === "") {
+      if (formData[field] === "") {
         currentErrors[field] = "Campo em erro";
       }
     });
