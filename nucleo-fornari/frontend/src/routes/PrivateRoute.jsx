@@ -1,18 +1,32 @@
-// import { Navigate } from "react-router-dom";
-// import { useAuth } from "../AuthProvider";
+import { Navigate } from "react-router-dom";
+import ProfessorPage from "../pages/professor/ProfessorPage";
+import SecretaryPage from "../pages/secretaria/SecretariaPage";
+import ParentsPage from "../pages/responsavel/ResponsavelPage";
 
-// const PrivateRoute = ({ children, allowedRoles }) => {
-//   const { user } = useAuth();
+const PrivateRoute = ({ allowedRoles }) => {
+  const role = sessionStorage.getItem('FUNC');
 
-//   if (!user) {
-//     return <Navigate to="/login" />;
-//   }
+  if (!role) {
+    // Não está logado
+    return <Navigate to="/login" replace />;
+  }
 
-//   if (!allowedRoles.includes(user.func)) {
-//     return <Navigate to="/unauthorized" />;
-//   }
+  if (!allowedRoles.includes(role)) {
+    // Não tem permissão
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-//   return children;
-// };
+  // Tem permissão
+  switch (role) {
+    case "PROFESSOR":
+      return <ProfessorPage />;
+    case "SECRETARIO":
+      return <SecretaryPage />;
+    case "RESPONSAVEL":
+      return <ParentsPage />;
+    default:
+      return <Navigate to="/unauthorized" replace />;
+  }
+};
 
-// export default PrivateRoute;
+export default PrivateRoute;
