@@ -1,81 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Button, Select, MenuItem, FormControl, InputLabel, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import utc from 'dayjs-plugin-utc';
 import HeaderBar from '../header-bar/headerBar';
 import useApi from "../../hooks/ApiHook";
 import ModalSolicitarReuniaoComponent from '../modal-solicitar-reuniao/ModalSolicitarReuniao';
 
-function Reuniao(props) {
+function Reuniao() {
   dayjs.extend(utc);
 
   const api = useApi();
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-  };
 
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [filhosComSala, setFilhosComSala] = useState([]);
-  const [selectedAlunoId, setSelectedAlunoId] = useState("");
-  const [agendamento, setAgendamento] = useState({
-    responsavelId: sessionStorage.ID,
-    salaId: "",
-    motivo: "",
-    aceito: false,
-    descricao: "",
-    data: "",
-  });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const handleSelectAluno = (event) => {
-    const alunoId = event.target.value;
-    setSelectedAlunoId(alunoId);
-
-    const alunoSelecionado = (filhosComSala ? filhosComSala : []).find(filho => filho.id === alunoId);
-    if (alunoSelecionado) {
-      setAgendamento((prev) => ({
-        ...prev,
-        salaId: alunoSelecionado.idSala,
-      }));
-    }
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setAgendamento((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async () => {
-    const selectedAluno = (filhosComSala ? filhosComSala : []).find(filho => filho.id === selectedAlunoId);
-    if (selectedAluno) {
-      const agendamentoData = {
-        responsavelId: sessionStorage.ID,
-        salaId: selectedAluno.idSala,
-        motivo: agendamento.motivo,
-        descricao: agendamento.descricao,
-        data: agendamento.data,
-      };
-      try {
-        const response = await api.post("agendamento/proposta", agendamentoData);
-        console.log("Proposta criada com sucesso:", response.data);
-        setRows((prevAgendamentos) => [...prevAgendamentos, response.data]);
-        handleClose();
-      } catch (error) {
-        console.error("Erro ao criar a proposta:", error.response?.data || error.message);
-      }
-    }
-  };
 
   useEffect(() => {
     const usuarioId = sessionStorage.ID;
@@ -100,111 +42,14 @@ function Reuniao(props) {
           console.error("Erro ao buscar filhos e salas:", error);
         });
     }
-  }, []);
+  }, [api]);
 
   return (
     <>
       <HeaderBar title={"Reunião"} />
       <div className="flex flex-col pr-12 pl-12 pb-12">
-
         <div className="w-full flex justify-end p-5">
           <Button variant="contained" onClick={handleOpen}>Solicitar Reunião</Button>
-          
-          {open && (
-            <ModalSolicitarReuniaoComponent onClose={handleClose} filhosComSala={filhosComSala} />
-          )}
-          
-          {/* <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-          >
-            <Box sx={{ ...style, width: 700 }}>
-              <div className="flex flex-col w-full justify-center items-center bg-white-ice p-5 rounded-3xl shadow-2xl">
-                
-                <div className="flex flex-col justify-center items-center">
-                  <label className="text-3xl mt-5">Motivo da Solicitação</label>
-                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="motivo-label">Motivo</InputLabel>
-                    <Select
-                      labelId="motivo-label"
-                      id="motivo"
-                      value={agendamento.motivo}
-                      onChange={handleChange}
-                      name="motivo"
-                    >
-                      <MenuItem value="administrativo">Administrativo</MenuItem>
-                      <MenuItem value="documentacao">Documentação</MenuItem>
-                      <MenuItem value="denuncia">Denúncia</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-
-                
-                <div className="flex flex-col justify-center items-center">
-                  <label className="text-3xl mt-5">Selecione o Filho</label>
-                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="aluno-label">Filho</InputLabel>
-                    <Select
-                      labelId="aluno-label"
-                      id="aluno"
-                      value={selectedAlunoId}
-                      onChange={handleSelectAluno}
-                    >
-                      {!Array.isArray(filhosComSala) ? null : filhosComSala.map(filho => (
-                        <MenuItem key={filho.idSala} value={filho.idSala}>
-                          {filho.nome}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-
-                
-                <div className="flex flex-col justify-center items-center">
-                  <label className="text-3xl mt-5">Data e Hora</label>
-                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-                    <DateTimePicker
-                      value={dayjs(agendamento.data)}
-                      onChange={(newValue) => setAgendamento({ ...agendamento, data: newValue.toISOString() })}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </div>
-
-                
-                <div className="flex flex-col justify-center items-center">
-                  <Box
-                    component="form"
-                    sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <div className="mt-5">
-                      <TextField
-                        id="descricao"
-                        label="Descreva"
-                        multiline
-                        rows={4}
-                        value={agendamento.descricao}
-                        onChange={handleChange}
-                        name="descricao"
-                      />
-                    </div>
-                  </Box>
-                </div>
-
-                
-                <div className="mt-5">
-                  <Button variant="contained" onClick={handleSubmit}>
-                    Enviar
-                  </Button>
-                </div>
-              </div>
-            </Box>
-          </Modal> */}
-          
         </div>
 
         <TableContainer component={Paper}>
@@ -233,16 +78,21 @@ function Reuniao(props) {
           </Table>
         </TableContainer>
 
-        {rows && (
-          <>
-            <div className='w-full flex justify-center mt-5 text-2xl'>
-              Nenhuma reunião agendada
-            </div>
-          </>
+        {Array.isArray(rows) && rows.length === 0 && (
+          <div className='w-full flex justify-center mt-5 text-2xl'>
+            Nenhuma reunião agendada
+          </div>
         )}
-
-
       </div>
+
+      {open && (
+        <ModalSolicitarReuniaoComponent
+          handleClose={handleClose}
+          filhosComSala={filhosComSala}
+          rows={rows}
+          setRows={setRows}
+        />
+      )}
     </>
   );
 }
