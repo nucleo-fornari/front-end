@@ -3,8 +3,8 @@ import { Modal, Box, TextField, Button, Typography, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/ApiHook";
 
-const ModalEdit = ({ open, handleClose, usuario, atualizar }) => {
-  const defaultFormData = {
+const ModalEdit = ({ open, handleClose, usuario }) => {
+  const defaultFormData = React.useMemo(() => ({
     nome: "",
     cpf: "",
     telefone: "",
@@ -20,7 +20,7 @@ const ModalEdit = ({ open, handleClose, usuario, atualizar }) => {
       complemento: "",
       numero: "",
     },
-  };
+  }), []);
 
   const api = useApi();
   const [formData, setFormData] = useState(defaultFormData);
@@ -29,7 +29,7 @@ const ModalEdit = ({ open, handleClose, usuario, atualizar }) => {
     if (usuario) {
       setFormData({ ...defaultFormData, ...usuario, endereco: { ...defaultFormData.endereco, ...usuario.endereco } });
     }
-  }, [usuario]);
+  }, [usuario, defaultFormData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
