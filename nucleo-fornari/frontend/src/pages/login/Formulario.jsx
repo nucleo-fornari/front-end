@@ -30,7 +30,7 @@ const Formulario = () => {
         if (response.data.funcao === 'PROFESSOR' && response.data.salaId === null) {
           setErrors({
             email: ' ',
-            senha:'Não atrelado a nenhuma sala, entre em contato com a secretaria.',
+            senha:'Não atrelado a nenhuma sala, vá a secretaria.',
           })
         } else {
           sessionStorage.TOKEN = response.data.token;
@@ -38,7 +38,9 @@ const Formulario = () => {
           sessionStorage.ID = response.data.userId;
           sessionStorage.NOME = response.data.nome;
           sessionStorage.ID_SALA = response.data.salaId;
-          redirectByRole(response.data.funcao);
+          setTimeout(() => {
+            redirectByRole(response.data.funcao);
+          }, 500);
         }
         
       }
