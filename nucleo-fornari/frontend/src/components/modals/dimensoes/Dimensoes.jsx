@@ -19,7 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import {toast} from "react-toastify";
 import useApi from "../../../hooks/ApiHook";
-import Api from "../../../services/api";
 
 const Dimensoes = ({
                        open,
@@ -40,7 +39,7 @@ const Dimensoes = ({
         Api.get(`/avaliacao/dimensao/${userId}/${tipoDimensao}`).then((res) => {
             setData(res.data ? res.data : []);
         }).catch((error) => console.log(error))
-    }, [tipoDimensao]);
+    }, [tipoDimensao, Api, userId]);
 
     const handleRadioChange = (event) => {
         const selectedValue = event.target.value;
