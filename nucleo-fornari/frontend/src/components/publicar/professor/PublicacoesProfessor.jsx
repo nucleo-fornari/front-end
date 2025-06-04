@@ -10,16 +10,16 @@ const PublicacoesProfessor = () => {
     const [data, setData] = useState([]);
     const [avisosGerais, setAvisosGerais] = useState([]);
     const [recados, setRecados] = useState([]);
-    const Api = useApi();
+    const api = useApi();
 
     useEffect(() => {
         Promise.all([
-            Api.get('/eventos/publicacoes/usuario/' + sessionStorage.ID),
-            Api.get('/recados/responsavel/' + sessionStorage.ID)
+            api.get('/eventos/publicacoes/usuario/' + sessionStorage.ID),
+            api.get('/recados/responsavel/' + sessionStorage.ID)
         ])
         .then(([avisosRes, recadosRes]) => {
-            const avisosMapeados = Utils.mapEventoToAviso(avisosRes.data, Api);
-            const recadosMapeados = Utils.mapRecadoToAviso(recadosRes.data, Api);
+            const avisosMapeados = Utils.mapEventoToAviso(avisosRes.data, api);
+            const recadosMapeados = Utils.mapRecadoToAviso(recadosRes.data, api);
 
             setAvisosGerais(avisosMapeados);
             setRecados(recadosMapeados);
@@ -36,7 +36,7 @@ const PublicacoesProfessor = () => {
             }
         })
         .catch((error) => console.error(error));
-    }, []);
+    }, [api]);
 
     useEffect(() => {
         if (selectedValue === "1") {
