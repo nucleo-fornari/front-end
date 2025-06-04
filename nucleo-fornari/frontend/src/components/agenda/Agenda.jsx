@@ -35,7 +35,7 @@ function Agenda() {
     };
 
     fetchAfilhados();
-  }, []);
+  }, [api]);
 
   const handleChangeSelectAluno = (event) => setAluno(event.target.value);
   const handleChangeSelectTipo = (event) => setTipo(event.target.value);
@@ -68,7 +68,7 @@ useEffect(() => {
   
   setData([]);
   fetchEventos();
-}, [aluno, afilhados, tipo]);
+}, [aluno, afilhados, tipo, api]);
 
 
 
