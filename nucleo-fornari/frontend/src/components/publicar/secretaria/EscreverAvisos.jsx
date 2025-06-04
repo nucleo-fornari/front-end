@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Avisos from '../Avisos';
 import Checkbox from '@mui/material/Checkbox';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -6,7 +6,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { toast } from 'react-toastify';
 import { DateTimePicker } from "@mui/x-date-pickers";
 import Utils from "../../../utils/Utils";
-import { useMemo } from "react";
 import dayjs from "dayjs";
 import HeaderBar from '../../header-bar/headerBar';
 import useApi from "../../../hooks/ApiHook";
@@ -32,13 +31,9 @@ function EscreverAvisos() {
                 console.error(error);
                 toast.error(error.response?.data?.message || error.text || 'Erro ao buscar salas!');
             });
-    }, []);
+    }, [api]);
 
-    useEffect(() => {
-        if (data.length === 0) findUserPublications();
-    }, []);
-
-    function findUserPublications() {
+    const findUserPublications = useCallback(() => {
         api.get('/eventos/publicacoes/usuario/' + sessionStorage.ID)
             .then((res) => {
                 setData(res.data);
@@ -46,7 +41,11 @@ function EscreverAvisos() {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    }, [api]);
+
+    useEffect(() => {
+        if (data.length === 0) findUserPublications();
+    }, [data, findUserPublications]);    
 
     const toggleMenu = () => {
         setIsEdition(false);
