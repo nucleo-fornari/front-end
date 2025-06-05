@@ -31,7 +31,7 @@ const Gerenciar = () => {
                 to={usuariosGerenciaveis[1].route}
                 >
                 <div class='gerencia-alunos-funcionarios'>
-                     <SupervisedUserCircleIcon style={{ fontSize: 300, color: '#3285fa' }}/>
+                     <SupervisedUserCircleIcon style={{ fontSize: 250, color: '#3285fa' }}/>
                     <span class='gerencia-text'>
                         {usuariosGerenciaveis[1].name}
                     </span>
@@ -43,7 +43,7 @@ const Gerenciar = () => {
                 to={usuariosGerenciaveis[0].route}
                 >
                 <div class='gerencia-alunos-funcionarios'>
-                    <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
+                    <AccountCircleIcon style={{ fontSize: 250, color: '#3285fa' }} />
                     <span class='gerencia-text'>
                         {usuariosGerenciaveis[0].name}
                     </span>
@@ -54,7 +54,7 @@ const Gerenciar = () => {
                 to={usuariosGerenciaveis[2].route}
                 >
                 <div class='gerencia-alunos-funcionarios'>
-                    <AccountCircleIcon style={{ fontSize: 300, color: '#3285fa' }} />
+                    <AccountCircleIcon style={{ fontSize: 250, color: '#3285fa' }} />
                     <span class='gerencia-text'>
                         {usuariosGerenciaveis[2].name}
                     </span>
