@@ -24,7 +24,7 @@ function PedidosReuniaoPorSala(props) {
             .catch(error => {
                 console.error("Erro ao buscar agendamentos:", error);
             });
-    }, []);
+    }, [api]);
 
     const handleOpen = (agendamento) => {
         setSelectedAgendamento(agendamento);

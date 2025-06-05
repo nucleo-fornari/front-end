@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material';
 import ModalChamado from '../modals/chamado/ModalChamado'; // Componente de modal
 import HeaderBar from '../header-bar/headerBar';
@@ -28,15 +28,15 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  const fetchChamados = () => {
+  const fetchChamados = React.useCallback(() => {
     api.get(`/chamados`, { params: { idUser: parseInt(sessionStorage.ID) } })
       .then(res => setData(res.data))
       .catch(error => console.error("Erro ao buscar chamados:", error));
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchChamados();
-  }, []);
+  }, [fetchChamados]);
 
   return (
     <>

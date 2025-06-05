@@ -24,7 +24,6 @@ import {toast} from "react-toastify";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useApi from "../../hooks/ApiHook";
-import Api from "../../services/api";
 
 const Avaliacoes = () => {
 
@@ -40,24 +39,20 @@ const Avaliacoes = () => {
     const [ano, setAno] = useState('');
     const api = useApi();
 
-    const fetchSalas = async () => {
+    const fetchSalas = React.useCallback(async () => {
         try {
             const salaId = parseInt(sessionStorage.ID_SALA);
             const res = await api.get(`salas/${salaId}`);
             const alunos = res.data.alunos;
-            console.log(alunos);
             setData(alunos);
         } catch (error) {
             console.error("Erro ao buscar alunos:", error);
         }
-    }
-    useEffect(() => {
-        fetchSalas();
-    }, []);
+    }, [api]);
 
     useEffect(() => {
-        console.log(alunoData)
-    }, [alunoData]);
+        fetchSalas();
+    }, [fetchSalas]);
 
     const handleNewAvaliacaoClick = () => {
         setIsFormOpen(true);
@@ -71,7 +66,6 @@ const Avaliacoes = () => {
     //FORMULARIO
     const [periodo, setPeriodo] = useState('');
     const [bimestre, setBimestre] = useState('');
-    const [texto, setTexto] = useState('');
 
     const handlePeriodoChange = (event) => {
         setPeriodo(event.target.value);

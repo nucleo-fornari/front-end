@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -61,15 +61,15 @@ function FormularioAluno({ setStep }) {
     setSelectedFile(event.target.files[0]);
   };
 
-  const loadRestricoes = () => {
+  const loadRestricoes = React.useCallback(() => {
     api.get("/restricoes").then((res) => {
       setRestricaoData(res.data)
     }).catch((error) => console.log(error));
-  }
+  }, [api]);
   
   useEffect(() => {
     loadRestricoes();
-  }, []);
+  }, [loadRestricoes]);
 
   const validateStep = (step) => {
     const currentErrors = {};

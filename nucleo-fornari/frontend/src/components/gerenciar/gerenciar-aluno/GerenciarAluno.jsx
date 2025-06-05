@@ -75,11 +75,11 @@ const GerenciarAluno = () => {
     setFilteredAlunos(alunos.filter(aluno => aluno.nome.toUpperCase().indexOf(event.toUpperCase()) !== -1));
   }
 
-  const loadAlunos = () => {
+  const loadAlunos = React.useCallback(() => {
     api.get('/alunos').then((res) => {
       setAlunos(res.data);
     }).catch((error) => console.log(error));
-  }
+  }, [api]);
 
   const handleDelete = () => {
     api.delete('/alunos/' + id).then((res) => {
@@ -112,7 +112,7 @@ const GerenciarAluno = () => {
 
   useEffect(() => {
     loadAlunos();
-  }, []);
+  }, [loadAlunos]);
 
   useEffect(() => {
     setFilteredAlunos(alunos);

@@ -4,11 +4,9 @@ import { Delete } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { Edit } from "@mui/icons-material";
-import useApi from "../../hooks/ApiHook";
 
 function Avisos({setData, data , editHandler}) {
     const [currentData, setCurrentData] = useState([]);
-    const Api = useApi();
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -30,10 +28,6 @@ function Avisos({setData, data , editHandler}) {
                 toast.error(error.response?.data?.message || error.text || 'Erro ao deletar!');
             });
     };
-
-    const handleEdit = () => {
-        toast.error('Funcionalidade ainda não implementada!');
-    }
 
     return (
         <section className="w-full flex items-center flex-col px-20 py-4 overflow-y-scroll h-77vh">
@@ -70,12 +64,14 @@ function Avisos({setData, data , editHandler}) {
                                 Para: <span className="text-blue-main">{aviso.alunoNome}</span>
                             </h3>
                         )}
-                        <h3 className="italic font-semibold text-black-light">Por: {aviso.autor}</h3>
+                        
                         {!aviso.data ? null : (
                             <p className="italic text-black-light">
-                                {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
+                                <p className='font-semibold text-black-light'>Data do evento:</p> {format(parseISO(aviso.data), "EEEE, dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
                             </p>
                         )}
+
+                        <h3 className="italic font-semibold text-black-light">Por: {aviso.autor}</h3>
                     </div>
                 ))
             ) : (

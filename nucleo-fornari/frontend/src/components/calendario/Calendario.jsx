@@ -22,12 +22,10 @@ const Calendario = ({
   onClick,
   setDate,
   events,
-  handleClickEvent,
-  setEvents,
+  handleClickEvent
 }) => {
-  const eventsForDay = Array.isArray(events) ? events : [];
 
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
   const dayRefs = useRef([]);
   const [year, setYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(0);
@@ -88,16 +86,16 @@ const Calendario = ({
     scrollToDay(monthIndex, 1);
   };
 
-  const handleTodayClick = () => {
+  const handleTodayClick = React.useCallback(() => {
     setYear(today.getFullYear());
     scrollToDay(today.getMonth(), today.getDate());
-  };
+  }, [today]);
 
   useEffect(() => {
     handleTodayClick();
-  }, []);
+  }, [handleTodayClick]);
 
-  const handleDayClick = (day, month, year) => {
+  const handleDayClick = React.useCallback((day, month, year) => {
     const date = new Date(year, month, day).setHours(0, 0, 0, 0);
     setDate(new Date(year, month, day));
 
@@ -120,7 +118,7 @@ const Calendario = ({
         onClick(day, month, year, eventsClicked);
       }
     }
-  };
+  }, [onClick, setDate, handleClickEvent, events]);
 
   const generateCalendar = useMemo(() => {
     const daysOfYear = () => {
@@ -233,7 +231,7 @@ const Calendario = ({
     );
 
     return calendar;
-  }, [year, eventsForDay]);
+  }, [year, today, handleDayClick, events]);
 
   useEffect(() => {
     const root = document.querySelector(".calendar-container") || document;

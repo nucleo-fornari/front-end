@@ -19,32 +19,6 @@ import { Link } from "react-router-dom";
 import HeaderBar from '../../header-bar/headerBar'
 import { useParams } from 'react-router-dom';
 
-const QontoConnector = styled(StepConnector)(({ theme }) => ({
-    [`&.${stepConnectorClasses.alternativeLabel}`]: {
-        top: 10,
-        left: "calc(-50% + 16px)",
-        right: "calc(50% + 16px)",
-    },
-    [`&.${stepConnectorClasses.active}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-            borderColor: "#784af4",
-        },
-    },
-    [`&.${stepConnectorClasses.completed}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-            borderColor: "#784af4",
-        },
-    },
-    [`& .${stepConnectorClasses.line}`]: {
-        borderColor: "#eaeaf0",
-        borderTopWidth: 3,
-        borderRadius: 1,
-        ...theme.applyStyles("dark", {
-            borderColor: theme.palette.grey[800],
-        }),
-    },
-}));
-
 const QontoStepIconRoot = styled("div")(({ theme }) => ({
     color: "#eaeaf0",
     display: "flex",

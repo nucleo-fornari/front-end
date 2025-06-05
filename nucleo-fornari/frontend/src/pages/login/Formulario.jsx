@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-// import { useAuth } from "../../AuthProvider";
 import useApi from '../../hooks/ApiHook';
 
 const Formulario = () => {
@@ -13,7 +12,7 @@ const Formulario = () => {
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: '', senha: '' });
-  // const { user, login } = useAuth();
+
   const api = useApi();
 
   const handleLogin = async (event) => {
@@ -30,7 +29,7 @@ const Formulario = () => {
         if (response.data.funcao === 'PROFESSOR' && response.data.salaId === null) {
           setErrors({
             email: ' ',
-            senha:'Não atrelado a nenhuma sala, entre em contato com a secretaria.',
+            senha:'Não atrelado a nenhuma sala, vá a secretaria.',
           })
         } else {
           sessionStorage.TOKEN = response.data.token;
@@ -38,7 +37,9 @@ const Formulario = () => {
           sessionStorage.ID = response.data.userId;
           sessionStorage.NOME = response.data.nome;
           sessionStorage.ID_SALA = response.data.salaId;
-          redirectByRole(response.data.funcao);
+          setTimeout(() => {
+            redirectByRole(response.data.funcao);
+          }, 300);
         }
         
       }
@@ -59,16 +60,7 @@ const Formulario = () => {
     }
   };
 
-  useEffect(() => {
-    const id = sessionStorage.getItem('ID');
-    const func = sessionStorage.getItem('FUNC');
-
-    if (id && func) {
-      redirectByRole(func);
-    }
-  }, []);
-
-  const redirectByRole = (role) => {
+  const redirectByRole = useCallback((role) => {
     switch (role) {
       case 'RESPONSAVEL':
         navigate('/responsavel');
@@ -83,7 +75,16 @@ const Formulario = () => {
         console.log('Erro ao redirecionar para a rota do user');
         break;
     }
-  };
+  }, [navigate]) ;
+
+  useEffect(() => {
+    const id = sessionStorage.getItem('ID');
+    const func = sessionStorage.getItem('FUNC');
+
+    if (id && func) {
+      redirectByRole(func);
+    }
+  }, [redirectByRole]);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
