@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useApi from '../../hooks/ApiHook';
+import LgpdModal from '../../components/modal-lgpd/ModalLgpd.jsx';
 
 const Formulario = () => {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Formulario = () => {
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: '', senha: '' });
+  const [showLgpdModal, setShowLgpdModal] = useState(false);
 
   const api = useApi();
 
@@ -29,7 +30,7 @@ const Formulario = () => {
         if (response.data.funcao === 'PROFESSOR' && response.data.salaId === null) {
           setErrors({
             email: ' ',
-            senha:'Não atrelado a nenhuma sala, vá a secretaria.',
+            senha: 'Não atrelado a nenhuma sala, vá a secretaria.',
           })
         } else {
           sessionStorage.TOKEN = response.data.token;
@@ -37,11 +38,16 @@ const Formulario = () => {
           sessionStorage.ID = response.data.userId;
           sessionStorage.NOME = response.data.nome;
           sessionStorage.ID_SALA = response.data.salaId;
-          setTimeout(() => {
-            redirectByRole(response.data.funcao);
-          }, 300);
+
+          if (!response.data.lgpd) {
+            setShowLgpdModal(true);
+          } else {
+            setTimeout(() => {
+              redirectByRole(response.data.funcao);
+            }, 300);
+          }
         }
-        
+
       }
     } catch (error) {
       if (
@@ -54,8 +60,7 @@ const Formulario = () => {
             'Email ou senha incorretos. Verifique os dados e tente novamente.',
         });
       } else {
-        console.error(error.message || 'Erro inesperado!');
-        toast.error(error.response?.data?.message ||'Erro inesperado ao fazer login. Tente novamente.');
+        toast.error(error.response?.data?.message || 'Erro inesperado ao fazer login. Tente novamente.');
       }
     }
   };
@@ -75,7 +80,7 @@ const Formulario = () => {
         console.log('Erro ao redirecionar para a rota do user');
         break;
     }
-  }, [navigate]) ;
+  }, [navigate]);
 
   useEffect(() => {
     const id = sessionStorage.getItem('ID');
@@ -91,62 +96,77 @@ const Formulario = () => {
   };
 
   return (
-    <form
-      onSubmit={handleLogin}
-      className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center items-center p-3"
-    >
-      <h2 className="lg:text-5xl md:text-4xl text-blue-main">
-        Entre com sua conta
-      </h2>
-      <TextField
-        id="outlined-email"
-        label="Email"
-        variant="outlined"
-        fullWidth={true}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        error={!!errors.email}
-        helperText={errors.email}
-      />
-      <TextField
-        id="outlined-password"
-        label="Senha"
-        variant="outlined"
-        type={showPassword ? 'text' : 'password'}
-        fullWidth={true}
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-        error={!!errors.senha}
-        helperText={errors.senha}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={togglePasswordVisibility} edge="end">
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
+    <>
+      <form
+        onSubmit={handleLogin}
+        className="rounded-2x1 w-3/5 gap-8 flex flex-col justify-center items-center p-3"
+      >
+        <h2 className="lg:text-5xl md:text-4xl text-blue-main">
+          Entre com sua conta
+        </h2>
+        <TextField
+          id="outlined-email"
+          label="Email"
+          variant="outlined"
+          fullWidth={true}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!errors.email}
+          helperText={errors.email}
+        />
+        <TextField
+          id="outlined-password"
+          label="Senha"
+          variant="outlined"
+          type={showPassword ? 'text' : 'password'}
+          fullWidth={true}
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          error={!!errors.senha}
+          helperText={errors.senha}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={togglePasswordVisibility} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <div className="flex gap-1 w-full justify-center flex-col items-center">
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth={true}
+            sx={{ textTransform: 'capitalize' }}
+          >
+            Entrar
+          </Button>
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => navigate('/login/recuperacao-senha')}
+            sx={{ textTransform: 'initial' }}
+          >
+            Esqueceu sua senha?
+          </Button>
+        </div>
+      </form>
+
+      <LgpdModal
+        open={showLgpdModal}
+        onAccepted={() => {
+          setShowLgpdModal(false);
+          const role = sessionStorage.getItem('FUNC');
+          redirectByRole(role);
+        }}
+        onClose={() => {
+          toast.error('Você precisa aceitar a Política de Privacidade para continuar.');
+          setShowLgpdModal(false);
         }}
       />
-      <div className="flex gap-1 w-full justify-center flex-col items-center">
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth={true}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          Entrar
-        </Button>
-        <Button
-          variant="text"
-          size="small"
-          onClick={() => navigate('/login/recuperacao-senha')}
-          sx={{ textTransform: 'initial' }}
-        >
-          Esqueceu sua senha?
-        </Button>
-      </div>
-    </form>
+    </>
   );
 };
 export default Formulario;
